@@ -1,0 +1,33 @@
+/* Typography tokens. Fonts are self-hosted (@fontsource packages, SIL Open Font License).
+   Display: Fraunces (editorial headlines, with optical sizing and an italic for emphasis).
+   Interface: Plus Jakarta Sans (navigation, body, controls, forms, cards).
+   Technical: IBM Plex Mono 400/500 (metrics, timestamps, identifiers, model metadata). */
+:root {
+  --font-display: "Fraunces Variable", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-body: "Plus Jakarta Sans Variable", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  /* Responsive fluid typography scale */
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: clamp(1.25rem, 2vw, 1.5rem);
+  --text-2xl: clamp(1.55rem, 2.8vw, 2.1rem);
+  --text-display: clamp(2.2rem, 4.5vw, 3.5rem);
+  --text-hero: clamp(3.2rem, min(9.5vw, 15svh), 7.8rem);
+
+  /* Line heights */
+  --leading-none: 0.92;
+  --leading-heading: 1.06;
+  --leading-snug: 1.25;
+  --leading-body: 1.65;
+
+  /* Letter spacing */
+  --tracking-tightest: -0.04em;
+  --tracking-tighter: -0.025em;
+  --tracking-tight: -0.015em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.05em;
+  --tracking-widest: 0.14em;
+}

@@ -1,0 +1,15 @@
+{
+  "sample_rate": 16000,
+  "min_seconds": 0.5,
+  "max_seconds": 6.0,
+  "silence_rms": 0.008,
+  "trim_top_db": 20,
+  "n_mfcc": 40,
+  "n_mels": 40,
+  "peak_normalise": 0.9,
+  "feature_version": "v3_vad_gated_296",
+  "n_features": 296,
+  "vad_candidate": "A",
+  "vad_hangover_frames": 1,
+  "calibrated_ood_threshold": 11.94
+}

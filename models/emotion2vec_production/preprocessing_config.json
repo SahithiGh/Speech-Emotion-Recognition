@@ -1,0 +1,9 @@
+{
+  "feature_version": "emotion2vec+",
+  "n_features": 768,
+  "sample_rate": 16000,
+  "model_architecture": "emotion2vec+ (Base) + Logistic Regression (C=0.05)",
+  "backbone": "emotion2vec/emotion2vec_plus_base",
+  "extractor": "funasr",
+  "dimension": 768
+}

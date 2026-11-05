@@ -1,0 +1,142 @@
+{
+  "metadata": {
+    "model_profile": "candidate_option3",
+    "description": "CREMA-D SVM with VAD-Gating (Candidate A) and Multi-Rate Resampling Augmentation",
+    "vad_candidate": "A (Adaptive Energy + Spectral Flatness + Hangover Dilation)",
+    "feature_version": "v3_vad_gated_296",
+    "n_features": 296,
+    "sample_rate": 16000,
+    "classes": [
+      "angry",
+      "disgust",
+      "fear",
+      "happy",
+      "neutral",
+      "sad"
+    ],
+    "n_train_samples": 6294,
+    "n_test_samples": 1147,
+    "dev_speakers_count": 77,
+    "test_speakers_count": 14,
+    "training_resampled_fraction": 0.5,
+    "calibrated_ood_threshold": 11.94,
+    "ood_false_positive_rate_test": 0.0008718395815170009,
+    "cv_mean_macro_f1": 0.5322,
+    "test_native_macro_f1": 0.502,
+    "test_native_accuracy": 0.5083,
+    "test_native_balanced_acc": 0.5076,
+    "test_resampled_macro_f1": 0.4877,
+    "test_resampled_accuracy": 0.4943,
+    "native_vs_resampled_agreement": 0.8867,
+    "timestamp": "2026-11-01T20:59:04"
+  },
+  "classification_report_native": {
+    "angry": {
+      "precision": 0.5661157024793388,
+      "recall": 0.6989795918367347,
+      "f1-score": 0.6255707762557078,
+      "support": 196.0
+    },
+    "disgust": {
+      "precision": 0.47619047619047616,
+      "recall": 0.35714285714285715,
+      "f1-score": 0.40816326530612246,
+      "support": 196.0
+    },
+    "fear": {
+      "precision": 0.4387755102040816,
+      "recall": 0.4387755102040816,
+      "f1-score": 0.4387755102040816,
+      "support": 196.0
+    },
+    "happy": {
+      "precision": 0.453551912568306,
+      "recall": 0.42346938775510207,
+      "f1-score": 0.43799472295514513,
+      "support": 196.0
+    },
+    "neutral": {
+      "precision": 0.5063291139240507,
+      "recall": 0.47904191616766467,
+      "f1-score": 0.49230769230769234,
+      "support": 167.0
+    },
+    "sad": {
+      "precision": 0.5746606334841629,
+      "recall": 0.6479591836734694,
+      "f1-score": 0.6091127098321343,
+      "support": 196.0
+    },
+    "accuracy": 0.5082824760244115,
+    "macro avg": {
+      "precision": 0.5026038914750693,
+      "recall": 0.5075614077966516,
+      "f1-score": 0.5019874461434806,
+      "support": 1147.0
+    },
+    "weighted avg": {
+      "precision": 0.502509705380021,
+      "recall": 0.5082824760244115,
+      "f1-score": 0.5022321827269487,
+      "support": 1147.0
+    }
+  },
+  "confusion_matrix_native": [
+    [
+      137,
+      15,
+      12,
+      26,
+      4,
+      2
+    ],
+    [
+      29,
+      70,
+      23,
+      25,
+      29,
+      20
+    ],
+    [
+      16,
+      13,
+      86,
+      31,
+      12,
+      38
+    ],
+    [
+      46,
+      18,
+      31,
+      83,
+      10,
+      8
+    ],
+    [
+      10,
+      14,
+      24,
+      13,
+      80,
+      26
+    ],
+    [
+      4,
+      17,
+      20,
+      5,
+      23,
+      127
+    ]
+  ],
+  "classes": [
+    "angry",
+    "disgust",
+    "fear",
+    "happy",
+    "neutral",
+    "sad"
+  ]
+}

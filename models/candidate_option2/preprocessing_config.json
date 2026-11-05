@@ -1,0 +1,14 @@
+{
+  "sample_rate": 16000,
+  "min_seconds": 0.5,
+  "max_seconds": 6.0,
+  "silence_rms": 0.003,
+  "trim_top_db": 30,
+  "n_mfcc": 40,
+  "n_mels": 40,
+  "peak_normalise": 0.9,
+  "feature_version": 2,
+  "n_features": 296,
+  "features": "mean+std of MFCC(40), delta-MFCC(40), log-mel(40), chroma(12), spectral contrast(7), centroid, bandwidth, rolloff, flatness, zero-crossing rate, RMS; plus pitch mean/std/range (YIN, speech frames), speech ratio and RMS 10th/90th percentiles",
+  "experiment": "exp2_resampling_aug"
+}

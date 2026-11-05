@@ -1,0 +1,180 @@
+{
+  "model_name": "emotion2vec+ (Base) + Logistic Regression (C=0.05)",
+  "generated_at": "2026-11-01T23:53:02",
+  "trained": true,
+  "accuracy": 0.909328683522232,
+  "balanced_accuracy": 0.9102356511466861,
+  "macro_precision": 0.9095638917209987,
+  "macro_recall": 0.9102356511466861,
+  "unweighted_average_recall": 0.9102356511466861,
+  "macro_f1": 0.9097875709370732,
+  "per_class": {
+    "angry": {
+      "precision": 0.9408866995073891,
+      "recall": 0.9744897959183674,
+      "f1": 0.9573934837092731,
+      "support": 196
+    },
+    "disgust": {
+      "precision": 0.8911917098445595,
+      "recall": 0.8775510204081632,
+      "f1": 0.884318766066838,
+      "support": 196
+    },
+    "fear": {
+      "precision": 0.8835978835978836,
+      "recall": 0.8520408163265306,
+      "f1": 0.8675324675324675,
+      "support": 196
+    },
+    "happy": {
+      "precision": 0.9387755102040817,
+      "recall": 0.9387755102040817,
+      "f1": 0.9387755102040817,
+      "support": 196
+    },
+    "neutral": {
+      "precision": 0.9349112426035503,
+      "recall": 0.9461077844311377,
+      "f1": 0.9404761904761905,
+      "support": 167
+    },
+    "sad": {
+      "precision": 0.868020304568528,
+      "recall": 0.8724489795918368,
+      "f1": 0.8702290076335878,
+      "support": 196
+    }
+  },
+  "confusion_matrix": [
+    [
+      191,
+      3,
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      5,
+      172,
+      8,
+      4,
+      2,
+      5
+    ],
+    [
+      1,
+      4,
+      167,
+      5,
+      4,
+      15
+    ],
+    [
+      5,
+      2,
+      4,
+      184,
+      0,
+      1
+    ],
+    [
+      1,
+      2,
+      1,
+      1,
+      158,
+      4
+    ],
+    [
+      0,
+      10,
+      9,
+      1,
+      5,
+      171
+    ]
+  ],
+  "labels": [
+    "angry",
+    "disgust",
+    "fear",
+    "happy",
+    "neutral",
+    "sad"
+  ],
+  "classification_report": "              precision    recall  f1-score   support\n\n       angry       0.94      0.97      0.96       196\n     disgust       0.89      0.88      0.88       196\n        fear       0.88      0.85      0.87       196\n       happy       0.94      0.94      0.94       196\n     neutral       0.93      0.95      0.94       167\n         sad       0.87      0.87      0.87       196\n\n    accuracy                           0.91      1147\n   macro avg       0.91      0.91      0.91      1147\nweighted avg       0.91      0.91      0.91      1147\n",
+  "confidence_intervals": {
+    "accuracy_95ci": [
+      0.8753269398430689,
+      0.9337401918047079
+    ],
+    "macro_f1_95ci": [
+      0.8760904568893171,
+      0.9340046168136318
+    ],
+    "method": "speaker bootstrap, 1000 resamples"
+  },
+  "per_speaker_accuracy": {
+    "min": 0.7317073170731707,
+    "median": 0.9146341463414634,
+    "max": 0.975609756097561,
+    "speakers": 14
+  },
+  "dataset_verification": {
+    "mode": "frozen_768d_crema_d"
+  },
+  "split": {
+    "test": {
+      "speakers": 14,
+      "clips": 1147
+    },
+    "development": {
+      "speakers": 77,
+      "clips": 6294
+    }
+  },
+  "class_distribution": {
+    "all": {
+      "angry": 1271,
+      "disgust": 1271,
+      "fear": 1271,
+      "happy": 1271,
+      "neutral": 1087,
+      "sad": 1270
+    },
+    "development": {
+      "angry": 1075,
+      "disgust": 1075,
+      "fear": 1075,
+      "happy": 1075,
+      "neutral": 920,
+      "sad": 1074
+    },
+    "test": {
+      "angry": 196,
+      "disgust": 196,
+      "fear": 196,
+      "happy": 196,
+      "neutral": 167,
+      "sad": 196
+    }
+  },
+  "test_samples": 1147,
+  "test_speakers": 14,
+  "total_speakers": 91,
+  "total_clips_used": 7441,
+  "reproducibility": {
+    "n_features": 768,
+    "backbone": "emotion2vec/emotion2vec_plus_base",
+    "classifier": "LogisticRegression(C=0.05, class_weight='balanced')",
+    "python": "3.13",
+    "sklearn": "1.6.1"
+  },
+  "model_size_mb": 0.037,
+  "benchmark_limitation": {
+    "title": "CREMA-D Upstream Pretraining Contamination Disclosure",
+    "disclosure": "CREMA-D is documented as part of emotion2vec / emotion2vec+ original self-supervised pretraining corpora. Although the 14 test speakers are strictly disjoint from the 77 development speakers used to train the classification head, the representation backbone has observed CREMA-D speech during foundation pretraining. Therefore, these results represent in-domain representation probing performance and CANNOT be interpreted as independent out-of-distribution conversational generalization."
+  }
+}

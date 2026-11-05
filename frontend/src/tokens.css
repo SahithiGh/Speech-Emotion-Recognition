@@ -1,0 +1,172 @@
+/* ==========================================================================
+   Design tokens.
+   Visual identity: Exact palettes from bright.zip and dark.zip.
+   Bright Theme:
+     Text: #160709, Background: #fffefa, Primary: #c4536e, Secondary: #4e5d9f, Accent: #3f6a28
+   Dark Theme:
+     Text: #fafafa, Background: #050400, Primary: #5b1626, Secondary: #424552, Accent: #0d3c0e
+   ========================================================================== */
+:root, :root[data-theme="light"] {
+  color-scheme: light;
+  
+  /* Exact bright.zip Palette */
+  --color-background: #FFFEFA;
+  --color-foreground: #160709;
+  --color-primary: #C4536E;
+  --color-secondary: #4E5D9F;
+  --color-accent: #3F6A28;
+  
+  /* Labels on filled colours */
+  --color-on-primary: #FFFFFF;
+  --color-on-secondary: #FFFFFF;
+  --color-on-accent: #FFFFFF;
+  
+  /* Interaction shades of primary */
+  --color-primary-hover: #B3445F;
+  --color-primary-active: #9E364F;
+  --color-primary-text: #C4536E;
+  --color-primary-border: #C4536E;
+  
+  /* Surfaces and lines */
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #F7F5EE;
+  --color-border: #E8E4D9;
+  --color-border-strong: #C5BFAF;
+  --color-muted-foreground: #5A4B4E;
+  --color-link: #C4536E;
+  --color-focus-ring: #C4536E;
+  
+  /* Status */
+  --color-success: #3F6A28;
+  --color-success-surface: #EAF2E6;
+  --color-warning: #B45309;
+  --color-warning-surface: #FEF3C7;
+  --color-error: #C4536E;
+  --color-error-surface: #FCECEF;
+  --color-info: #4E5D9F;
+  --color-info-surface: #EEF1F9;
+
+  /* Cross-modal Mismatch & Match Tokens */
+  --color-mismatch-bg: #FCECEF;
+  --color-mismatch-border: #F5C2CB;
+  --color-mismatch-text: #C4536E;
+  --color-mismatch-accent: #B3445F;
+  --color-match-bg: #EAF2E6;
+  --color-match-border: #BCD9AF;
+  --color-match-text: #3F6A28;
+  --color-match-accent: #3F6A28;
+  
+  /* Charts and matrix */
+  --color-chart-bar: #4E5D9F;
+  --color-chart-bar-top: #C4536E;
+  --color-chart-track: #E8E4D9;
+  --color-matrix-tint: #C4536E;
+  
+  /* Emotion palette - Exact Final Color Palette */
+  --color-emo-angry: #FCE2E2;
+  --color-emo-angry-text: #A91F24;
+  --color-emo-disgust: #E5EAD5;
+  --color-emo-disgust-text: #43552D;
+  --color-emo-fear: #FEEDCC;
+  --color-emo-fear-text: #92400E;
+  --color-emo-happy: #FEF3C7;
+  --color-emo-happy-text: #854D0E;
+  --color-emo-neutral: #E2E8F0;
+  --color-emo-neutral-text: #334155;
+  --color-emo-sad: #292929;
+  --color-emo-sad-text: #FFFFFF;
+  
+  --color-disabled-surface: #E8E4D9;
+  --color-disabled-foreground: #A8A5A2;
+  --shadow-card: 0 1px 3px rgba(22, 7, 9, 0.05), 0 4px 12px rgba(22, 7, 9, 0.03);
+
+  /* Video Hero Tokens (Preserved identical appearance in both Light and Dark mode) */
+  --color-hero-bg: #050400;
+  --color-hero-text: #FAFAFA;
+  --color-hero-muted: rgba(250, 250, 250, 0.85);
+  --color-hero-tone: #F5C2CB;
+  --color-hero-action: #FAFAFA;
+  --color-hero-on-action: #050400;
+  --color-hero-action-hover: #F5C2CB;
+  --shadow-hero-text: 0 1px 3px rgba(0, 0, 0, 0.95), 0 4px 28px rgba(0, 0, 0, 0.9);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  
+  /* Exact dark.zip Palette */
+  --color-background: #050400;
+  --color-foreground: #FAFAFA;
+  --color-primary: #5B1626;
+  --color-secondary: #424552;
+  --color-accent: #0D3C0E;
+  
+  --color-on-primary: #FAFAFA;
+  --color-on-secondary: #FAFAFA;
+  --color-on-accent: #FAFAFA;
+  
+  --color-primary-hover: #731E32;
+  --color-primary-active: #8C263E;
+  --color-primary-text: #E57388;
+  --color-primary-border: #731E32;
+  
+  --color-surface: #12100D;
+  --color-surface-muted: #1A1714;
+  --color-border: rgba(250, 250, 250, 0.12);
+  --color-border-strong: rgba(250, 250, 250, 0.25);
+  --color-muted-foreground: #A8A5A2;
+  --color-link: #E57388;
+  --color-focus-ring: #E57388;
+  
+  --color-success: #4ADE80;
+  --color-success-surface: #072608;
+  --color-warning: #FBBF24;
+  --color-warning-surface: #381A05;
+  --color-error: #E57388;
+  --color-error-surface: #2E0B13;
+  --color-info: #7B85AC;
+  --color-info-surface: #1E202B;
+
+  /* Cross-modal Mismatch & Match Tokens */
+  --color-mismatch-bg: rgba(229, 115, 136, 0.12);
+  --color-mismatch-border: rgba(229, 115, 136, 0.4);
+  --color-mismatch-text: #E57388;
+  --color-mismatch-accent: #E57388;
+  --color-match-bg: rgba(74, 222, 128, 0.1);
+  --color-match-border: rgba(74, 222, 128, 0.4);
+  --color-match-text: #4ADE80;
+  --color-match-accent: #4ADE80;
+  
+  --color-chart-bar: #424552;
+  --color-chart-bar-top: #E57388;
+  --color-chart-track: #1A1714;
+  --color-matrix-tint: #5B1626;
+  
+  /* Emotion palette - Exact Final Color Palette (Consistent across themes) */
+  --color-emo-angry: #FCE2E2;
+  --color-emo-angry-text: #A91F24;
+  --color-emo-disgust: #E5EAD5;
+  --color-emo-disgust-text: #43552D;
+  --color-emo-fear: #FEEDCC;
+  --color-emo-fear-text: #92400E;
+  --color-emo-happy: #FEF3C7;
+  --color-emo-happy-text: #854D0E;
+  --color-emo-neutral: #E2E8F0;
+  --color-emo-neutral-text: #334155;
+  --color-emo-sad: #292929;
+  --color-emo-sad-text: #FFFFFF;
+  
+  --color-disabled-surface: #1A1714;
+  --color-disabled-foreground: #5A5754;
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(250, 250, 250, 0.08);
+
+  /* Video Hero Tokens (Dark Mode) */
+  --color-hero-bg: #050400;
+  --color-hero-text: #FAFAFA;
+  --color-hero-muted: rgba(250, 250, 250, 0.8);
+  --color-hero-tone: #E57388;
+  --color-hero-action: #FAFAFA;
+  --color-hero-on-action: #050400;
+  --color-hero-action-hover: #E57388;
+  --shadow-hero-text: 0 1px 3px rgba(0, 0, 0, 0.95), 0 4px 28px rgba(0, 0, 0, 0.9);
+}
