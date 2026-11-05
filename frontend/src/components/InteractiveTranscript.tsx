@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Check, CheckCircle2, Edit3, MessageSquare, Play, RefreshCw, X, AlertCircle, AlertTriangle } from "lucide-react";
-import type { PredictResult, ConsistencyResult, TranscriptSegment, TranscriptWord } from "../api";
+import { Check, CheckCircle2, Edit3, Globe, HelpCircle, MessageSquare, Play, RefreshCw, X, AlertCircle, AlertTriangle } from "lucide-react";
+import type { PredictResult, ConsistencyResult, TranscriptSegment, TranscriptWord, CombinedTranscriptItem } from "../api";
 import { recalculateConsistency } from "../api";
 import { label } from "../format";
+import { EMOTION_COLORS } from "../site";
 
 interface InteractiveTranscriptProps {
   result: PredictResult;
@@ -79,7 +80,13 @@ export default function InteractiveTranscript({
             <MessageSquare size={20} className="icon-accent" /> Spoken Words Transcript & Timestamps
           </h3>
           <span className="transcript-align-badge">
-            {hasWordTimestamps ? "Word-Level Alignment (Whisper)" : "Segment-Level Alignment"}
+            {trans.case === "B"
+              ? `Language: ${trans.language_name || trans.language}`
+              : trans.case === "C"
+              ? "Language Identification"
+              : hasWordTimestamps
+              ? "Word-Level Alignment (Whisper)"
+              : "Segment-Level Alignment"}
           </span>
         </div>
 
@@ -192,8 +199,76 @@ export default function InteractiveTranscript({
             </div>
           )}
 
-          {/* Interactive Word and Segment Timestamps */}
-          {segments.length > 0 && (
+          {/* Interactive Word, Segment, or Multi-Speaker Chronological Timestamps */}
+          {trans.combined_transcript && trans.combined_transcript.length > 0 ? (
+            <div className="transcript-interactive-timeline">
+              <p className="interactive-hint">
+                <Play size={13} /> Multi-Speaker Chronological Transcript. Click any segment or word to seek audio:
+              </p>
+              <div className="transcript-turns-list">
+                {trans.combined_transcript.map((item: CombinedTranscriptItem, idx: number) => {
+                  const spkLower = (item.speaker_name || item.speaker_id || "").toLowerCase();
+                  const isA = spkLower.includes("a") || spkLower.includes("00") || spkLower === "0";
+                  const isB = spkLower.includes("b") || spkLower.includes("01") || spkLower === "1";
+                  const speakerBadgeClass = isA
+                    ? "speaker-badge-a"
+                    : isB
+                    ? "speaker-badge-b"
+                    : "speaker-badge-default";
+
+                  return (
+                    <div key={idx} className="transcript-turn-card">
+                      <div className="transcript-turn-header">
+                        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                          <span className={`transcript-speaker-badge ${speakerBadgeClass}`}>
+                            {item.speaker_name || item.speaker_id}
+                          </span>
+                          <button
+                            type="button"
+                            className="seg-time-btn"
+                            onClick={() => onSeekAndPlay?.(item.start)}
+                            title={`Play from ${item.start}s`}
+                          >
+                            <Play size={11} /> [{item.start}s - {item.end}s]
+                          </button>
+                        </div>
+                        {item.emotion && (
+                          <span
+                            className="transcript-emotion-pill"
+                            style={{
+                              backgroundColor: (EMOTION_COLORS as Record<string, string>)[item.emotion] || "#E2E8F0",
+                            }}
+                          >
+                            {item.emotion}
+                          </span>
+                        )}
+                      </div>
+                      {item.words && item.words.length > 0 ? (
+                        <span className="word-pills">
+                          {item.words.map((w: TranscriptWord, wIdx: number) => (
+                            <button
+                              key={wIdx}
+                              type="button"
+                              className="word-pill-btn"
+                              onClick={() => onSeekAndPlay?.(w.start)}
+                              title={`Jump to ${w.start}s`}
+                            >
+                              <span className="word-text">{w.word}</span>
+                              <span className="word-ts">{w.start}s</span>
+                            </button>
+                          ))}
+                        </span>
+                      ) : (
+                        <span className="seg-raw-text">
+                          {item.text}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : segments.length > 0 ? (
             <div className="transcript-interactive-timeline">
               <p className="interactive-hint">
                 <Play size={13} /> Click any timestamp or word to jump audio playback to that moment:
@@ -232,7 +307,35 @@ export default function InteractiveTranscript({
                 ))}
               </div>
             </div>
-          )}
+          ) : null}
+        </div>
+      ) : trans.case === "B" ? (
+        <div className="language-notice-box" role="status">
+          <div className="language-notice-header">
+            <Globe size={18} className="language-notice-icon" />
+            <h4 className="language-notice-title">{trans.message || `Other language detected: ${trans.language_name || "Unknown"}`}</h4>
+          </div>
+          <p className="language-notice-desc">
+            The spoken speech in this recording was identified as <strong>{trans.language_name || "a non-English language"}</strong>{trans.language_probability ? ` (confidence: ${Math.round(trans.language_probability * 100)}%)` : ""}. English transcription is omitted to prevent inaccurate text generation.
+          </p>
+          <div className="language-notice-footer">
+            <CheckCircle2 size={14} className="icon-ok" />
+            <span>Acoustic emotion recognition operates independently of spoken language and analyzed your vocal characteristics directly.</span>
+          </div>
+        </div>
+      ) : trans.case === "C" ? (
+        <div className="language-notice-box language-notice-box-neutral" role="status">
+          <div className="language-notice-header">
+            <HelpCircle size={18} className="language-notice-icon" />
+            <h4 className="language-notice-title">{trans.message || "Language could not be confidently identified."}</h4>
+          </div>
+          <p className="language-notice-desc">
+            The spoken language in this recording could not be identified with sufficient confidence. Guessed transcription is omitted to avoid inaccurate text generation.
+          </p>
+          <div className="language-notice-footer">
+            <CheckCircle2 size={14} className="icon-ok" />
+            <span>Acoustic emotion recognition operates independently of spoken language and analyzed your vocal characteristics directly.</span>
+          </div>
         </div>
       ) : trans.no_speech ? (
         <p className="muted-text">No intelligible speech was recognized in this clip.</p>

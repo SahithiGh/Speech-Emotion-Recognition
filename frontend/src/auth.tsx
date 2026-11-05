@@ -26,6 +26,12 @@ export interface SavedAnalysis {
   model_name?: string;
   model_id?: string;
   feature_version?: number;
+  speakers?: Array<any>;
+  conversation_timeline?: Array<any>;
+  emotion_tracks?: Record<string, any>;
+  emotion_journey?: Array<any>;
+  voice_analysis?: Record<string, any>;
+  audio_file_path?: string | null;
 }
 
 interface AuthContextType {

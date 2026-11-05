@@ -1,0 +1,37 @@
+{
+  "profile": "production",
+  "modelFacts": [
+    "Model status: Ready",
+    "Evaluation status: Evaluated on held-out speakers",
+    "Language: English (CREMA-D)",
+    "Emotion classes: Angry, Disgust, Fear, Happy, Neutral, Sad",
+    "Architecture: StandardScaler then SVC (SVC, parameters: C=5, class_weight=balanced, gamma=scale, kernel=rbf, max_iter=-1)",
+    "Sample rate and input: 16000 Hz. mono speech, resampled to 16 kHz in the backend; 0.5 to 6 seconds of speech are analysed",
+    "Model ID: 9db13e3e393f",
+    "Trained at: 10/31/2026, 10:21:35 PM"
+  ],
+  "wavMeta": {
+    "meta": [
+      "Audio Length: 1.9 s",
+      "Processing Time: 1301 ms",
+      "Model: SVM (RBF, C=5)",
+      "Model ID: 9db13e3e393f",
+      "Trained Dataset: CREMA-D (English Acted Speech)"
+    ]
+  },
+  "mp3Meta": {
+    "meta": [
+      "Audio Length: 1.9 s",
+      "Processing Time: 1301 ms",
+      "Model: SVM (RBF, C=5)",
+      "Model ID: 9db13e3e393f",
+      "Trained Dataset: CREMA-D (English Acted Speech)"
+    ]
+  },
+  "oodInfo": {},
+  "errorMsg": "This is an estimate. The model compares acoustic contours against acted speech recordings, so it can be wrong and does not represent verified inner psychological states.",
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)",
+    "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+  ]
+}

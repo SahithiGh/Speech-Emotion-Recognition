@@ -1,0 +1,5 @@
+{
+  "models/candidate_option3/emotion_model.joblib": "f34f067710b34231afe6b45fc0411c8da4fc4faa622dabb733e3f69057fbfe88",
+  "models/candidate_option3/preprocessing_config.json": "da390dac2cb0fa913c5ce6fb91aba1c0e46d06039d92f19f1e7f238a8d9bab9c",
+  "models/candidate_option3/metrics.json": "49c4d8748adaf29c1d16b6d85dad8cb84d322895279fc556724b219f6d22424a"
+}

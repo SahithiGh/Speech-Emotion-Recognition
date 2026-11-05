@@ -1,0 +1,37 @@
+{
+  "archived_at": "2026-11-01T21:03:00+05:30",
+  "status": "archived_experimental_candidate_do_not_promote",
+  "candidate_name": "candidate_option3",
+  "reason": "Regressed held-out CREMA-D Macro F1 by 1.38% (0.5158 -> 0.5020) and shifted external conversational audio from a Fear bias to an Angry bias due to pitch register mismatch.",
+  "artifacts": {
+    "model_bundle": {
+      "path": "models/candidate_option3/emotion_model.joblib",
+      "sha256": "f34f067710b34231afe6b45fc0411c8da4fc4faa622dabb733e3f69057fbfe88"
+    },
+    "preprocessing_config": {
+      "path": "models/candidate_option3/preprocessing_config.json",
+      "sha256": "da390dac2cb0fa913c5ce6fb91aba1c0e46d06039d92f19f1e7f238a8d9bab9c"
+    },
+    "metrics": {
+      "path": "models/candidate_option3/metrics.json",
+      "sha256": "49c4d8748adaf29c1d16b6d85dad8cb84d322895279fc556724b219f6d22424a"
+    }
+  },
+  "training_parameters": {
+    "dataset": "CREMA-D",
+    "development_speakers": 77,
+    "development_clips": 6294,
+    "test_speakers": 14,
+    "test_clips": 1147,
+    "feature_dimensions": 296,
+    "vad_candidate": "Candidate A (Adaptive Energy + Spectral Flatness + 1-frame Hangover Dilation)",
+    "resampling_augmentation": "50% dev clips augmented with 48k -> 16k resampling",
+    "calibrated_ood_threshold": 11.94
+  },
+  "safety_status": {
+    "production_model_sha256": "9db13e3e393fc0b6283ff7eb7405beb61c2170cef7271a2e35452801b1e294c4",
+    "staging_option2_sha256": "576d50eb306fc79d078e851170e9790e3477dccb27239075868bee37598a80b4",
+    "active_runtime_profile": "staging"
+  }
+}
+

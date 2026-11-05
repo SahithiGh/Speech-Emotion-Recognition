@@ -17,8 +17,10 @@ import {
   MessageSquare,
   Scale,
   ArrowLeftRight,
+  Download,
 } from "lucide-react";
 import { useAuth, type SavedAnalysis } from "../auth";
+import { exportPdfSaved, exportCsvSaved } from "../api";
 import AnalysisComparison, { type ComparisonTarget } from "../components/AnalysisComparison";
 
 export default function Profile() {
@@ -59,6 +61,12 @@ export default function Profile() {
       processing_ms: 0,
       notes: a.notes || [],
       model: { id: a.model_id || null, name: a.model_name || "SVM", trained_at: null, language: "en", dataset: "CREMA-D" },
+      speakers: a.speakers || [],
+      conversation_timeline: a.conversation_timeline || [],
+      emotion_tracks: a.emotion_tracks || {},
+      emotion_journey: a.emotion_journey || [],
+      voice_analysis: a.voice_analysis || {},
+      speaker_count: a.speakers ? a.speakers.length : 1,
       transcription: a.transcript ? { text: a.transcript, engine: "faster-whisper", segments: a.transcript_segments || [] } : undefined,
       consistency: a.consistency_status ? {
         status: a.consistency_status as any,
@@ -451,13 +459,33 @@ export default function Profile() {
                         </div>
                       </td>
                       <td>
-                        <div className="cell-actions">
+                        <div className="cell-actions" style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
                           <button
                             onClick={() => handleReopen(item)}
                             className="btn sub xs"
                             title="Open and inspect in Analyzer"
                           >
-                            <ExternalLink size={14} /> Reopen
+                            <ExternalLink size={13} /> Reopen
+                          </button>
+                          <button
+                            onClick={() => {
+                              const token = localStorage.getItem("ser_auth_token") || "";
+                              exportPdfSaved(item.id, token);
+                            }}
+                            className="btn sub xs"
+                            title="Export PDF Report"
+                          >
+                            <Download size={13} /> PDF
+                          </button>
+                          <button
+                            onClick={() => {
+                              const token = localStorage.getItem("ser_auth_token") || "";
+                              exportCsvSaved(item.id, token);
+                            }}
+                            className="btn sub xs"
+                            title="Export CSV Package"
+                          >
+                            <Download size={13} /> CSV
                           </button>
                           <button
                             onClick={() => handleDeleteAnalysis(item.id)}
@@ -465,7 +493,7 @@ export default function Profile() {
                             title="Delete this analysis"
                             aria-label="Delete analysis"
                           >
-                            <Trash2 size={14} />
+                            <Trash2 size={13} />
                           </button>
                         </div>
                       </td>

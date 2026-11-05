@@ -1,0 +1,11 @@
+Your selected colors:
+
+    Text: #fafafa - rgb(250, 250, 250) - hsl(0, 0%, 98%)
+    Background: #050400 - rgb(5, 4, 0) - hsl(48, 100%, 1%)
+    Primary: #5b1626 - rgb(91, 22, 38) - hsl(346, 61%, 22%)
+    Secondary: #424552 - rgb(66, 69, 82) - hsl(229, 11%, 29%)
+    Accent: #0d3c0e - rgb(13, 60, 14) - hsl(121, 64%, 14%)
+
+Realtime Colors link for selected colors: https://www.realtimecolors.com/dashboard?colors=fafafa-050400-5b1626-424552-0d3c0e&fonts=Inter-Inter
+
+Thanks for using RealtimeColors.com!

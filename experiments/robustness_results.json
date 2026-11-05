@@ -1,0 +1,262 @@
+{
+  "baseline": {
+    "1_native_16k": {
+      "accuracy": 0.552,
+      "macro_f1": 0.534,
+      "uar": 0.5387,
+      "precision": 0.5403,
+      "agreement_with_native": 1.0,
+      "fear_percentage": 0.188,
+      "per_class_recall": {
+        "angry": 0.7917,
+        "disgust": 0.3684,
+        "fear": 0.5357,
+        "happy": 0.375,
+        "neutral": 0.55,
+        "sad": 0.6111
+      }
+    },
+    "2_resample_44k": {
+      "accuracy": 0.224,
+      "macro_f1": 0.061,
+      "uar": 0.1667,
+      "precision": 0.0373,
+      "agreement_with_native": 0.188,
+      "fear_percentage": 1.0,
+      "per_class_recall": {
+        "angry": 0.0,
+        "disgust": 0.0,
+        "fear": 1.0,
+        "happy": 0.0,
+        "neutral": 0.0,
+        "sad": 0.0
+      }
+    },
+    "3_resample_48k": {
+      "accuracy": 0.224,
+      "macro_f1": 0.061,
+      "uar": 0.1667,
+      "precision": 0.0373,
+      "agreement_with_native": 0.188,
+      "fear_percentage": 1.0,
+      "per_class_recall": {
+        "angry": 0.0,
+        "disgust": 0.0,
+        "fear": 1.0,
+        "happy": 0.0,
+        "neutral": 0.0,
+        "sad": 0.0
+      }
+    },
+    "4_resample_scipy_poly": {
+      "accuracy": 0.532,
+      "macro_f1": 0.5055,
+      "uar": 0.5042,
+      "precision": 0.5381,
+      "agreement_with_native": 0.868,
+      "fear_percentage": 0.252,
+      "per_class_recall": {
+        "angry": 0.7917,
+        "disgust": 0.3947,
+        "fear": 0.6786,
+        "happy": 0.3438,
+        "neutral": 0.4,
+        "sad": 0.4167
+      }
+    },
+    "5_stereo_mono": {
+      "accuracy": 0.328,
+      "macro_f1": 0.1812,
+      "uar": 0.2668,
+      "precision": 0.2379,
+      "agreement_with_native": 0.408,
+      "fear_percentage": 0.52,
+      "per_class_recall": {
+        "angry": 0.6875,
+        "disgust": 0.0263,
+        "fear": 0.8036,
+        "happy": 0.0,
+        "neutral": 0.0,
+        "sad": 0.0833
+      }
+    },
+    "6_duration_2s": {
+      "accuracy": 0.424,
+      "macro_f1": 0.4318,
+      "uar": 0.4188,
+      "precision": 0.4621,
+      "agreement_with_native": 0.628,
+      "fear_percentage": 0.348,
+      "per_class_recall": {
+        "angry": 0.4167,
+        "disgust": 0.3947,
+        "fear": 0.4821,
+        "happy": 0.375,
+        "neutral": 0.4,
+        "sad": 0.4444
+      }
+    },
+    "7_white_noise_20db": {
+      "accuracy": 0.38,
+      "macro_f1": 0.3289,
+      "uar": 0.3584,
+      "precision": 0.3541,
+      "agreement_with_native": 0.468,
+      "fear_percentage": 0.436,
+      "per_class_recall": {
+        "angry": 0.4375,
+        "disgust": 0.3421,
+        "fear": 0.6071,
+        "happy": 0.125,
+        "neutral": 0.0,
+        "sad": 0.6389
+      }
+    },
+    "8_pink_noise_15db": {
+      "accuracy": 0.288,
+      "macro_f1": 0.2042,
+      "uar": 0.261,
+      "precision": 0.3316,
+      "agreement_with_native": 0.332,
+      "fear_percentage": 0.676,
+      "per_class_recall": {
+        "angry": 0.0625,
+        "disgust": 0.2895,
+        "fear": 0.7143,
+        "happy": 0.0,
+        "neutral": 0.0,
+        "sad": 0.5
+      }
+    }
+  },
+  "option2": {
+    "1_native_16k": {
+      "accuracy": 0.536,
+      "macro_f1": 0.5204,
+      "uar": 0.5264,
+      "precision": 0.5242,
+      "agreement_with_native": 1.0,
+      "fear_percentage": 0.184,
+      "per_class_recall": {
+        "angry": 0.7917,
+        "disgust": 0.3421,
+        "fear": 0.4821,
+        "happy": 0.4062,
+        "neutral": 0.525,
+        "sad": 0.6111
+      }
+    },
+    "2_resample_44k": {
+      "accuracy": 0.496,
+      "macro_f1": 0.4771,
+      "uar": 0.4822,
+      "precision": 0.4863,
+      "agreement_with_native": 0.896,
+      "fear_percentage": 0.18,
+      "per_class_recall": {
+        "angry": 0.7708,
+        "disgust": 0.3158,
+        "fear": 0.4821,
+        "happy": 0.3438,
+        "neutral": 0.425,
+        "sad": 0.5556
+      }
+    },
+    "3_resample_48k": {
+      "accuracy": 0.492,
+      "macro_f1": 0.4731,
+      "uar": 0.4792,
+      "precision": 0.4809,
+      "agreement_with_native": 0.896,
+      "fear_percentage": 0.176,
+      "per_class_recall": {
+        "angry": 0.7708,
+        "disgust": 0.3158,
+        "fear": 0.4643,
+        "happy": 0.3438,
+        "neutral": 0.425,
+        "sad": 0.5556
+      }
+    },
+    "4_resample_scipy_poly": {
+      "accuracy": 0.536,
+      "macro_f1": 0.5183,
+      "uar": 0.5192,
+      "precision": 0.5332,
+      "agreement_with_native": 0.932,
+      "fear_percentage": 0.208,
+      "per_class_recall": {
+        "angry": 0.7708,
+        "disgust": 0.3947,
+        "fear": 0.5536,
+        "happy": 0.3125,
+        "neutral": 0.5,
+        "sad": 0.5833
+      }
+    },
+    "5_stereo_mono": {
+      "accuracy": 0.4,
+      "macro_f1": 0.2906,
+      "uar": 0.3588,
+      "precision": 0.3727,
+      "agreement_with_native": 0.524,
+      "fear_percentage": 0.464,
+      "per_class_recall": {
+        "angry": 0.625,
+        "disgust": 0.0789,
+        "fear": 0.7321,
+        "happy": 0.0,
+        "neutral": 0.05,
+        "sad": 0.6667
+      }
+    },
+    "6_duration_2s": {
+      "accuracy": 0.436,
+      "macro_f1": 0.4427,
+      "uar": 0.4321,
+      "precision": 0.4693,
+      "agreement_with_native": 0.648,
+      "fear_percentage": 0.348,
+      "per_class_recall": {
+        "angry": 0.4167,
+        "disgust": 0.3947,
+        "fear": 0.5,
+        "happy": 0.4062,
+        "neutral": 0.375,
+        "sad": 0.5
+      }
+    },
+    "7_white_noise_20db": {
+      "accuracy": 0.404,
+      "macro_f1": 0.3649,
+      "uar": 0.388,
+      "precision": 0.3755,
+      "agreement_with_native": 0.508,
+      "fear_percentage": 0.388,
+      "per_class_recall": {
+        "angry": 0.4792,
+        "disgust": 0.3947,
+        "fear": 0.5893,
+        "happy": 0.2812,
+        "neutral": 0.0,
+        "sad": 0.5833
+      }
+    },
+    "8_pink_noise_15db": {
+      "accuracy": 0.328,
+      "macro_f1": 0.2431,
+      "uar": 0.305,
+      "precision": 0.3404,
+      "agreement_with_native": 0.368,
+      "fear_percentage": 0.584,
+      "per_class_recall": {
+        "angry": 0.1042,
+        "disgust": 0.4737,
+        "fear": 0.6964,
+        "happy": 0.0,
+        "neutral": 0.0,
+        "sad": 0.5556
+      }
+    }
+  }
+}

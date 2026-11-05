@@ -1,0 +1,123 @@
+{
+  "thresholds": {
+    "max_z": {
+      "p95": 6.31,
+      "p99": 8.81,
+      "p99_5": 10.12
+    },
+    "msd": {
+      "p95": 2.65,
+      "p99": 4.27,
+      "p99_5": 4.95
+    },
+    "min_centroid_dist": {
+      "p95": 24.62,
+      "p99": 32.67,
+      "p99_5": 34.8
+    }
+  },
+  "test_false_alarm_rates": {
+    "max_z": {
+      "false_alarm_rate_p99": 0.0113,
+      "false_alarm_rate_p99_5": 0.0044
+    },
+    "msd": {
+      "false_alarm_rate_p99": 0.0078,
+      "false_alarm_rate_p99_5": 0.0026
+    },
+    "min_centroid_dist": {
+      "false_alarm_rate_p99": 0.0061,
+      "false_alarm_rate_p99_5": 0.0044
+    }
+  },
+  "external_file_eval": [
+    {
+      "file": "Neutral1.wav",
+      "metrics": {
+        "max_z": 10.83,
+        "p95_z": 3.24,
+        "msd": 3.07,
+        "min_centroid_dist": 26.93
+      },
+      "is_ood_max_z_p99_5": true,
+      "is_ood_msd_p99_5": false
+    },
+    {
+      "file": "Neutral2.wav",
+      "metrics": {
+        "max_z": 14.29,
+        "p95_z": 4.05,
+        "msd": 4.46,
+        "min_centroid_dist": 32.68
+      },
+      "is_ood_max_z_p99_5": true,
+      "is_ood_msd_p99_5": false
+    },
+    {
+      "file": "Sad1.wav",
+      "metrics": {
+        "max_z": 12.27,
+        "p95_z": 3.04,
+        "msd": 3.17,
+        "min_centroid_dist": 26.33
+      },
+      "is_ood_max_z_p99_5": true,
+      "is_ood_msd_p99_5": false
+    },
+    {
+      "file": "Sad2.wav",
+      "metrics": {
+        "max_z": 12.36,
+        "p95_z": 2.56,
+        "msd": 2.79,
+        "min_centroid_dist": 26.21
+      },
+      "is_ood_max_z_p99_5": true,
+      "is_ood_msd_p99_5": false
+    },
+    {
+      "file": "angry_sample.wav",
+      "metrics": {
+        "max_z": 13.2,
+        "p95_z": 3.01,
+        "msd": 2.93,
+        "min_centroid_dist": 27.81
+      },
+      "is_ood_max_z_p99_5": true,
+      "is_ood_msd_p99_5": false
+    },
+    {
+      "file": "Happy2.wav",
+      "metrics": {
+        "max_z": 14.2,
+        "p95_z": 2.85,
+        "msd": 3.26,
+        "min_centroid_dist": 26.66
+      },
+      "is_ood_max_z_p99_5": true,
+      "is_ood_msd_p99_5": false
+    },
+    {
+      "file": "real_voice.wav",
+      "metrics": {
+        "max_z": 8.28,
+        "p95_z": 2.14,
+        "msd": 1.45,
+        "min_centroid_dist": 20.0
+      },
+      "is_ood_max_z_p99_5": false,
+      "is_ood_msd_p99_5": false
+    },
+    {
+      "file": "sample_16k.wav",
+      "metrics": {
+        "max_z": 27.12,
+        "p95_z": 8.24,
+        "msd": 22.1,
+        "min_centroid_dist": 79.7
+      },
+      "is_ood_max_z_p99_5": true,
+      "is_ood_msd_p99_5": true
+    }
+  ]
+}

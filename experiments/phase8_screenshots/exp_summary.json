@@ -1,0 +1,32 @@
+{
+  "profile": "emotion2vec_experimental",
+  "modelFacts": [
+    "Model status: Ready",
+    "Evaluation status: Evaluated on held-out speakers",
+    "Language: English (CREMA-D)",
+    "Emotion classes: Angry, Disgust, Fear, Happy, Neutral, Sad",
+    "Architecture: StandardScaler then LogisticRegression (LogisticRegression, parameters: C=0.05, class_weight=balanced, max_iter=500)",
+    "Sample rate and input: 16000 Hz. mono speech, resampled to 16 kHz in the backend; 0.5 to 6 seconds of speech are analysed",
+    "Model ID: 43604bb217e1",
+    "Trained at: 11/1/2026, 11:53:02 PM"
+  ],
+  "wavMeta": {
+    "meta": [
+      "Audio Length: 6.0 s",
+      "Processing Time: 2037 ms",
+      "Model: emotion2vec+ (Base) + Logistic Regression (C=0.05)",
+      "Model ID: 43604bb217e1",
+      "Trained Dataset: CREMA-D (English Acted Speech)"
+    ]
+  },
+  "mp3Meta": {
+    "meta": [
+      "Audio Length: 6.0 s",
+      "Processing Time: 707 ms",
+      "Model: emotion2vec+ (Base) + Logistic Regression (C=0.05)",
+      "Model ID: 43604bb217e1",
+      "Trained Dataset: CREMA-D (English Acted Speech)"
+    ]
+  },
+  "consoleErrors": []
+}

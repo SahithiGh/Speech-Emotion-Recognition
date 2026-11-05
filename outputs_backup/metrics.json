@@ -1,0 +1,1044 @@
+{
+  "accuracy": 0.5196163905841326,
+  "balanced_accuracy": 0.518615829565359,
+  "macro_precision": 0.5138642867958716,
+  "macro_recall": 0.518615829565359,
+  "macro_f1": 0.5128966089190895,
+  "per_class": {
+    "angry": {
+      "precision": 0.570281124497992,
+      "recall": 0.7244897959183674,
+      "f1": 0.6382022471910113,
+      "support": 196
+    },
+    "disgust": {
+      "precision": 0.46540880503144655,
+      "recall": 0.37755102040816324,
+      "f1": 0.4169014084507042,
+      "support": 196
+    },
+    "fear": {
+      "precision": 0.4895833333333333,
+      "recall": 0.47959183673469385,
+      "f1": 0.4845360824742268,
+      "support": 196
+    },
+    "happy": {
+      "precision": 0.5185185185185185,
+      "recall": 0.42857142857142855,
+      "f1": 0.4692737430167598,
+      "support": 196
+    },
+    "neutral": {
+      "precision": 0.48484848484848486,
+      "recall": 0.47904191616766467,
+      "f1": 0.4819277108433735,
+      "support": 167
+    },
+    "sad": {
+      "precision": 0.5545454545454546,
+      "recall": 0.6224489795918368,
+      "f1": 0.5865384615384616,
+      "support": 196
+    }
+  },
+  "confusion_matrix": [
+    [
+      142,
+      18,
+      9,
+      22,
+      4,
+      1
+    ],
+    [
+      25,
+      74,
+      17,
+      27,
+      31,
+      22
+    ],
+    [
+      22,
+      11,
+      94,
+      17,
+      13,
+      39
+    ],
+    [
+      46,
+      19,
+      28,
+      84,
+      11,
+      8
+    ],
+    [
+      9,
+      18,
+      22,
+      10,
+      80,
+      28
+    ],
+    [
+      5,
+      19,
+      22,
+      2,
+      26,
+      122
+    ]
+  ],
+  "labels": [
+    "angry",
+    "disgust",
+    "fear",
+    "happy",
+    "neutral",
+    "sad"
+  ],
+  "classification_report": "              precision    recall  f1-score   support\n\n       angry       0.57      0.72      0.64       196\n     disgust       0.47      0.38      0.42       196\n        fear       0.49      0.48      0.48       196\n       happy       0.52      0.43      0.47       196\n     neutral       0.48      0.48      0.48       167\n         sad       0.55      0.62      0.59       196\n\n    accuracy                           0.52      1147\n   macro avg       0.51      0.52      0.51      1147\nweighted avg       0.51      0.52      0.51      1147\n",
+  "n_samples": 1147,
+  "trained": true,
+  "generated_at": "2026-10-24T19:54:24+00:00",
+  "dataset": "CREMA-D (acted speech)",
+  "model_name": "SVM (RBF, C=3)",
+  "selection": "5-fold speaker-grouped stratified cross-validation on development speakers; best mean macro-F1",
+  "evaluated_on": "test speakers never used for training or model selection",
+  "feature_importance": {
+    "method": "permutation importance by group of sound properties: how much validation macro F1 drops when that group is shuffled across clips (3 shuffles per fold, averaged over folds)",
+    "caveat": "A global summary of what this model relies on, measured on validation speakers. It does not explain an individual prediction and says nothing about a speaker's real emotional state. Groups can carry overlapping information, so drops do not add up.",
+    "groups": [
+      {
+        "key": "mel",
+        "label": "Mel spectrum",
+        "description": "Energy in perceptual frequency bands.",
+        "n_features": 80,
+        "importance_mean": 0.1744129862364224,
+        "importance_std": 0.019464945267627737
+      },
+      {
+        "key": "mfcc",
+        "label": "Voice timbre (MFCC)",
+        "description": "The overall shape of the sound spectrum, which reflects voice quality.",
+        "n_features": 80,
+        "importance_mean": 0.11495747860253422,
+        "importance_std": 0.021706019825544917
+      },
+      {
+        "key": "delta",
+        "label": "Timbre change (delta MFCC)",
+        "description": "How quickly the voice timbre changes over time.",
+        "n_features": 80,
+        "importance_mean": 0.08947553497513779,
+        "importance_std": 0.01564408350797009
+      },
+      {
+        "key": "contrast",
+        "label": "Spectral contrast",
+        "description": "Difference between peaks and valleys in the spectrum.",
+        "n_features": 14,
+        "importance_mean": 0.026574299529685375,
+        "importance_std": 0.007951797808807724
+      },
+      {
+        "key": "shape",
+        "label": "Spectral shape",
+        "description": "Brightness, spread, roll-off and noisiness of the sound.",
+        "n_features": 8,
+        "importance_mean": 0.017260113624152022,
+        "importance_std": 0.001478940382491733
+      },
+      {
+        "key": "chroma",
+        "label": "Pitch classes (chroma)",
+        "description": "Which musical pitch classes carry energy.",
+        "n_features": 24,
+        "importance_mean": 0.011072285769338155,
+        "importance_std": 0.008200737052764742
+      },
+      {
+        "key": "pitch",
+        "label": "Pitch (intonation)",
+        "description": "Average pitch, its variation and its range during speech.",
+        "n_features": 3,
+        "importance_mean": 0.010973223439926585,
+        "importance_std": 0.0031215219915410246
+      },
+      {
+        "key": "loudness",
+        "label": "Loudness and zero crossings",
+        "description": "Overall energy, its variation and how often the waveform crosses zero.",
+        "n_features": 6,
+        "importance_mean": 0.006584940594466397,
+        "importance_std": 0.0031183746875664197
+      },
+      {
+        "key": "pauses",
+        "label": "Speech and pause ratio",
+        "description": "How much of the clip contains speech rather than pauses.",
+        "n_features": 1,
+        "importance_mean": 0.000738727430165224,
+        "importance_std": 0.004301683758522866
+      }
+    ]
+  },
+  "comparison": [
+    {
+      "model": "SVM (RBF, C=1)",
+      "selected": false,
+      "macro_f1": 0.508364904592743,
+      "uar": 0.5193897918448817,
+      "accuracy": 0.5187445510026155,
+      "macro_precision": 0.5121561778607175,
+      "per_class_recall": {
+        "angry": 0.7551020408163265,
+        "disgust": 0.3469387755102041,
+        "fear": 0.3673469387755102,
+        "happy": 0.42346938775510207,
+        "neutral": 0.5449101796407185,
+        "sad": 0.6785714285714286
+      },
+      "confusion_matrix": [
+        [
+          148,
+          12,
+          6,
+          24,
+          5,
+          1
+        ],
+        [
+          25,
+          68,
+          11,
+          31,
+          32,
+          29
+        ],
+        [
+          21,
+          10,
+          72,
+          30,
+          14,
+          49
+        ],
+        [
+          51,
+          18,
+          23,
+          83,
+          10,
+          11
+        ],
+        [
+          5,
+          14,
+          19,
+          13,
+          91,
+          25
+        ],
+        [
+          3,
+          13,
+          14,
+          4,
+          29,
+          133
+        ]
+      ],
+      "training_seconds": 5.1,
+      "settings": {
+        "C": "1",
+        "class_weight": "balanced",
+        "gamma": "scale",
+        "kernel": "rbf",
+        "max_iter": "-1",
+        "random_state": "42"
+      }
+    },
+    {
+      "model": "SVM (RBF, C=3)",
+      "selected": true,
+      "macro_f1": 0.5128966089190895,
+      "uar": 0.518615829565359,
+      "accuracy": 0.5196163905841326,
+      "macro_precision": 0.5138642867958716,
+      "per_class_recall": {
+        "angry": 0.7244897959183674,
+        "disgust": 0.37755102040816324,
+        "fear": 0.47959183673469385,
+        "happy": 0.42857142857142855,
+        "neutral": 0.47904191616766467,
+        "sad": 0.6224489795918368
+      },
+      "confusion_matrix": [
+        [
+          142,
+          18,
+          9,
+          22,
+          4,
+          1
+        ],
+        [
+          25,
+          74,
+          17,
+          27,
+          31,
+          22
+        ],
+        [
+          22,
+          11,
+          94,
+          17,
+          13,
+          39
+        ],
+        [
+          46,
+          19,
+          28,
+          84,
+          11,
+          8
+        ],
+        [
+          9,
+          18,
+          22,
+          10,
+          80,
+          28
+        ],
+        [
+          5,
+          19,
+          22,
+          2,
+          26,
+          122
+        ]
+      ],
+      "training_seconds": 5.2,
+      "settings": {
+        "C": "3",
+        "class_weight": "balanced",
+        "gamma": "scale",
+        "kernel": "rbf",
+        "max_iter": "-1",
+        "random_state": "42"
+      }
+    },
+    {
+      "model": "SVM (RBF, C=10)",
+      "selected": false,
+      "macro_f1": 0.5009087602040045,
+      "uar": 0.5052344291009817,
+      "accuracy": 0.5074106364428945,
+      "macro_precision": 0.504034257281018,
+      "per_class_recall": {
+        "angry": 0.7295918367346939,
+        "disgust": 0.4336734693877551,
+        "fear": 0.4744897959183674,
+        "happy": 0.39285714285714285,
+        "neutral": 0.41916167664670656,
+        "sad": 0.5816326530612245
+      },
+      "confusion_matrix": [
+        [
+          143,
+          17,
+          11,
+          21,
+          2,
+          2
+        ],
+        [
+          27,
+          85,
+          19,
+          23,
+          20,
+          22
+        ],
+        [
+          22,
+          11,
+          93,
+          24,
+          11,
+          35
+        ],
+        [
+          53,
+          22,
+          26,
+          77,
+          11,
+          7
+        ],
+        [
+          9,
+          15,
+          32,
+          14,
+          70,
+          27
+        ],
+        [
+          4,
+          28,
+          24,
+          5,
+          21,
+          114
+        ]
+      ],
+      "training_seconds": 6.3,
+      "settings": {
+        "C": "10",
+        "class_weight": "balanced",
+        "gamma": "scale",
+        "kernel": "rbf",
+        "max_iter": "-1",
+        "random_state": "42"
+      }
+    },
+    {
+      "model": "SVM (RBF, C=30)",
+      "selected": false,
+      "macro_f1": 0.49642588426256906,
+      "uar": 0.500835064564748,
+      "accuracy": 0.5030514385353095,
+      "macro_precision": 0.5000715350431414,
+      "per_class_recall": {
+        "angry": 0.7346938775510204,
+        "disgust": 0.42857142857142855,
+        "fear": 0.47959183673469385,
+        "happy": 0.3826530612244898,
+        "neutral": 0.41317365269461076,
+        "sad": 0.5663265306122449
+      },
+      "confusion_matrix": [
+        [
+          144,
+          16,
+          11,
+          21,
+          2,
+          2
+        ],
+        [
+          27,
+          84,
+          20,
+          24,
+          20,
+          21
+        ],
+        [
+          21,
+          11,
+          94,
+          24,
+          12,
+          34
+        ],
+        [
+          55,
+          20,
+          28,
+          75,
+          11,
+          7
+        ],
+        [
+          8,
+          17,
+          30,
+          14,
+          69,
+          29
+        ],
+        [
+          3,
+          27,
+          31,
+          5,
+          19,
+          111
+        ]
+      ],
+      "training_seconds": 6.1,
+      "settings": {
+        "C": "30",
+        "class_weight": "balanced",
+        "gamma": "scale",
+        "kernel": "rbf",
+        "max_iter": "-1",
+        "random_state": "42"
+      }
+    },
+    {
+      "model": "Logistic regression (C=0.1)",
+      "selected": false,
+      "macro_f1": 0.49911345157769943,
+      "uar": 0.5021996822681168,
+      "accuracy": 0.5021795989537925,
+      "macro_precision": 0.49925783790362305,
+      "per_class_recall": {
+        "angry": 0.6632653061224489,
+        "disgust": 0.4387755102040816,
+        "fear": 0.46938775510204084,
+        "happy": 0.3877551020408163,
+        "neutral": 0.5029940119760479,
+        "sad": 0.5510204081632653
+      },
+      "confusion_matrix": [
+        [
+          130,
+          16,
+          17,
+          25,
+          6,
+          2
+        ],
+        [
+          24,
+          86,
+          19,
+          19,
+          31,
+          17
+        ],
+        [
+          13,
+          15,
+          92,
+          24,
+          17,
+          35
+        ],
+        [
+          50,
+          27,
+          32,
+          76,
+          8,
+          3
+        ],
+        [
+          8,
+          11,
+          24,
+          15,
+          84,
+          25
+        ],
+        [
+          7,
+          18,
+          19,
+          9,
+          35,
+          108
+        ]
+      ],
+      "training_seconds": 49.9,
+      "settings": {
+        "C": "0.1",
+        "class_weight": "balanced",
+        "max_iter": "3000",
+        "random_state": "None"
+      }
+    },
+    {
+      "model": "Logistic regression (C=1)",
+      "selected": false,
+      "macro_f1": 0.48835094904064985,
+      "uar": 0.4915526090675792,
+      "accuracy": 0.4917175239755885,
+      "macro_precision": 0.48834188515765997,
+      "per_class_recall": {
+        "angry": 0.6581632653061225,
+        "disgust": 0.42346938775510207,
+        "fear": 0.45408163265306123,
+        "happy": 0.3877551020408163,
+        "neutral": 0.48502994011976047,
+        "sad": 0.5408163265306123
+      },
+      "confusion_matrix": [
+        [
+          129,
+          18,
+          16,
+          25,
+          6,
+          2
+        ],
+        [
+          27,
+          83,
+          18,
+          20,
+          32,
+          16
+        ],
+        [
+          15,
+          18,
+          89,
+          23,
+          17,
+          34
+        ],
+        [
+          49,
+          23,
+          33,
+          76,
+          11,
+          4
+        ],
+        [
+          7,
+          14,
+          22,
+          16,
+          81,
+          27
+        ],
+        [
+          7,
+          20,
+          17,
+          9,
+          37,
+          106
+        ]
+      ],
+      "training_seconds": 109.9,
+      "settings": {
+        "C": "1.0",
+        "class_weight": "balanced",
+        "max_iter": "3000",
+        "random_state": "None"
+      }
+    },
+    {
+      "model": "Random forest (300 trees)",
+      "selected": false,
+      "macro_f1": 0.473976022555421,
+      "uar": 0.49820257444295085,
+      "accuracy": 0.4952048823016565,
+      "macro_precision": 0.49699727654904735,
+      "per_class_recall": {
+        "angry": 0.7755102040816326,
+        "disgust": 0.23469387755102042,
+        "fear": 0.23979591836734693,
+        "happy": 0.44387755102040816,
+        "neutral": 0.6167664670658682,
+        "sad": 0.6785714285714286
+      },
+      "confusion_matrix": [
+        [
+          152,
+          3,
+          4,
+          31,
+          5,
+          1
+        ],
+        [
+          23,
+          46,
+          4,
+          43,
+          38,
+          42
+        ],
+        [
+          23,
+          7,
+          47,
+          42,
+          23,
+          54
+        ],
+        [
+          51,
+          8,
+          15,
+          87,
+          24,
+          11
+        ],
+        [
+          4,
+          10,
+          13,
+          16,
+          103,
+          21
+        ],
+        [
+          3,
+          13,
+          10,
+          6,
+          31,
+          133
+        ]
+      ],
+      "training_seconds": 9.9,
+      "settings": {
+        "class_weight": "balanced",
+        "max_leaf_nodes": "None",
+        "min_samples_leaf": "2",
+        "n_estimators": "300",
+        "random_state": "42"
+      }
+    },
+    {
+      "model": "Gradient boosting (histogram)",
+      "selected": false,
+      "macro_f1": 0.49794685533139454,
+      "uar": 0.5048627235325268,
+      "accuracy": 0.5056669572798606,
+      "macro_precision": 0.49736456930221423,
+      "per_class_recall": {
+        "angry": 0.7551020408163265,
+        "disgust": 0.3520408163265306,
+        "fear": 0.4336734693877551,
+        "happy": 0.41836734693877553,
+        "neutral": 0.47305389221556887,
+        "sad": 0.5969387755102041
+      },
+      "confusion_matrix": [
+        [
+          148,
+          13,
+          11,
+          20,
+          3,
+          1
+        ],
+        [
+          28,
+          69,
+          9,
+          33,
+          28,
+          29
+        ],
+        [
+          19,
+          9,
+          85,
+          26,
+          18,
+          39
+        ],
+        [
+          43,
+          20,
+          28,
+          82,
+          12,
+          11
+        ],
+        [
+          9,
+          20,
+          20,
+          12,
+          79,
+          27
+        ],
+        [
+          2,
+          28,
+          23,
+          3,
+          23,
+          117
+        ]
+      ],
+      "training_seconds": 38.6,
+      "settings": {
+        "class_weight": "balanced",
+        "learning_rate": "0.08",
+        "max_iter": "150",
+        "max_leaf_nodes": "15",
+        "min_samples_leaf": "20",
+        "random_state": "42"
+      }
+    }
+  ],
+  "comparison_note": "All candidates were fit on the development speakers and scored on the same test speakers for transparency. The model was chosen beforehand using validation only; these test scores were not used for selection.",
+  "reliability": {
+    "bins": [
+      {
+        "low": 0.0,
+        "high": 0.4,
+        "samples": 931,
+        "accuracy": 0.3082706766917293
+      },
+      {
+        "low": 0.4,
+        "high": 0.6,
+        "samples": 2442,
+        "accuracy": 0.4520884520884521
+      },
+      {
+        "low": 0.6,
+        "high": 0.8,
+        "samples": 1907,
+        "accuracy": 0.6329313057157839
+      },
+      {
+        "low": 0.8,
+        "high": 1.000001,
+        "samples": 1014,
+        "accuracy": 0.772189349112426
+      }
+    ],
+    "source": "out-of-fold validation predictions on development speakers",
+    "rule": "A result is marked uncertain only if fewer than 50% of validation predictions with a similar top score were correct and at least 30 validation predictions fall in that range. This display convention is a documented choice, not a statistical guarantee."
+  },
+  "preprocessing": {
+    "sample_rate": 16000,
+    "min_seconds": 0.5,
+    "max_seconds": 6.0,
+    "silence_rms": 0.003,
+    "trim_top_db": 30,
+    "n_mfcc": 40,
+    "n_mels": 40,
+    "peak_normalise": 0.9,
+    "feature_version": 2,
+    "n_features": 296,
+    "features": "mean+std of MFCC(40), delta-MFCC(40), log-mel(40), chroma(12), spectral contrast(7), centroid, bandwidth, rolloff, flatness, zero-crossing rate, RMS; plus pitch mean/std/range (YIN, speech frames), speech ratio and RMS 10th/90th percentiles"
+  },
+  "unweighted_average_recall": 0.518615829565359,
+  "candidates": [
+    {
+      "model": "SVM (RBF, C=1)",
+      "cv_macro_f1_mean": 0.5135531544589869,
+      "cv_macro_f1_std": 0.031039692132515583,
+      "cv_accuracy_mean": 0.5232196030069012,
+      "fold_macro_f1": [
+        0.5365524630307044,
+        0.5278508685248474,
+        0.5496756855054813,
+        0.4703677720340192,
+        0.48331898319988165
+      ]
+    },
+    {
+      "model": "SVM (RBF, C=3)",
+      "cv_macro_f1_mean": 0.5315352713589344,
+      "cv_macro_f1_std": 0.025768945301558446,
+      "cv_accuracy_mean": 0.5360763010489908,
+      "fold_macro_f1": [
+        0.5509332635489518,
+        0.5443297698423011,
+        0.5594138473418905,
+        0.49153154125612125,
+        0.5114679348054071
+      ]
+    },
+    {
+      "model": "SVM (RBF, C=10)",
+      "cv_macro_f1_mean": 0.5202154285737521,
+      "cv_macro_f1_std": 0.026947024160112423,
+      "cv_accuracy_mean": 0.5243050543362501,
+      "fold_macro_f1": [
+        0.5561567727731215,
+        0.5296665747902326,
+        0.5354908972089149,
+        0.4805015343888779,
+        0.49926136370761337
+      ]
+    },
+    {
+      "model": "SVM (RBF, C=30)",
+      "cv_macro_f1_mean": 0.515451816244717,
+      "cv_macro_f1_std": 0.02661168704509909,
+      "cv_accuracy_mean": 0.5197074937552707,
+      "fold_macro_f1": [
+        0.5510610637931721,
+        0.5232984487044922,
+        0.532194423019383,
+        0.4776364372298116,
+        0.49306870847672646
+      ]
+    },
+    {
+      "model": "Logistic regression (C=0.1)",
+      "cv_macro_f1_mean": 0.523565701721256,
+      "cv_macro_f1_std": 0.023570747615847154,
+      "cv_accuracy_mean": 0.5263210390998866,
+      "fold_macro_f1": [
+        0.5253080411875776,
+        0.532022808012384,
+        0.5623175539471236,
+        0.5004169822969163,
+        0.4977631231622785
+      ]
+    },
+    {
+      "model": "Logistic regression (C=1)",
+      "cv_macro_f1_mean": 0.5222294205485012,
+      "cv_macro_f1_std": 0.02468765916234163,
+      "cv_accuracy_mean": 0.5247892912316573,
+      "fold_macro_f1": [
+        0.5283151643659195,
+        0.5310219654231007,
+        0.5607043576275529,
+        0.49939034059900317,
+        0.49171527472692994
+      ]
+    },
+    {
+      "model": "Random forest (300 trees)",
+      "cv_macro_f1_mean": 0.4744261611506122,
+      "cv_macro_f1_std": 0.017431469791425586,
+      "cv_accuracy_mean": 0.49403263284321275,
+      "fold_macro_f1": [
+        0.4850709954127474,
+        0.4825146228248567,
+        0.49322336226199875,
+        0.44376677304509576,
+        0.4675550522083621
+      ]
+    },
+    {
+      "model": "Gradient boosting (histogram)",
+      "cv_macro_f1_mean": 0.5185723325555481,
+      "cv_macro_f1_std": 0.021407427355984655,
+      "cv_accuracy_mean": 0.5250418061462754,
+      "fold_macro_f1": [
+        0.5386413232823261,
+        0.5138085692598793,
+        0.5465972827595905,
+        0.48848756679659866,
+        0.5053269206793464
+      ]
+    }
+  ],
+  "split": {
+    "test": {
+      "speakers": 14,
+      "clips": 1147
+    },
+    "development": {
+      "speakers": 77,
+      "clips": 6294
+    },
+    "folds": [
+      {
+        "train_speakers": 62,
+        "validation_speakers": 15,
+        "validation_clips": 1228
+      },
+      {
+        "train_speakers": 62,
+        "validation_speakers": 15,
+        "validation_clips": 1230
+      },
+      {
+        "train_speakers": 61,
+        "validation_speakers": 16,
+        "validation_clips": 1300
+      },
+      {
+        "train_speakers": 62,
+        "validation_speakers": 15,
+        "validation_clips": 1230
+      },
+      {
+        "train_speakers": 61,
+        "validation_speakers": 16,
+        "validation_clips": 1306
+      }
+    ]
+  },
+  "class_distribution": {
+    "all": {
+      "angry": 1271,
+      "disgust": 1271,
+      "fear": 1271,
+      "happy": 1271,
+      "neutral": 1087,
+      "sad": 1270
+    },
+    "development": {
+      "angry": 1075,
+      "disgust": 1075,
+      "fear": 1075,
+      "happy": 1075,
+      "neutral": 920,
+      "sad": 1074
+    },
+    "test": {
+      "angry": 196,
+      "disgust": 196,
+      "fear": 196,
+      "happy": 196,
+      "neutral": 167,
+      "sad": 196
+    }
+  },
+  "total_clips_used": 7441,
+  "total_speakers": 91,
+  "skipped_clips": 1,
+  "confidence_intervals": {
+    "accuracy_95ci": [
+      0.46759482895153626,
+      0.5618684668989546
+    ],
+    "macro_f1_95ci": [
+      0.4605932219641188,
+      0.5561013316403807
+    ],
+    "method": "speaker bootstrap, 1000 resamples"
+  },
+  "per_speaker_accuracy": {
+    "min": 0.2682926829268293,
+    "median": 0.5426829268292683,
+    "max": 0.6219512195121951,
+    "speakers": 14
+  },
+  "baselines": {
+    "majority_class_accuracy": 0.17088055797733218,
+    "majority_class_macro_f1": 0.04864730702407546,
+    "uniform_chance_accuracy": 0.16666666666666666
+  },
+  "dataset_verification": {
+    "mode": "manifest-size",
+    "files_matching_official_list": 7442,
+    "complete": true,
+    "problems": 0
+  },
+  "reproducibility": {
+    "seed": 42,
+    "dataset_fingerprint": "0dfd5436680d8f2e",
+    "feature_version": 2,
+    "n_features": 296,
+    "python": "3.13.16",
+    "sklearn": "1.9.1",
+    "librosa": "1.0.0",
+    "numpy": "2.5.4",
+    "joblib": "1.6.0"
+  },
+  "training_seconds": 1535.7,
+  "model_size_mb": 7.86
+}

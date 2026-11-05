@@ -1,0 +1,2085 @@
+{
+  "candidate": {
+    "name": "Candidate 1: Logistic Regression (C=0.05)",
+    "path": "D:\\speech-emotion-recognition\\experiments\\emotion2vec_candidate\\candidate_logistic_regression.joblib",
+    "sha256": "1ed60ec67e6e8abc41c4ca159abb0e44acb7525601a941e50172a4224b6a7f83",
+    "classes": [
+      "angry",
+      "disgust",
+      "fear",
+      "happy",
+      "neutral",
+      "sad"
+    ]
+  },
+  "calibration": {
+    "dev_sample_count": 6294,
+    "dev_norm_mean": 28.7571,
+    "dev_norm_std": 5.3369,
+    "dev_norm_min": 14.2957,
+    "dev_norm_max": 37.5032,
+    "dev_max_z_p50": 2.324,
+    "dev_max_z_p95": 3.179,
+    "dev_max_z_p99": 3.644,
+    "dev_max_z_p99_5": 3.827,
+    "dev_max_z_max": 4.312,
+    "dev_centroid_dist_p95": 26.719,
+    "dev_centroid_dist_max": 53.741
+  },
+  "disclaimer": "IMPORTANT: External audio predictions are strictly exploratory and unvalidated. Filenames must NOT be treated as verified ground-truth emotion labels. No accuracy or F1 score is computed or claimed.",
+  "summary": {
+    "total_files": 35,
+    "successfully_processed": 32,
+    "failed_files": 3,
+    "predicted_distribution": {
+      "angry": 0,
+      "disgust": 0,
+      "fear": 0,
+      "happy": 3,
+      "neutral": 21,
+      "sad": 8
+    },
+    "predicted_distribution_pct": {
+      "angry": 0.0,
+      "disgust": 0.0,
+      "fear": 0.0,
+      "happy": 9.38,
+      "neutral": 65.62,
+      "sad": 25.0
+    }
+  },
+  "detailed_results": [
+    {
+      "category": "demo_calls",
+      "filename": "practice_angry_customer_deescalation.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\practice_angry_customer_deescalation.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\practice_angry_customer_deescalation.wav",
+        "filename": "practice_angry_customer_deescalation.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 1554254,
+        "native_format": "WAV",
+        "native_channels": 2,
+        "native_samplerate": 8000,
+        "native_duration": 48.568,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 777088,
+        "duration_seconds": 48.568,
+        "rms": 0.05018,
+        "peak": 0.53673
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.9891,
+      "margin": 0.9855,
+      "probabilities": {
+        "angry": 0.0019,
+        "disgust": 0.0036,
+        "fear": 0.001,
+        "happy": 0.0007,
+        "neutral": 0.9891,
+        "sad": 0.0037
+      },
+      "embedding_metrics": {
+        "norm": 36.7352,
+        "norm_z_score_vs_dev": 1.49
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.95,
+        "mean_standardized_deviation": 1.301,
+        "distance_to_predicted_centroid": 12.304,
+        "centroid_distances": {
+          "angry": 58.533,
+          "disgust": 45.11,
+          "fear": 46.54,
+          "happy": 58.524,
+          "neutral": 12.304,
+          "sad": 47.241
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 17114.5,
+        "classification_ms": 1.604,
+        "total_ms": 17133.69
+      }
+    },
+    {
+      "category": "demo_calls",
+      "filename": "practice_sales_closing.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\practice_sales_closing.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\practice_sales_closing.wav",
+        "filename": "practice_sales_closing.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 1409998,
+        "native_format": "WAV",
+        "native_channels": 2,
+        "native_samplerate": 8000,
+        "native_duration": 44.06,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 704960,
+        "duration_seconds": 44.06,
+        "rms": 0.04693,
+        "peak": 0.48555
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.9909,
+      "margin": 0.9877,
+      "probabilities": {
+        "angry": 0.0015,
+        "disgust": 0.0032,
+        "fear": 0.001,
+        "happy": 0.0006,
+        "neutral": 0.9909,
+        "sad": 0.0028
+      },
+      "embedding_metrics": {
+        "norm": 36.953,
+        "norm_z_score_vs_dev": 1.54
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.878,
+        "mean_standardized_deviation": 1.312,
+        "distance_to_predicted_centroid": 12.289,
+        "centroid_distances": {
+          "angry": 58.871,
+          "disgust": 45.477,
+          "fear": 46.993,
+          "happy": 58.81,
+          "neutral": 12.289,
+          "sad": 47.752
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 14609.42,
+        "classification_ms": 1.515,
+        "total_ms": 14627.26
+      }
+    },
+    {
+      "category": "demo_calls",
+      "filename": "sales_budget_objection.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\sales_budget_objection.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\sales_budget_objection.wav",
+        "filename": "sales_budget_objection.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 2895950,
+        "native_format": "WAV",
+        "native_channels": 2,
+        "native_samplerate": 8000,
+        "native_duration": 90.496,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 1447936,
+        "duration_seconds": 90.496,
+        "rms": 0.04675,
+        "peak": 0.56856
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.9927,
+      "margin": 0.9895,
+      "probabilities": {
+        "angry": 0.001,
+        "disgust": 0.0032,
+        "fear": 0.0007,
+        "happy": 0.0004,
+        "neutral": 0.9927,
+        "sad": 0.0021
+      },
+      "embedding_metrics": {
+        "norm": 37.0363,
+        "norm_z_score_vs_dev": 1.55
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.958,
+        "mean_standardized_deviation": 1.332,
+        "distance_to_predicted_centroid": 13.045,
+        "centroid_distances": {
+          "angry": 59.509,
+          "disgust": 46.29,
+          "fear": 47.787,
+          "happy": 59.535,
+          "neutral": 13.045,
+          "sad": 48.587
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 135455.72,
+        "classification_ms": 1.196,
+        "total_ms": 135484.04
+      }
+    },
+    {
+      "category": "demo_calls",
+      "filename": "sales_demo_followup.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\sales_demo_followup.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\sales_demo_followup.wav",
+        "filename": "sales_demo_followup.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 2154574,
+        "native_format": "WAV",
+        "native_channels": 2,
+        "native_samplerate": 8000,
+        "native_duration": 67.328,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 1077248,
+        "duration_seconds": 67.328,
+        "rms": 0.05188,
+        "peak": 0.55894
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.9907,
+      "margin": 0.9871,
+      "probabilities": {
+        "angry": 0.0016,
+        "disgust": 0.0035,
+        "fear": 0.0008,
+        "happy": 0.0005,
+        "neutral": 0.9907,
+        "sad": 0.0028
+      },
+      "embedding_metrics": {
+        "norm": 37.0306,
+        "norm_z_score_vs_dev": 1.55
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.954,
+        "mean_standardized_deviation": 1.323,
+        "distance_to_predicted_centroid": 12.755,
+        "centroid_distances": {
+          "angry": 59.094,
+          "disgust": 45.819,
+          "fear": 47.357,
+          "happy": 59.171,
+          "neutral": 12.755,
+          "sad": 48.197
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 28665.18,
+        "classification_ms": 1.388,
+        "total_ms": 28686.76
+      }
+    },
+    {
+      "category": "demo_calls",
+      "filename": "sales_lost_prospect.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\sales_lost_prospect.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\sales_lost_prospect.wav",
+        "filename": "sales_lost_prospect.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 2184654,
+        "native_format": "WAV",
+        "native_channels": 2,
+        "native_samplerate": 8000,
+        "native_duration": 68.268,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 1092288,
+        "duration_seconds": 68.268,
+        "rms": 0.05179,
+        "peak": 0.56101
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.981,
+      "margin": 0.9744,
+      "probabilities": {
+        "angry": 0.0037,
+        "disgust": 0.0065,
+        "fear": 0.002,
+        "happy": 0.0012,
+        "neutral": 0.981,
+        "sad": 0.0056
+      },
+      "embedding_metrics": {
+        "norm": 35.4378,
+        "norm_z_score_vs_dev": 1.25
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.679,
+        "mean_standardized_deviation": 1.218,
+        "distance_to_predicted_centroid": 9.463,
+        "centroid_distances": {
+          "angry": 56.3,
+          "disgust": 42.223,
+          "fear": 44.124,
+          "happy": 56.277,
+          "neutral": 9.463,
+          "sad": 44.75
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 27292.91,
+        "classification_ms": 1.161,
+        "total_ms": 27312.27
+      }
+    },
+    {
+      "category": "demo_calls",
+      "filename": "sales_pricing_discovery.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\sales_pricing_discovery.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\sales_pricing_discovery.wav",
+        "filename": "sales_pricing_discovery.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 2680910,
+        "native_format": "WAV",
+        "native_channels": 2,
+        "native_samplerate": 8000,
+        "native_duration": 83.776,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 1340416,
+        "duration_seconds": 83.776,
+        "rms": 0.04976,
+        "peak": 0.56795
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.9705,
+      "margin": 0.9585,
+      "probabilities": {
+        "angry": 0.0028,
+        "disgust": 0.012,
+        "fear": 0.0033,
+        "happy": 0.0022,
+        "neutral": 0.9705,
+        "sad": 0.0091
+      },
+      "embedding_metrics": {
+        "norm": 31.9532,
+        "norm_z_score_vs_dev": 0.6
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.205,
+        "mean_standardized_deviation": 1.038,
+        "distance_to_predicted_centroid": 2.328,
+        "centroid_distances": {
+          "angry": 51.683,
+          "disgust": 36.632,
+          "fear": 39.11,
+          "happy": 51.526,
+          "neutral": 2.328,
+          "sad": 39.352
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 33968.57,
+        "classification_ms": 1.825,
+        "total_ms": 34001.4
+      }
+    },
+    {
+      "category": "demo_calls",
+      "filename": "support_billing_duplicate.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\support_billing_duplicate.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\support_billing_duplicate.wav",
+        "filename": "support_billing_duplicate.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 3097038,
+        "native_format": "WAV",
+        "native_channels": 2,
+        "native_samplerate": 8000,
+        "native_duration": 96.78,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 1548480,
+        "duration_seconds": 96.78,
+        "rms": 0.05155,
+        "peak": 0.54285
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.9182,
+      "margin": 0.8779,
+      "probabilities": {
+        "angry": 0.0022,
+        "disgust": 0.0404,
+        "fear": 0.0057,
+        "happy": 0.0036,
+        "neutral": 0.9182,
+        "sad": 0.0299
+      },
+      "embedding_metrics": {
+        "norm": 29.3023,
+        "norm_z_score_vs_dev": 0.1
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.079,
+        "mean_standardized_deviation": 0.88,
+        "distance_to_predicted_centroid": 8.378,
+        "centroid_distances": {
+          "angry": 47.787,
+          "disgust": 31.494,
+          "fear": 35.034,
+          "happy": 48.02,
+          "neutral": 8.378,
+          "sad": 34.048
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 43265.47,
+        "classification_ms": 0.973,
+        "total_ms": 43298.15
+      }
+    },
+    {
+      "category": "demo_calls",
+      "filename": "support_call_with_hold.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\support_call_with_hold.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\support_call_with_hold.wav",
+        "filename": "support_call_with_hold.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 2451150,
+        "native_format": "WAV",
+        "native_channels": 2,
+        "native_samplerate": 8000,
+        "native_duration": 76.596,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 1225536,
+        "duration_seconds": 76.596,
+        "rms": 0.04672,
+        "peak": 0.54007
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.9209,
+      "margin": 0.882,
+      "probabilities": {
+        "angry": 0.0029,
+        "disgust": 0.0389,
+        "fear": 0.005,
+        "happy": 0.0061,
+        "neutral": 0.9209,
+        "sad": 0.0262
+      },
+      "embedding_metrics": {
+        "norm": 29.7748,
+        "norm_z_score_vs_dev": 0.19
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.083,
+        "mean_standardized_deviation": 0.911,
+        "distance_to_predicted_centroid": 5.659,
+        "centroid_distances": {
+          "angry": 48.687,
+          "disgust": 32.533,
+          "fear": 36.039,
+          "happy": 48.39,
+          "neutral": 5.659,
+          "sad": 35.319
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 30089.53,
+        "classification_ms": 0.866,
+        "total_ms": 30122.78
+      }
+    },
+    {
+      "category": "demo_calls",
+      "filename": "support_delayed_delivery.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\support_delayed_delivery.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\support_delayed_delivery.wav",
+        "filename": "support_delayed_delivery.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 1782222,
+        "native_format": "WAV",
+        "native_channels": 2,
+        "native_samplerate": 8000,
+        "native_duration": 55.692,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 891072,
+        "duration_seconds": 55.692,
+        "rms": 0.05017,
+        "peak": 0.5103
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.9864,
+      "margin": 0.982,
+      "probabilities": {
+        "angry": 0.0026,
+        "disgust": 0.0041,
+        "fear": 0.0015,
+        "happy": 0.0009,
+        "neutral": 0.9864,
+        "sad": 0.0044
+      },
+      "embedding_metrics": {
+        "norm": 36.5693,
+        "norm_z_score_vs_dev": 1.46
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.888,
+        "mean_standardized_deviation": 1.279,
+        "distance_to_predicted_centroid": 11.715,
+        "centroid_distances": {
+          "angry": 57.972,
+          "disgust": 44.283,
+          "fear": 45.828,
+          "happy": 57.832,
+          "neutral": 11.715,
+          "sad": 46.522
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 21475.1,
+        "classification_ms": 1.233,
+        "total_ms": 21492.93
+      }
+    },
+    {
+      "category": "demo_calls",
+      "filename": "support_invoice_query.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\support_invoice_query.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\support_invoice_query.wav",
+        "filename": "support_invoice_query.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 1966798,
+        "native_format": "WAV",
+        "native_channels": 2,
+        "native_samplerate": 8000,
+        "native_duration": 61.46,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 983360,
+        "duration_seconds": 61.46,
+        "rms": 0.04961,
+        "peak": 0.56352
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.8999,
+      "margin": 0.8482,
+      "probabilities": {
+        "angry": 0.0019,
+        "disgust": 0.032,
+        "fear": 0.0099,
+        "happy": 0.0047,
+        "neutral": 0.8999,
+        "sad": 0.0517
+      },
+      "embedding_metrics": {
+        "norm": 29.9126,
+        "norm_z_score_vs_dev": 0.22
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.257,
+        "mean_standardized_deviation": 0.833,
+        "distance_to_predicted_centroid": 13.465,
+        "centroid_distances": {
+          "angry": 46.924,
+          "disgust": 29.752,
+          "fear": 33.818,
+          "happy": 46.66,
+          "neutral": 13.465,
+          "sad": 31.697
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 40936.76,
+        "classification_ms": 0.711,
+        "total_ms": 40958.27
+      }
+    },
+    {
+      "category": "demo_calls",
+      "filename": "support_outage_escalation.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\support_outage_escalation.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\support_outage_escalation.wav",
+        "filename": "support_outage_escalation.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 2954702,
+        "native_format": "WAV",
+        "native_channels": 2,
+        "native_samplerate": 8000,
+        "native_duration": 92.332,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 1477312,
+        "duration_seconds": 92.332,
+        "rms": 0.05222,
+        "peak": 0.55223
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.9757,
+      "margin": 0.9688,
+      "probabilities": {
+        "angry": 0.0054,
+        "disgust": 0.0063,
+        "fear": 0.0036,
+        "happy": 0.0021,
+        "neutral": 0.9757,
+        "sad": 0.0069
+      },
+      "embedding_metrics": {
+        "norm": 34.6812,
+        "norm_z_score_vs_dev": 1.11
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.626,
+        "mean_standardized_deviation": 1.152,
+        "distance_to_predicted_centroid": 7.963,
+        "centroid_distances": {
+          "angry": 54.657,
+          "disgust": 40.268,
+          "fear": 42.191,
+          "happy": 54.38,
+          "neutral": 7.963,
+          "sad": 42.726
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 42164.99,
+        "classification_ms": 1.137,
+        "total_ms": 42196.81
+      }
+    },
+    {
+      "category": "demo_calls",
+      "filename": "support_password_reset.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\support_password_reset.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\support_password_reset.wav",
+        "filename": "support_password_reset.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 2306638,
+        "native_format": "WAV",
+        "native_channels": 2,
+        "native_samplerate": 8000,
+        "native_duration": 72.08,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 1153280,
+        "duration_seconds": 72.08,
+        "rms": 0.05121,
+        "peak": 0.5009
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.9923,
+      "margin": 0.9891,
+      "probabilities": {
+        "angry": 0.001,
+        "disgust": 0.0032,
+        "fear": 0.0007,
+        "happy": 0.0004,
+        "neutral": 0.9923,
+        "sad": 0.0024
+      },
+      "embedding_metrics": {
+        "norm": 36.9171,
+        "norm_z_score_vs_dev": 1.53
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.969,
+        "mean_standardized_deviation": 1.328,
+        "distance_to_predicted_centroid": 13.154,
+        "centroid_distances": {
+          "angry": 59.381,
+          "disgust": 46.198,
+          "fear": 47.551,
+          "happy": 59.462,
+          "neutral": 13.154,
+          "sad": 48.352
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 28688.32,
+        "classification_ms": 0.747,
+        "total_ms": 28706.48
+      }
+    },
+    {
+      "category": "demo_calls",
+      "filename": "support_plan_cancellation.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\support_plan_cancellation.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\support_plan_cancellation.wav",
+        "filename": "support_plan_cancellation.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 1429198,
+        "native_format": "WAV",
+        "native_channels": 2,
+        "native_samplerate": 8000,
+        "native_duration": 44.66,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 714560,
+        "duration_seconds": 44.66,
+        "rms": 0.04942,
+        "peak": 0.51659
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.9942,
+      "margin": 0.9914,
+      "probabilities": {
+        "angry": 0.0006,
+        "disgust": 0.0028,
+        "fear": 0.0005,
+        "happy": 0.0003,
+        "neutral": 0.9942,
+        "sad": 0.0015
+      },
+      "embedding_metrics": {
+        "norm": 37.0549,
+        "norm_z_score_vs_dev": 1.55
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 3.081,
+        "mean_standardized_deviation": 1.341,
+        "distance_to_predicted_centroid": 13.485,
+        "centroid_distances": {
+          "angry": 59.876,
+          "disgust": 46.788,
+          "fear": 48.286,
+          "happy": 59.956,
+          "neutral": 13.485,
+          "sad": 49.097
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 13285.65,
+        "classification_ms": 1.266,
+        "total_ms": 13315.43
+      }
+    },
+    {
+      "category": "demo_calls",
+      "filename": "support_refund_delayed.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\support_refund_delayed.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\demo_calls\\support_refund_delayed.wav",
+        "filename": "support_refund_delayed.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 2680270,
+        "native_format": "WAV",
+        "native_channels": 2,
+        "native_samplerate": 8000,
+        "native_duration": 83.756,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 1340096,
+        "duration_seconds": 83.756,
+        "rms": 0.05112,
+        "peak": 0.56945
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.7712,
+      "margin": 0.6614,
+      "probabilities": {
+        "angry": 0.0043,
+        "disgust": 0.1097,
+        "fear": 0.0106,
+        "happy": 0.0127,
+        "neutral": 0.7712,
+        "sad": 0.0916
+      },
+      "embedding_metrics": {
+        "norm": 27.3696,
+        "norm_z_score_vs_dev": -0.26
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 1.992,
+        "mean_standardized_deviation": 0.753,
+        "distance_to_predicted_centroid": 14.867,
+        "centroid_distances": {
+          "angry": 44.513,
+          "disgust": 27.471,
+          "fear": 31.992,
+          "happy": 44.743,
+          "neutral": 14.867,
+          "sad": 29.693
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 34342.38,
+        "classification_ms": 1.255,
+        "total_ms": 34367.8
+      }
+    },
+    {
+      "category": "sample_audio",
+      "filename": "angry_sample.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\angry_sample.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\angry_sample.wav",
+        "filename": "angry_sample.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 1781838,
+        "native_format": "WAV",
+        "native_channels": 1,
+        "native_samplerate": 48000,
+        "native_duration": 18.56,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 296960,
+        "duration_seconds": 18.56,
+        "rms": 0.06887,
+        "peak": 0.59177
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.9819,
+      "margin": 0.9764,
+      "probabilities": {
+        "angry": 0.0033,
+        "disgust": 0.0048,
+        "fear": 0.0025,
+        "happy": 0.002,
+        "neutral": 0.9819,
+        "sad": 0.0055
+      },
+      "embedding_metrics": {
+        "norm": 32.7774,
+        "norm_z_score_vs_dev": 0.75
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.243,
+        "mean_standardized_deviation": 1.064,
+        "distance_to_predicted_centroid": 3.981,
+        "centroid_distances": {
+          "angry": 52.345,
+          "disgust": 37.717,
+          "fear": 39.833,
+          "happy": 51.932,
+          "neutral": 3.981,
+          "sad": 40.138
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 3381.58,
+        "classification_ms": 1.269,
+        "total_ms": 3393.36
+      }
+    },
+    {
+      "category": "sample_audio",
+      "filename": "Happy2.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Happy2.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Happy2.wav",
+        "filename": "Happy2.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 1018446,
+        "native_format": "WAV",
+        "native_channels": 1,
+        "native_samplerate": 48000,
+        "native_duration": 10.608,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 169728,
+        "duration_seconds": 10.608,
+        "rms": 0.15593,
+        "peak": 0.85741
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "happy",
+      "confidence": 0.9969,
+      "margin": 0.9958,
+      "probabilities": {
+        "angry": 0.0003,
+        "disgust": 0.0004,
+        "fear": 0.0011,
+        "happy": 0.9969,
+        "neutral": 0.001,
+        "sad": 0.0002
+      },
+      "embedding_metrics": {
+        "norm": 33.1864,
+        "norm_z_score_vs_dev": 0.83
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.737,
+        "mean_standardized_deviation": 1.172,
+        "distance_to_predicted_centroid": 10.418,
+        "centroid_distances": {
+          "angry": 52.115,
+          "disgust": 44.96,
+          "fear": 41.06,
+          "happy": 10.418,
+          "neutral": 57.838,
+          "sad": 46.344
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 1625.98,
+        "classification_ms": 0.835,
+        "total_ms": 1635.38
+      }
+    },
+    {
+      "category": "sample_audio",
+      "filename": "happy_sample.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\happy_sample.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\happy_sample.wav",
+        "filename": "happy_sample.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 1484878,
+        "native_format": "WAV",
+        "native_channels": 1,
+        "native_samplerate": 48000,
+        "native_duration": 15.467,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 247467,
+        "duration_seconds": 15.467,
+        "rms": 0.0583,
+        "peak": 0.45508
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "sad",
+      "confidence": 0.9699,
+      "margin": 0.9568,
+      "probabilities": {
+        "angry": 0.0001,
+        "disgust": 0.0132,
+        "fear": 0.0089,
+        "happy": 0.0007,
+        "neutral": 0.0071,
+        "sad": 0.9699
+      },
+      "embedding_metrics": {
+        "norm": 22.9267,
+        "norm_z_score_vs_dev": -1.09
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.11,
+        "mean_standardized_deviation": 0.611,
+        "distance_to_predicted_centroid": 8.249,
+        "centroid_distances": {
+          "angry": 40.446,
+          "disgust": 26.518,
+          "fear": 24.4,
+          "happy": 40.623,
+          "neutral": 38.804,
+          "sad": 8.249
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 2654.83,
+        "classification_ms": 0.879,
+        "total_ms": 2664.62
+      }
+    },
+    {
+      "category": "sample_audio",
+      "filename": "Neutral1.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Neutral1.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Neutral1.wav",
+        "filename": "Neutral1.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 817998,
+        "native_format": "WAV",
+        "native_channels": 1,
+        "native_samplerate": 48000,
+        "native_duration": 8.52,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 136320,
+        "duration_seconds": 8.52,
+        "rms": 0.16034,
+        "peak": 0.86688
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "sad",
+      "confidence": 0.9802,
+      "margin": 0.969,
+      "probabilities": {
+        "angry": 0.0001,
+        "disgust": 0.0112,
+        "fear": 0.0045,
+        "happy": 0.0003,
+        "neutral": 0.0039,
+        "sad": 0.9802
+      },
+      "embedding_metrics": {
+        "norm": 25.0572,
+        "norm_z_score_vs_dev": -0.69
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.612,
+        "mean_standardized_deviation": 0.761,
+        "distance_to_predicted_centroid": 12.859,
+        "centroid_distances": {
+          "angry": 43.083,
+          "disgust": 31.448,
+          "fear": 28.014,
+          "happy": 43.3,
+          "neutral": 44.876,
+          "sad": 12.859
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 1370.0,
+        "classification_ms": 0.881,
+        "total_ms": 1376.07
+      }
+    },
+    {
+      "category": "sample_audio",
+      "filename": "Neutral2.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Neutral2.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Neutral2.wav",
+        "filename": "Neutral2.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 804174,
+        "native_format": "WAV",
+        "native_channels": 1,
+        "native_samplerate": 48000,
+        "native_duration": 8.376,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 134016,
+        "duration_seconds": 8.376,
+        "rms": 0.15265,
+        "peak": 0.83324
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.9938,
+      "margin": 0.9908,
+      "probabilities": {
+        "angry": 0.0007,
+        "disgust": 0.003,
+        "fear": 0.0005,
+        "happy": 0.0003,
+        "neutral": 0.9938,
+        "sad": 0.0018
+      },
+      "embedding_metrics": {
+        "norm": 37.0356,
+        "norm_z_score_vs_dev": 1.55
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 3.132,
+        "mean_standardized_deviation": 1.349,
+        "distance_to_predicted_centroid": 14.16,
+        "centroid_distances": {
+          "angry": 60.048,
+          "disgust": 47.094,
+          "fear": 48.43,
+          "happy": 60.258,
+          "neutral": 14.16,
+          "sad": 49.261
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 1381.24,
+        "classification_ms": 1.175,
+        "total_ms": 1387.49
+      }
+    },
+    {
+      "category": "sample_audio",
+      "filename": "neutral_sample.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\neutral_sample.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\neutral_sample.wav",
+        "filename": "neutral_sample.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 1470542,
+        "native_format": "WAV",
+        "native_channels": 1,
+        "native_samplerate": 48000,
+        "native_duration": 15.317,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 245078,
+        "duration_seconds": 15.317,
+        "rms": 0.05164,
+        "peak": 0.37114
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.9933,
+      "margin": 0.9903,
+      "probabilities": {
+        "angry": 0.0008,
+        "disgust": 0.003,
+        "fear": 0.0005,
+        "happy": 0.0003,
+        "neutral": 0.9933,
+        "sad": 0.002
+      },
+      "embedding_metrics": {
+        "norm": 36.9947,
+        "norm_z_score_vs_dev": 1.54
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 3.075,
+        "mean_standardized_deviation": 1.342,
+        "distance_to_predicted_centroid": 13.795,
+        "centroid_distances": {
+          "angry": 59.823,
+          "disgust": 46.791,
+          "fear": 48.132,
+          "happy": 59.968,
+          "neutral": 13.795,
+          "sad": 48.952
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 2772.01,
+        "classification_ms": 1.966,
+        "total_ms": 2782.82
+      }
+    },
+    {
+      "category": "sample_audio",
+      "filename": "Noisy1.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Noisy1.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Noisy1.wav",
+        "filename": "Noisy1.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 963150,
+        "native_format": "WAV",
+        "native_channels": 1,
+        "native_samplerate": 48000,
+        "native_duration": 10.032,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 160512,
+        "duration_seconds": 10.032,
+        "rms": 0.06058,
+        "peak": 0.97068
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.5401,
+      "margin": 0.1476,
+      "probabilities": {
+        "angry": 0.0016,
+        "disgust": 0.0434,
+        "fear": 0.0126,
+        "happy": 0.0099,
+        "neutral": 0.5401,
+        "sad": 0.3925
+      },
+      "embedding_metrics": {
+        "norm": 30.0485,
+        "norm_z_score_vs_dev": 0.24
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.884,
+        "mean_standardized_deviation": 0.749,
+        "distance_to_predicted_centroid": 27.863,
+        "centroid_distances": {
+          "angry": 44.029,
+          "disgust": 27.476,
+          "fear": 32.548,
+          "happy": 44.493,
+          "neutral": 27.863,
+          "sad": 26.752
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 1750.65,
+        "classification_ms": 0.957,
+        "total_ms": 1761.94
+      }
+    },
+    {
+      "category": "sample_audio",
+      "filename": "Noisy2.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Noisy2.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Noisy2.wav",
+        "filename": "Noisy2.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 917070,
+        "native_format": "WAV",
+        "native_channels": 1,
+        "native_samplerate": 48000,
+        "native_duration": 9.552,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 152832,
+        "duration_seconds": 9.552,
+        "rms": 0.06284,
+        "peak": 0.53495
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.9919,
+      "margin": 0.9886,
+      "probabilities": {
+        "angry": 0.0011,
+        "disgust": 0.0033,
+        "fear": 0.0007,
+        "happy": 0.0004,
+        "neutral": 0.9919,
+        "sad": 0.0026
+      },
+      "embedding_metrics": {
+        "norm": 36.8068,
+        "norm_z_score_vs_dev": 1.51
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 3.003,
+        "mean_standardized_deviation": 1.326,
+        "distance_to_predicted_centroid": 13.158,
+        "centroid_distances": {
+          "angry": 59.269,
+          "disgust": 46.11,
+          "fear": 47.473,
+          "happy": 59.412,
+          "neutral": 13.158,
+          "sad": 48.266
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 1707.24,
+        "classification_ms": 0.886,
+        "total_ms": 1714.13
+      }
+    },
+    {
+      "category": "sample_audio",
+      "filename": "Non_English1.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Non_English1.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Non_English1.wav",
+        "filename": "Non_English1.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 755790,
+        "native_format": "WAV",
+        "native_channels": 1,
+        "native_samplerate": 48000,
+        "native_duration": 7.872,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 125952,
+        "duration_seconds": 7.872,
+        "rms": 0.14781,
+        "peak": 0.8581
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "happy",
+      "confidence": 0.9416,
+      "margin": 0.9144,
+      "probabilities": {
+        "angry": 0.0026,
+        "disgust": 0.0272,
+        "fear": 0.0176,
+        "happy": 0.9416,
+        "neutral": 0.0064,
+        "sad": 0.0046
+      },
+      "embedding_metrics": {
+        "norm": 24.2479,
+        "norm_z_score_vs_dev": -0.84
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.565,
+        "mean_standardized_deviation": 0.747,
+        "distance_to_predicted_centroid": 9.903,
+        "centroid_distances": {
+          "angry": 41.74,
+          "disgust": 32.063,
+          "fear": 28.577,
+          "happy": 9.903,
+          "neutral": 48.042,
+          "sad": 34.313
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 1245.85,
+        "classification_ms": 0.885,
+        "total_ms": 1251.19
+      }
+    },
+    {
+      "category": "sample_audio",
+      "filename": "Non_English2.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Non_English2.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Non_English2.wav",
+        "filename": "Non_English2.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 788046,
+        "native_format": "WAV",
+        "native_channels": 1,
+        "native_samplerate": 48000,
+        "native_duration": 8.208,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 131328,
+        "duration_seconds": 8.208,
+        "rms": 0.11344,
+        "peak": 0.8173
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "sad",
+      "confidence": 0.5306,
+      "margin": 0.078,
+      "probabilities": {
+        "angry": 0.0004,
+        "disgust": 0.0149,
+        "fear": 0.4526,
+        "happy": 0.0007,
+        "neutral": 0.0007,
+        "sad": 0.5306
+      },
+      "embedding_metrics": {
+        "norm": 25.8898,
+        "norm_z_score_vs_dev": -0.54
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 1.947,
+        "mean_standardized_deviation": 0.62,
+        "distance_to_predicted_centroid": 8.994,
+        "centroid_distances": {
+          "angry": 39.838,
+          "disgust": 27.335,
+          "fear": 16.897,
+          "happy": 40.472,
+          "neutral": 42.334,
+          "sad": 8.994
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": true
+      },
+      "latency_ms": {
+        "embedding_ms": 1443.51,
+        "classification_ms": 1.24,
+        "total_ms": 1451.69
+      }
+    },
+    {
+      "category": "sample_audio",
+      "filename": "real_voice.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\real_voice.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\real_voice.wav",
+        "filename": "real_voice.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 1278030,
+        "native_format": "WAV",
+        "native_channels": 1,
+        "native_samplerate": 48000,
+        "native_duration": 13.312,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 212992,
+        "duration_seconds": 13.312,
+        "rms": 0.06466,
+        "peak": 0.61568
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.9438,
+      "margin": 0.9061,
+      "probabilities": {
+        "angry": 0.0019,
+        "disgust": 0.0096,
+        "fear": 0.0055,
+        "happy": 0.0015,
+        "neutral": 0.9438,
+        "sad": 0.0377
+      },
+      "embedding_metrics": {
+        "norm": 29.698,
+        "norm_z_score_vs_dev": 0.18
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.054,
+        "mean_standardized_deviation": 0.893,
+        "distance_to_predicted_centroid": 8.352,
+        "centroid_distances": {
+          "angry": 48.146,
+          "disgust": 32.161,
+          "fear": 34.667,
+          "happy": 48.562,
+          "neutral": 8.352,
+          "sad": 32.853
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 2239.89,
+        "classification_ms": 0.894,
+        "total_ms": 2251.31
+      }
+    },
+    {
+      "category": "sample_audio",
+      "filename": "rising_tone.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\rising_tone.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\rising_tone.wav",
+        "filename": "rising_tone.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 1773646,
+        "native_format": "WAV",
+        "native_channels": 1,
+        "native_samplerate": 48000,
+        "native_duration": 18.475,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 295595,
+        "duration_seconds": 18.475,
+        "rms": 0.07413,
+        "peak": 0.64674
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "neutral",
+      "confidence": 0.629,
+      "margin": 0.4703,
+      "probabilities": {
+        "angry": 0.0153,
+        "disgust": 0.1318,
+        "fear": 0.0599,
+        "happy": 0.0052,
+        "neutral": 0.629,
+        "sad": 0.1587
+      },
+      "embedding_metrics": {
+        "norm": 25.4183,
+        "norm_z_score_vs_dev": -0.63
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.182,
+        "mean_standardized_deviation": 0.666,
+        "distance_to_predicted_centroid": 25.834,
+        "centroid_distances": {
+          "angry": 39.766,
+          "disgust": 25.12,
+          "fear": 28.622,
+          "happy": 43.285,
+          "neutral": 25.834,
+          "sad": 26.292
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 3620.47,
+        "classification_ms": 0.803,
+        "total_ms": 3633.13
+      }
+    },
+    {
+      "category": "sample_audio",
+      "filename": "Sad1.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Sad1.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Sad1.wav",
+        "filename": "Sad1.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 847950,
+        "native_format": "WAV",
+        "native_channels": 1,
+        "native_samplerate": 48000,
+        "native_duration": 8.832,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 141312,
+        "duration_seconds": 8.832,
+        "rms": 0.14389,
+        "peak": 0.83397
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "sad",
+      "confidence": 0.9215,
+      "margin": 0.8711,
+      "probabilities": {
+        "angry": 0.0001,
+        "disgust": 0.0505,
+        "fear": 0.0154,
+        "happy": 0.001,
+        "neutral": 0.0114,
+        "sad": 0.9215
+      },
+      "embedding_metrics": {
+        "norm": 23.0526,
+        "norm_z_score_vs_dev": -1.07
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 2.123,
+        "mean_standardized_deviation": 0.589,
+        "distance_to_predicted_centroid": 9.8,
+        "centroid_distances": {
+          "angry": 40.451,
+          "disgust": 24.989,
+          "fear": 24.219,
+          "happy": 40.459,
+          "neutral": 38.155,
+          "sad": 9.8
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 1379.02,
+        "classification_ms": 1.102,
+        "total_ms": 1385.18
+      }
+    },
+    {
+      "category": "sample_audio",
+      "filename": "Sad2.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Sad2.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Sad2.wav",
+        "filename": "Sad2.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 834126,
+        "native_format": "WAV",
+        "native_channels": 1,
+        "native_samplerate": 48000,
+        "native_duration": 8.688,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 139008,
+        "duration_seconds": 8.688,
+        "rms": 0.09829,
+        "peak": 0.81996
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "sad",
+      "confidence": 0.7707,
+      "margin": 0.565,
+      "probabilities": {
+        "angry": 0.0004,
+        "disgust": 0.2057,
+        "fear": 0.0183,
+        "happy": 0.0008,
+        "neutral": 0.0041,
+        "sad": 0.7707
+      },
+      "embedding_metrics": {
+        "norm": 22.3793,
+        "norm_z_score_vs_dev": -1.2
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 1.791,
+        "mean_standardized_deviation": 0.538,
+        "distance_to_predicted_centroid": 7.524,
+        "centroid_distances": {
+          "angry": 39.142,
+          "disgust": 21.39,
+          "fear": 22.391,
+          "happy": 39.646,
+          "neutral": 38.32,
+          "sad": 7.524
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 1353.85,
+        "classification_ms": 0.853,
+        "total_ms": 1359.36
+      }
+    },
+    {
+      "category": "sample_audio",
+      "filename": "Sad3.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Sad3.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\Sad3.wav",
+        "filename": "Sad3.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 656718,
+        "native_format": "WAV",
+        "native_channels": 1,
+        "native_samplerate": 48000,
+        "native_duration": 6.84,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 109440,
+        "duration_seconds": 6.84,
+        "rms": 0.13785,
+        "peak": 0.86188
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "sad",
+      "confidence": 0.9677,
+      "margin": 0.9499,
+      "probabilities": {
+        "angry": 0.0,
+        "disgust": 0.0139,
+        "fear": 0.0177,
+        "happy": 0.0001,
+        "neutral": 0.0006,
+        "sad": 0.9677
+      },
+      "embedding_metrics": {
+        "norm": 32.4145,
+        "norm_z_score_vs_dev": 0.69
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 3.336,
+        "mean_standardized_deviation": 1.035,
+        "distance_to_predicted_centroid": 18.621,
+        "centroid_distances": {
+          "angry": 51.208,
+          "disgust": 39.104,
+          "fear": 34.111,
+          "happy": 50.311,
+          "neutral": 51.285,
+          "sad": 18.621
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 1013.76,
+        "classification_ms": 0.803,
+        "total_ms": 1018.5
+      }
+    },
+    {
+      "category": "sample_audio",
+      "filename": "sad_sample.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\sad_sample.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\sad_sample.wav",
+        "filename": "sad_sample.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 1962062,
+        "native_format": "WAV",
+        "native_channels": 1,
+        "native_samplerate": 48000,
+        "native_duration": 20.437,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 326998,
+        "duration_seconds": 20.437,
+        "rms": 0.04417,
+        "peak": 0.36935
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "sad",
+      "confidence": 0.9754,
+      "margin": 0.9545,
+      "probabilities": {
+        "angry": 0.0,
+        "disgust": 0.0209,
+        "fear": 0.0022,
+        "happy": 0.0001,
+        "neutral": 0.0014,
+        "sad": 0.9754
+      },
+      "embedding_metrics": {
+        "norm": 28.601,
+        "norm_z_score_vs_dev": -0.03
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 3.364,
+        "mean_standardized_deviation": 0.921,
+        "distance_to_predicted_centroid": 16.417,
+        "centroid_distances": {
+          "angry": 47.003,
+          "disgust": 36.128,
+          "fear": 33.054,
+          "happy": 47.766,
+          "neutral": 49.433,
+          "sad": 16.417
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 3731.54,
+        "classification_ms": 1.447,
+        "total_ms": 3745.84
+      }
+    },
+    {
+      "category": "sample_audio",
+      "filename": "sample_16k.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\sample_16k.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\sample_16k.wav",
+        "filename": "sample_16k.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 96044,
+        "native_format": "WAV",
+        "native_channels": 1,
+        "native_samplerate": 16000,
+        "native_duration": 3.0,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 48000,
+        "duration_seconds": 3.0,
+        "rms": 0.39087,
+        "peak": 0.64951
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "happy",
+      "confidence": 0.4327,
+      "margin": 0.1707,
+      "probabilities": {
+        "angry": 0.0013,
+        "disgust": 0.0424,
+        "fear": 0.2549,
+        "happy": 0.4327,
+        "neutral": 0.0066,
+        "sad": 0.262
+      },
+      "embedding_metrics": {
+        "norm": 25.8152,
+        "norm_z_score_vs_dev": -0.55
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 3.827,
+        "mean_standardized_deviation": 0.746,
+        "distance_to_predicted_centroid": 33.036,
+        "centroid_distances": {
+          "angry": 40.573,
+          "disgust": 35.861,
+          "fear": 24.767,
+          "happy": 33.036,
+          "neutral": 50.559,
+          "sad": 30.615
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 458.88,
+        "classification_ms": 0.83,
+        "total_ms": 460.87
+      }
+    },
+    {
+      "category": "sample_audio",
+      "filename": "test_corrupted.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\test_corrupted.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\test_corrupted.wav",
+        "filename": "test_corrupted.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 12,
+        "native_format": null,
+        "native_channels": null,
+        "native_samplerate": null,
+        "native_duration": null,
+        "loadable": false,
+        "error": "Decoding failed: LibsndfileError: Error opening 'D:\\\\speech-emotion-recognition\\\\external_datasets\\\\audio_for_friend\\\\sample_audio\\\\test_corrupted.wav': Format not recognised.",
+        "sf_error": "Error opening 'D:\\\\speech-emotion-recognition\\\\external_datasets\\\\audio_for_friend\\\\sample_audio\\\\test_corrupted.wav': Format not recognised."
+      },
+      "extraction_status": "FAILED",
+      "prediction": null,
+      "confidence": null,
+      "margin": null,
+      "probabilities": null,
+      "embedding_metrics": null,
+      "ood_metrics": null,
+      "latency_ms": null
+    },
+    {
+      "category": "sample_audio",
+      "filename": "test_empty.wav",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\test_empty.wav",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\test_empty.wav",
+        "filename": "test_empty.wav",
+        "extension": ".wav",
+        "exists": true,
+        "size_bytes": 0,
+        "native_format": null,
+        "native_channels": null,
+        "native_samplerate": null,
+        "native_duration": null,
+        "loadable": false,
+        "error": "Empty file (0 bytes)"
+      },
+      "extraction_status": "FAILED",
+      "prediction": null,
+      "confidence": null,
+      "margin": null,
+      "probabilities": null,
+      "embedding_metrics": null,
+      "ood_metrics": null,
+      "latency_ms": null
+    },
+    {
+      "category": "sample_audio",
+      "filename": "test_unsupported.xyz",
+      "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\test_unsupported.xyz",
+      "file_info": {
+        "path": "D:\\speech-emotion-recognition\\external_datasets\\audio_for_friend\\sample_audio\\test_unsupported.xyz",
+        "filename": "test_unsupported.xyz",
+        "extension": ".xyz",
+        "exists": true,
+        "size_bytes": 35,
+        "native_format": null,
+        "native_channels": null,
+        "native_samplerate": null,
+        "native_duration": null,
+        "loadable": false,
+        "error": "Decoding failed: LibsndfileError: Error opening 'D:\\\\speech-emotion-recognition\\\\external_datasets\\\\audio_for_friend\\\\sample_audio\\\\test_unsupported.xyz': Format not recognised.",
+        "sf_error": "Error opening 'D:\\\\speech-emotion-recognition\\\\external_datasets\\\\audio_for_friend\\\\sample_audio\\\\test_unsupported.xyz': Format not recognised."
+      },
+      "extraction_status": "FAILED",
+      "prediction": null,
+      "confidence": null,
+      "margin": null,
+      "probabilities": null,
+      "embedding_metrics": null,
+      "ood_metrics": null,
+      "latency_ms": null
+    },
+    {
+      "category": "user_downloads",
+      "filename": "Sad2.mp3.mpeg",
+      "path": "C:\\Users\\JAI-SREE-RAM\\Downloads\\Sad2.mp3.mpeg",
+      "file_info": {
+        "path": "C:\\Users\\JAI-SREE-RAM\\Downloads\\Sad2.mp3.mpeg",
+        "filename": "Sad2.mp3.mpeg",
+        "extension": ".mpeg",
+        "exists": true,
+        "size_bytes": 69375,
+        "native_format": "MP3",
+        "native_channels": 1,
+        "native_samplerate": 48000,
+        "native_duration": 8.672,
+        "loadable": true,
+        "error": null,
+        "resampled_samplerate": 16000,
+        "sample_count": 138624,
+        "duration_seconds": 8.664,
+        "rms": 0.09843,
+        "peak": 0.81997
+      },
+      "extraction_status": "SUCCESS",
+      "prediction": "sad",
+      "confidence": 0.7723,
+      "margin": 0.5673,
+      "probabilities": {
+        "angry": 0.0004,
+        "disgust": 0.205,
+        "fear": 0.0179,
+        "happy": 0.0007,
+        "neutral": 0.0037,
+        "sad": 0.7723
+      },
+      "embedding_metrics": {
+        "norm": 22.5158,
+        "norm_z_score_vs_dev": -1.17
+      },
+      "ood_metrics": {
+        "max_standardized_deviation": 1.823,
+        "mean_standardized_deviation": 0.546,
+        "distance_to_predicted_centroid": 7.27,
+        "centroid_distances": {
+          "angry": 39.293,
+          "disgust": 21.667,
+          "fear": 22.481,
+          "happy": 39.792,
+          "neutral": 38.686,
+          "sad": 7.27
+        },
+        "is_ood_dev_max": false,
+        "is_ood_dev_99_5": false,
+        "is_low_confidence": false,
+        "is_ambiguous": false
+      },
+      "latency_ms": {
+        "embedding_ms": 1318.0,
+        "classification_ms": 1.227,
+        "total_ms": 1329.14
+      }
+    }
+  ]
+}

@@ -1,32 +1,57 @@
 # Python virtual environments & bytecode
 backend/.venv/
 .venv/
+.venv*/
+**/.venv*/
+**/venv*/
+**/env*/
 __pycache__/
 */__pycache__/
 */*/__pycache__/
 */*/*/__pycache__/
+**/__pycache__/
 .pytest_cache/
 backend/.pytest_cache/
+**/.pytest_cache/
 *.pyc
+*.pyo
+*.pyd
+**/.cache/
+**/cache_partials/
 
 # Node & Frontend builds
 node_modules/
 frontend/node_modules/
+**/node_modules/
 frontend/dist/
 dist/
+**/dist/
 
 # Local Environment Variables & Secrets
 .env
 .env.local
+.env.*
+!.env.example
 frontend/.env
 frontend/.env.local
 *.env
+*.pem
+*.key
+*.cert
+
+# Local SQLite databases & runtime storage
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
 
 # Large archives and backup bundles
 *.zip
 *.tar.gz
 *.rar
 *.7z
+*.bak
 
 # Audio Dataset files & raw data
 data/AudioWAV/*.wav
@@ -36,3 +61,12 @@ data/AudioWAV/*.part
 *.log
 outputs/*.json
 outputs/*.npz
+outputs/saved_audio/*.wav
+outputs/saved_audio/*
+!outputs/saved_audio/.gitkeep
+
+# Operating system & Editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

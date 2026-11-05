@@ -86,6 +86,22 @@ def init_db():
         CREATE INDEX IF NOT EXISTS idx_analyses_created_at ON saved_analyses(created_at);
         """)
 
+    # Safe migrations for conversation and speaker diarization fields
+    cursor = conn.cursor()
+    cursor.execute("PRAGMA table_info(saved_analyses)")
+    existing_cols = {col[1] for col in cursor.fetchall()}
+    for col_name, col_type in [
+        ("speakers_json", "TEXT"),
+        ("conversation_timeline_json", "TEXT"),
+        ("emotion_tracks_json", "TEXT"),
+        ("emotion_journey_json", "TEXT"),
+        ("voice_analysis_json", "TEXT"),
+        ("audio_file_path", "TEXT"),
+    ]:
+        if col_name not in existing_cols:
+            cursor.execute(f"ALTER TABLE saved_analyses ADD COLUMN {col_name} {col_type};")
+    conn.commit()
+
 
 def hash_password(password: str) -> str:
     """Hash password using PBKDF2-HMAC-SHA256 with 200,000 iterations and a random 16-byte salt."""
@@ -298,9 +314,16 @@ def save_analysis(
     model_name: Optional[str] = None,
     model_id: Optional[str] = None,
     feature_version: Optional[int] = None,
+    speakers: Optional[List[Dict[str, Any]]] = None,
+    conversation_timeline: Optional[List[Dict[str, Any]]] = None,
+    emotion_tracks: Optional[Dict[str, Any]] = None,
+    emotion_journey: Optional[List[Dict[str, Any]]] = None,
+    voice_analysis: Optional[Dict[str, Any]] = None,
+    audio_file_path: Optional[str] = None,
+    analysis_id: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Persist a completed audio analysis for an authenticated user."""
-    analysis_id = secrets.token_hex(16)
+    analysis_id = analysis_id or secrets.token_hex(16)
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     conn = get_db()
     with conn:
@@ -309,8 +332,10 @@ def save_analysis(
                 id, user_id, created_at, original_filename, predicted_emotion,
                 confidence, margin, scores_json, transcript, transcript_segments_json,
                 consistency_status, consistency_explanation, notes_json,
-                analyzed_seconds, is_uncertain, model_name, model_id, feature_version
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                analyzed_seconds, is_uncertain, model_name, model_id, feature_version,
+                speakers_json, conversation_timeline_json, emotion_tracks_json,
+                emotion_journey_json, voice_analysis_json, audio_file_path
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (
                 analysis_id,
                 user_id,
@@ -330,6 +355,12 @@ def save_analysis(
                 model_name,
                 model_id,
                 feature_version or C.FEATURE_VERSION,
+                json.dumps(speakers or []),
+                json.dumps(conversation_timeline or []),
+                json.dumps(emotion_tracks or {}),
+                json.dumps(emotion_journey or []),
+                json.dumps(voice_analysis or {}),
+                audio_file_path,
             ),
         )
     return get_saved_analysis(analysis_id, user_id)
@@ -342,7 +373,9 @@ def list_saved_analyses(user_id: str) -> List[Dict[str, Any]]:
         """SELECT id, created_at, original_filename, predicted_emotion, confidence,
                   margin, scores_json, transcript, transcript_segments_json,
                   consistency_status, consistency_explanation, notes_json,
-                  analyzed_seconds, is_uncertain, model_name, model_id, feature_version
+                  analyzed_seconds, is_uncertain, model_name, model_id, feature_version,
+                  speakers_json, conversation_timeline_json, emotion_tracks_json,
+                  emotion_journey_json, voice_analysis_json, audio_file_path
            FROM saved_analyses WHERE user_id = ? ORDER BY created_at DESC""",
         (user_id,),
     ).fetchall()
@@ -365,6 +398,12 @@ def list_saved_analyses(user_id: str) -> List[Dict[str, Any]]:
             "model_name": r["model_name"],
             "model_id": r["model_id"],
             "feature_version": r["feature_version"],
+            "speakers": json.loads(r["speakers_json"]) if r["speakers_json"] else [],
+            "conversation_timeline": json.loads(r["conversation_timeline_json"]) if r["conversation_timeline_json"] else [],
+            "emotion_tracks": json.loads(r["emotion_tracks_json"]) if r["emotion_tracks_json"] else {},
+            "emotion_journey": json.loads(r["emotion_journey_json"]) if r["emotion_journey_json"] else [],
+            "voice_analysis": json.loads(r["voice_analysis_json"]) if r["voice_analysis_json"] else {},
+            "audio_file_path": r["audio_file_path"],
         }
         for r in rows
     ]
@@ -387,7 +426,7 @@ def get_saved_analysis(analysis_id: str, user_id: str) -> Optional[Dict[str, Any
         "predicted_emotion": r["predicted_emotion"],
         "confidence": r["confidence"],
         "margin": r["margin"],
-        "scores": json.loads(r["scores_json"]),
+        "scores": json.loads(r["scores_json"]) if r["scores_json"] else {},
         "transcript": r["transcript"],
         "transcript_segments": json.loads(r["transcript_segments_json"] or "[]"),
         "consistency_status": r["consistency_status"],
@@ -398,7 +437,48 @@ def get_saved_analysis(analysis_id: str, user_id: str) -> Optional[Dict[str, Any
         "model_name": r["model_name"],
         "model_id": r["model_id"],
         "feature_version": r["feature_version"],
+        "speakers": json.loads(r["speakers_json"]) if r["speakers_json"] else [],
+        "conversation_timeline": json.loads(r["conversation_timeline_json"]) if r["conversation_timeline_json"] else [],
+        "emotion_tracks": json.loads(r["emotion_tracks_json"]) if r["emotion_tracks_json"] else {},
+        "emotion_journey": json.loads(r["emotion_journey_json"]) if r["emotion_journey_json"] else [],
+        "voice_analysis": json.loads(r["voice_analysis_json"]) if r["voice_analysis_json"] else {},
+        "audio_file_path": r["audio_file_path"],
     }
+
+
+def update_saved_analysis_speaker_name(analysis_id: str, user_id: str, speaker_id: str, new_name: str) -> Optional[Dict[str, Any]]:
+    """Rename a speaker in an existing saved analysis and persist changes."""
+    new_name = new_name.strip()
+    if not new_name:
+        raise ValueError("Speaker name cannot be empty.")
+    
+    conn = get_db()
+    row = conn.execute(
+        "SELECT speakers_json, conversation_timeline_json FROM saved_analyses WHERE id = ? AND user_id = ?",
+        (analysis_id, user_id),
+    ).fetchone()
+    if not row:
+        return None
+    
+    speakers = json.loads(row["speakers_json"] or "[]")
+    timeline = json.loads(row["conversation_timeline_json"] or "[]")
+
+    for spk in speakers:
+        if spk.get("speaker_id") == speaker_id:
+            spk["name"] = new_name
+            spk["label"] = new_name
+
+    for turn in timeline:
+        if turn.get("speaker_id") == speaker_id:
+            turn["speaker_name"] = new_name
+
+    with conn:
+        conn.execute(
+            "UPDATE saved_analyses SET speakers_json = ?, conversation_timeline_json = ? WHERE id = ? AND user_id = ?",
+            (json.dumps(speakers), json.dumps(timeline), analysis_id, user_id),
+        )
+
+    return get_saved_analysis(analysis_id, user_id)
 
 
 def delete_saved_analysis(analysis_id: str, user_id: str) -> bool:

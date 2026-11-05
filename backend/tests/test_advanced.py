@@ -140,6 +140,7 @@ def test_timeline_handles_failures_short_windows_and_bad_settings(tclient, monke
     # invalid settings and too many segments
     assert post(tclient, "/api/timeline", wav_bytes(y), window_s="9", hop_s="1").json()["detail"]["code"] == "bad_parameters"
     assert post(tclient, "/api/timeline", wav_bytes(y), window_s="2", hop_s="3").json()["detail"]["code"] == "bad_parameters"
+    monkeypatch.setattr(C, "TIMELINE_MAX_SEGMENTS", 60)
     r = post(tclient, "/api/timeline", wav_bytes(tone(seconds=40)), window_s="2", hop_s="0.5")
     assert r.status_code == 422 and r.json()["detail"]["code"] == "too_many_segments"
     assert post(tclient, "/api/timeline", b"garbage" * 300).status_code == 422

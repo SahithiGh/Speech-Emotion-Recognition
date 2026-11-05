@@ -1,0 +1,11 @@
+Your selected colors:
+
+    Text: #160709 - rgb(22, 7, 9) - hsl(352, 52%, 6%)
+    Background: #fffefa - rgb(255, 254, 250) - hsl(48, 100%, 99%)
+    Primary: #c4536e - rgb(196, 83, 110) - hsl(346, 49%, 55%)
+    Secondary: #4e5d9f - rgb(78, 93, 159) - hsl(229, 34%, 46%)
+    Accent: #3f6a28 - rgb(63, 106, 40) - hsl(99, 45%, 29%)
+
+Realtime Colors link for selected colors: https://www.realtimecolors.com/dashboard?colors=160709-fffefa-c4536e-4e5d9f-3f6a28&fonts=Inter-Inter
+
+Thanks for using RealtimeColors.com!

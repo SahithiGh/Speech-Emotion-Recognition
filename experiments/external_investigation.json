@@ -1,0 +1,613 @@
+{
+  "crema_training_reference": {
+    "n_clips": 6294,
+    "pitch_norm": {
+      "mean_hz": 185.8,
+      "std_hz": 61.0,
+      "range_hz": 180.2,
+      "speech_ratio": 0.81
+    }
+  },
+  "target_file_investigations": [
+    {
+      "file": "Neutral2.wav",
+      "acoustics": {
+        "duration_seconds": 6.0,
+        "rms_energy": 0.1789,
+        "peak_amplitude": 0.9,
+        "crest_factor": 5.03,
+        "pitch_mean_hz": 182.6,
+        "pitch_std_hz": 32.5,
+        "pitch_range_hz": 112.1,
+        "speech_ratio": 0.81,
+        "spectral_centroid_hz": 1479.2,
+        "spectral_flatness": 0.0211,
+        "spectral_rolloff_hz": 2946.6
+      },
+      "prediction": {
+        "predicted": "fear",
+        "confidence": 0.4388,
+        "probabilities": {
+          "angry": 0.2922,
+          "disgust": 0.0291,
+          "fear": 0.4388,
+          "happy": 0.1965,
+          "neutral": 0.0096,
+          "sad": 0.0338
+        },
+        "decision_function_norm": 7.748
+      },
+      "distance_to_training_class_centroids": {
+        "angry": 32.68,
+        "disgust": 37.77,
+        "fear": 37.29,
+        "happy": 34.69,
+        "neutral": 37.64,
+        "sad": 41.68
+      },
+      "closest_training_class": "angry",
+      "top_outlier_features": [
+        {
+          "col": 200,
+          "group": "Mel spectrum (col 200)",
+          "z_score": 14.29,
+          "raw_val": 16.685,
+          "scaler_mean": 2.497,
+          "scaler_std": 0.993
+        },
+        {
+          "col": 201,
+          "group": "Mel spectrum (col 201)",
+          "z_score": 10.75,
+          "raw_val": 23.886,
+          "scaler_mean": 4.431,
+          "scaler_std": 1.811
+        },
+        {
+          "col": 202,
+          "group": "Mel spectrum (col 202)",
+          "z_score": 10.08,
+          "raw_val": 24.071,
+          "scaler_mean": 5.459,
+          "scaler_std": 1.846
+        },
+        {
+          "col": 204,
+          "group": "Mel spectrum (col 204)",
+          "z_score": 6.01,
+          "raw_val": 24.62,
+          "scaler_mean": 9.346,
+          "scaler_std": 2.543
+        },
+        {
+          "col": 203,
+          "group": "Mel spectrum (col 203)",
+          "z_score": 5.37,
+          "raw_val": 20.583,
+          "scaler_mean": 7.294,
+          "scaler_std": 2.474
+        },
+        {
+          "col": 264,
+          "group": "Spectral contrast (col 264)",
+          "z_score": 5.28,
+          "raw_val": 27.346,
+          "scaler_mean": 15.627,
+          "scaler_std": 2.219
+        },
+        {
+          "col": 33,
+          "group": "Voice timbre (MFCC) (col 33)",
+          "z_score": 5.14,
+          "raw_val": 16.518,
+          "scaler_mean": 2.247,
+          "scaler_std": 2.778
+        },
+        {
+          "col": 74,
+          "group": "Voice timbre (MFCC) (col 74)",
+          "z_score": 4.96,
+          "raw_val": 16.2,
+          "scaler_mean": 5.595,
+          "scaler_std": 2.137
+        },
+        {
+          "col": 34,
+          "group": "Voice timbre (MFCC) (col 34)",
+          "z_score": 4.91,
+          "raw_val": 12.323,
+          "scaler_mean": -0.669,
+          "scaler_std": 2.649
+        },
+        {
+          "col": 155,
+          "group": "Timbre change (delta MFCC) (col 155)",
+          "z_score": 4.81,
+          "raw_val": 3.219,
+          "scaler_mean": 1.047,
+          "scaler_std": 0.452
+        }
+      ]
+    },
+    {
+      "file": "Sad1.wav",
+      "acoustics": {
+        "duration_seconds": 6.0,
+        "rms_energy": 0.1697,
+        "peak_amplitude": 0.9,
+        "crest_factor": 5.3,
+        "pitch_mean_hz": 211.8,
+        "pitch_std_hz": 36.1,
+        "pitch_range_hz": 142.7,
+        "speech_ratio": 0.81,
+        "spectral_centroid_hz": 1579.5,
+        "spectral_flatness": 0.0179,
+        "spectral_rolloff_hz": 2905.0
+      },
+      "prediction": {
+        "predicted": "fear",
+        "confidence": 0.4307,
+        "probabilities": {
+          "angry": 0.3341,
+          "disgust": 0.0262,
+          "fear": 0.4307,
+          "happy": 0.1742,
+          "neutral": 0.0071,
+          "sad": 0.0277
+        },
+        "decision_function_norm": 7.75
+      },
+      "distance_to_training_class_centroids": {
+        "angry": 26.33,
+        "disgust": 32.44,
+        "fear": 31.44,
+        "happy": 28.94,
+        "neutral": 32.4,
+        "sad": 36.36
+      },
+      "closest_training_class": "angry",
+      "top_outlier_features": [
+        {
+          "col": 200,
+          "group": "Mel spectrum (col 200)",
+          "z_score": 12.27,
+          "raw_val": 14.676,
+          "scaler_mean": 2.497,
+          "scaler_std": 0.993
+        },
+        {
+          "col": 202,
+          "group": "Mel spectrum (col 202)",
+          "z_score": 9.02,
+          "raw_val": 22.111,
+          "scaler_mean": 5.459,
+          "scaler_std": 1.846
+        },
+        {
+          "col": 201,
+          "group": "Mel spectrum (col 201)",
+          "z_score": 7.64,
+          "raw_val": 18.255,
+          "scaler_mean": 4.431,
+          "scaler_std": 1.811
+        },
+        {
+          "col": 272,
+          "group": "Spectral contrast (col 272)",
+          "z_score": 4.96,
+          "raw_val": 7.393,
+          "scaler_mean": 3.962,
+          "scaler_std": 0.692
+        },
+        {
+          "col": 46,
+          "group": "Voice timbre (MFCC) (col 46)",
+          "z_score": 4.42,
+          "raw_val": 23.316,
+          "scaler_mean": 10.975,
+          "scaler_std": 2.79
+        },
+        {
+          "col": 203,
+          "group": "Mel spectrum (col 203)",
+          "z_score": 4.37,
+          "raw_val": 18.114,
+          "scaler_mean": 7.294,
+          "scaler_std": 2.474
+        },
+        {
+          "col": 205,
+          "group": "Mel spectrum (col 205)",
+          "z_score": 4.23,
+          "raw_val": 20.803,
+          "scaler_mean": 10.208,
+          "scaler_std": 2.505
+        },
+        {
+          "col": 48,
+          "group": "Voice timbre (MFCC) (col 48)",
+          "z_score": 3.88,
+          "raw_val": 17.281,
+          "scaler_mean": 8.474,
+          "scaler_std": 2.27
+        },
+        {
+          "col": 10,
+          "group": "Voice timbre (MFCC) (col 10)",
+          "z_score": -3.72,
+          "raw_val": -18.963,
+          "scaler_mean": -3.876,
+          "scaler_std": 4.058
+        },
+        {
+          "col": 204,
+          "group": "Mel spectrum (col 204)",
+          "z_score": 3.58,
+          "raw_val": 18.455,
+          "scaler_mean": 9.346,
+          "scaler_std": 2.543
+        }
+      ]
+    },
+    {
+      "file": "Sad2.wav",
+      "acoustics": {
+        "duration_seconds": 6.0,
+        "rms_energy": 0.1103,
+        "peak_amplitude": 0.9,
+        "crest_factor": 8.16,
+        "pitch_mean_hz": 185.6,
+        "pitch_std_hz": 71.1,
+        "pitch_range_hz": 201.1,
+        "speech_ratio": 0.65,
+        "spectral_centroid_hz": 1405.2,
+        "spectral_flatness": 0.018,
+        "spectral_rolloff_hz": 2911.4
+      },
+      "prediction": {
+        "predicted": "fear",
+        "confidence": 0.4318,
+        "probabilities": {
+          "angry": 0.1864,
+          "disgust": 0.0311,
+          "fear": 0.4318,
+          "happy": 0.3244,
+          "neutral": 0.0104,
+          "sad": 0.0159
+        },
+        "decision_function_norm": 7.755
+      },
+      "distance_to_training_class_centroids": {
+        "angry": 26.32,
+        "disgust": 29.78,
+        "fear": 29.65,
+        "happy": 26.21,
+        "neutral": 29.84,
+        "sad": 34.66
+      },
+      "closest_training_class": "happy",
+      "top_outlier_features": [
+        {
+          "col": 200,
+          "group": "Mel spectrum (col 200)",
+          "z_score": 12.36,
+          "raw_val": 14.767,
+          "scaler_mean": 2.497,
+          "scaler_std": 0.993
+        },
+        {
+          "col": 202,
+          "group": "Mel spectrum (col 202)",
+          "z_score": 8.18,
+          "raw_val": 20.559,
+          "scaler_mean": 5.459,
+          "scaler_std": 1.846
+        },
+        {
+          "col": 201,
+          "group": "Mel spectrum (col 201)",
+          "z_score": 6.83,
+          "raw_val": 16.796,
+          "scaler_mean": 4.431,
+          "scaler_std": 1.811
+        },
+        {
+          "col": 203,
+          "group": "Mel spectrum (col 203)",
+          "z_score": 4.8,
+          "raw_val": 19.161,
+          "scaler_mean": 7.294,
+          "scaler_std": 2.474
+        },
+        {
+          "col": 205,
+          "group": "Mel spectrum (col 205)",
+          "z_score": 4.47,
+          "raw_val": 21.408,
+          "scaler_mean": 10.208,
+          "scaler_std": 2.505
+        },
+        {
+          "col": 204,
+          "group": "Mel spectrum (col 204)",
+          "z_score": 4.06,
+          "raw_val": 19.68,
+          "scaler_mean": 9.346,
+          "scaler_std": 2.543
+        },
+        {
+          "col": 206,
+          "group": "Mel spectrum (col 206)",
+          "z_score": 3.91,
+          "raw_val": 21.942,
+          "scaler_mean": 11.399,
+          "scaler_std": 2.699
+        },
+        {
+          "col": 48,
+          "group": "Voice timbre (MFCC) (col 48)",
+          "z_score": 3.36,
+          "raw_val": 16.102,
+          "scaler_mean": 8.474,
+          "scaler_std": 2.27
+        },
+        {
+          "col": 46,
+          "group": "Voice timbre (MFCC) (col 46)",
+          "z_score": 3.34,
+          "raw_val": 20.28,
+          "scaler_mean": 10.975,
+          "scaler_std": 2.79
+        },
+        {
+          "col": 207,
+          "group": "Mel spectrum (col 207)",
+          "z_score": 3.23,
+          "raw_val": 20.754,
+          "scaler_mean": 11.742,
+          "scaler_std": 2.786
+        }
+      ]
+    },
+    {
+      "file": "angry_sample.wav",
+      "acoustics": {
+        "duration_seconds": 6.0,
+        "rms_energy": 0.1279,
+        "peak_amplitude": 0.9,
+        "crest_factor": 7.04,
+        "pitch_mean_hz": 132.2,
+        "pitch_std_hz": 35.6,
+        "pitch_range_hz": 62.0,
+        "speech_ratio": 0.75,
+        "spectral_centroid_hz": 1627.2,
+        "spectral_flatness": 0.0157,
+        "spectral_rolloff_hz": 2733.8
+      },
+      "prediction": {
+        "predicted": "fear",
+        "confidence": 0.56,
+        "probabilities": {
+          "angry": 0.2151,
+          "disgust": 0.0379,
+          "fear": 0.56,
+          "happy": 0.1376,
+          "neutral": 0.0138,
+          "sad": 0.0355
+        },
+        "decision_function_norm": 7.728
+      },
+      "distance_to_training_class_centroids": {
+        "angry": 28.19,
+        "disgust": 30.13,
+        "fear": 30.32,
+        "happy": 27.81,
+        "neutral": 30.0,
+        "sad": 34.19
+      },
+      "closest_training_class": "happy",
+      "top_outlier_features": [
+        {
+          "col": 200,
+          "group": "Mel spectrum (col 200)",
+          "z_score": 13.2,
+          "raw_val": 15.603,
+          "scaler_mean": 2.497,
+          "scaler_std": 0.993
+        },
+        {
+          "col": 201,
+          "group": "Mel spectrum (col 201)",
+          "z_score": 7.54,
+          "raw_val": 18.085,
+          "scaler_mean": 4.431,
+          "scaler_std": 1.811
+        },
+        {
+          "col": 202,
+          "group": "Mel spectrum (col 202)",
+          "z_score": 5.73,
+          "raw_val": 16.044,
+          "scaler_mean": 5.459,
+          "scaler_std": 1.846
+        },
+        {
+          "col": 264,
+          "group": "Spectral contrast (col 264)",
+          "z_score": 5.66,
+          "raw_val": 28.186,
+          "scaler_mean": 15.627,
+          "scaler_std": 2.219
+        },
+        {
+          "col": 41,
+          "group": "Voice timbre (MFCC) (col 41)",
+          "z_score": 4.59,
+          "raw_val": 66.967,
+          "scaler_mean": 27.459,
+          "scaler_std": 8.6
+        },
+        {
+          "col": 121,
+          "group": "Timbre change (delta MFCC) (col 121)",
+          "z_score": 4.36,
+          "raw_val": 14.038,
+          "scaler_mean": 5.421,
+          "scaler_std": 1.976
+        },
+        {
+          "col": 203,
+          "group": "Mel spectrum (col 203)",
+          "z_score": 3.62,
+          "raw_val": 16.263,
+          "scaler_mean": 7.294,
+          "scaler_std": 2.474
+        },
+        {
+          "col": 285,
+          "group": "Spectral shape (col 285)",
+          "z_score": 3.6,
+          "raw_val": 619.934,
+          "scaler_mean": 340.779,
+          "scaler_std": 77.598
+        },
+        {
+          "col": 271,
+          "group": "Spectral contrast (col 271)",
+          "z_score": 3.53,
+          "raw_val": 7.555,
+          "scaler_mean": 4.679,
+          "scaler_std": 0.815
+        },
+        {
+          "col": 286,
+          "group": "Spectral shape (col 286)",
+          "z_score": 3.37,
+          "raw_val": 2408.791,
+          "scaler_mean": 1261.871,
+          "scaler_std": 340.191
+        }
+      ]
+    },
+    {
+      "file": "Happy2.wav",
+      "acoustics": {
+        "duration_seconds": 6.0,
+        "rms_energy": 0.1709,
+        "peak_amplitude": 0.9,
+        "crest_factor": 5.27,
+        "pitch_mean_hz": 216.2,
+        "pitch_std_hz": 55.9,
+        "pitch_range_hz": 186.6,
+        "speech_ratio": 0.73,
+        "spectral_centroid_hz": 1771.0,
+        "spectral_flatness": 0.0209,
+        "spectral_rolloff_hz": 3582.1
+      },
+      "prediction": {
+        "predicted": "fear",
+        "confidence": 0.4756,
+        "probabilities": {
+          "angry": 0.3065,
+          "disgust": 0.02,
+          "fear": 0.4756,
+          "happy": 0.1665,
+          "neutral": 0.0081,
+          "sad": 0.0233
+        },
+        "decision_function_norm": 7.755
+      },
+      "distance_to_training_class_centroids": {
+        "angry": 26.66,
+        "disgust": 32.78,
+        "fear": 31.96,
+        "happy": 29.02,
+        "neutral": 32.97,
+        "sad": 37.27
+      },
+      "closest_training_class": "angry",
+      "top_outlier_features": [
+        {
+          "col": 200,
+          "group": "Mel spectrum (col 200)",
+          "z_score": 14.2,
+          "raw_val": 16.597,
+          "scaler_mean": 2.497,
+          "scaler_std": 0.993
+        },
+        {
+          "col": 202,
+          "group": "Mel spectrum (col 202)",
+          "z_score": 8.99,
+          "raw_val": 22.051,
+          "scaler_mean": 5.459,
+          "scaler_std": 1.846
+        },
+        {
+          "col": 201,
+          "group": "Mel spectrum (col 201)",
+          "z_score": 7.67,
+          "raw_val": 18.309,
+          "scaler_mean": 4.431,
+          "scaler_std": 1.811
+        },
+        {
+          "col": 203,
+          "group": "Mel spectrum (col 203)",
+          "z_score": 5.76,
+          "raw_val": 21.548,
+          "scaler_mean": 7.294,
+          "scaler_std": 2.474
+        },
+        {
+          "col": 272,
+          "group": "Spectral contrast (col 272)",
+          "z_score": 4.73,
+          "raw_val": 7.233,
+          "scaler_mean": 3.962,
+          "scaler_std": 0.692
+        },
+        {
+          "col": 205,
+          "group": "Mel spectrum (col 205)",
+          "z_score": 4.13,
+          "raw_val": 20.546,
+          "scaler_mean": 10.208,
+          "scaler_std": 2.505
+        },
+        {
+          "col": 204,
+          "group": "Mel spectrum (col 204)",
+          "z_score": 4.07,
+          "raw_val": 19.699,
+          "scaler_mean": 9.346,
+          "scaler_std": 2.543
+        },
+        {
+          "col": 48,
+          "group": "Voice timbre (MFCC) (col 48)",
+          "z_score": 3.48,
+          "raw_val": 16.368,
+          "scaler_mean": 8.474,
+          "scaler_std": 2.27
+        },
+        {
+          "col": 206,
+          "group": "Mel spectrum (col 206)",
+          "z_score": 3.39,
+          "raw_val": 20.547,
+          "scaler_mean": 11.399,
+          "scaler_std": 2.699
+        },
+        {
+          "col": 50,
+          "group": "Voice timbre (MFCC) (col 50)",
+          "z_score": 3.36,
+          "raw_val": 13.977,
+          "scaler_mean": 7.217,
+          "scaler_std": 2.012
+        }
+      ]
+    }
+  ]
+}

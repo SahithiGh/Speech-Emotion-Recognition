@@ -1,0 +1,1330 @@
+{
+  "timestamp": "2026-11-01T09:01:04Z",
+  "models_evaluated": [
+    "baseline",
+    "exp1",
+    "exp2"
+  ],
+  "held_out_crema_test": {
+    "baseline": {
+      "name": "Baseline Production Model (C=5, 296 features)",
+      "accuracy": 0.5239755884917175,
+      "macro_f1": 0.517563739366777,
+      "uar": 0.5228675302456312,
+      "macro_precision": 0.5194416453135899,
+      "per_class": {
+        "angry": {
+          "precision": 0.5686274509803921,
+          "recall": 0.7397959183673469,
+          "f1": 0.6430155210643016
+        },
+        "disgust": {
+          "precision": 0.4906832298136646,
+          "recall": 0.4030612244897959,
+          "f1": 0.4425770308123249
+        },
+        "fear": {
+          "precision": 0.4845360824742268,
+          "recall": 0.47959183673469385,
+          "f1": 0.482051282051282
+        },
+        "happy": {
+          "precision": 0.4939759036144578,
+          "recall": 0.41836734693877553,
+          "f1": 0.4530386740331491
+        },
+        "neutral": {
+          "precision": 0.5263157894736842,
+          "recall": 0.47904191616766467,
+          "f1": 0.5015673981191222
+        },
+        "sad": {
+          "precision": 0.5525114155251142,
+          "recall": 0.6173469387755102,
+          "f1": 0.5831325301204819
+        }
+      },
+      "confusion_matrix": [
+        [
+          145,
+          16,
+          10,
+          21,
+          2,
+          2
+        ],
+        [
+          27,
+          79,
+          17,
+          26,
+          25,
+          22
+        ],
+        [
+          21,
+          10,
+          94,
+          21,
+          10,
+          40
+        ],
+        [
+          50,
+          21,
+          24,
+          82,
+          11,
+          8
+        ],
+        [
+          9,
+          13,
+          27,
+          12,
+          80,
+          26
+        ],
+        [
+          3,
+          22,
+          22,
+          4,
+          24,
+          121
+        ]
+      ]
+    },
+    "exp1": {
+      "name": "Experiment 1: Revised Spectral Contrast (C=5, 294 features)",
+      "accuracy": 0.5204882301656495,
+      "macro_f1": 0.5139854490083967,
+      "uar": 0.5188755142775673,
+      "macro_precision": 0.5156812981878593,
+      "per_class": {
+        "angry": {
+          "precision": 0.5776892430278885,
+          "recall": 0.7397959183673469,
+          "f1": 0.6487695749440716
+        },
+        "disgust": {
+          "precision": 0.49079754601226994,
+          "recall": 0.40816326530612246,
+          "f1": 0.4456824512534819
+        },
+        "fear": {
+          "precision": 0.475,
+          "recall": 0.4846938775510204,
+          "f1": 0.4797979797979797
+        },
+        "happy": {
+          "precision": 0.48520710059171596,
+          "recall": 0.41836734693877553,
+          "f1": 0.4493150684931507
+        },
+        "neutral": {
+          "precision": 0.5170068027210885,
+          "recall": 0.4550898203592814,
+          "f1": 0.48407643312101917
+        },
+        "sad": {
+          "precision": 0.5483870967741935,
+          "recall": 0.6071428571428571,
+          "f1": 0.5762711864406779
+        }
+      },
+      "confusion_matrix": [
+        [
+          145,
+          16,
+          10,
+          21,
+          2,
+          2
+        ],
+        [
+          26,
+          80,
+          16,
+          28,
+          25,
+          21
+        ],
+        [
+          20,
+          10,
+          95,
+          21,
+          11,
+          39
+        ],
+        [
+          48,
+          20,
+          27,
+          82,
+          11,
+          8
+        ],
+        [
+          9,
+          14,
+          27,
+          13,
+          76,
+          28
+        ],
+        [
+          3,
+          23,
+          25,
+          4,
+          22,
+          119
+        ]
+      ]
+    },
+    "exp2": {
+      "name": "Experiment 2: Resampling Augmentation (C=5, 296 features)",
+      "accuracy": 0.5231037489102005,
+      "macro_f1": 0.5158056989993685,
+      "uar": 0.5224601816774613,
+      "macro_precision": 0.5170772100901994,
+      "per_class": {
+        "angry": {
+          "precision": 0.5680933852140078,
+          "recall": 0.7448979591836735,
+          "f1": 0.6445916114790287
+        },
+        "disgust": {
+          "precision": 0.49019607843137253,
+          "recall": 0.3826530612244898,
+          "f1": 0.4297994269340974
+        },
+        "fear": {
+          "precision": 0.4712041884816754,
+          "recall": 0.45918367346938777,
+          "f1": 0.46511627906976744
+        },
+        "happy": {
+          "precision": 0.49390243902439024,
+          "recall": 0.413265306122449,
+          "f1": 0.45
+        },
+        "neutral": {
+          "precision": 0.503030303030303,
+          "recall": 0.49700598802395207,
+          "f1": 0.5
+        },
+        "sad": {
+          "precision": 0.576036866359447,
+          "recall": 0.6377551020408163,
+          "f1": 0.6053268765133172
+        }
+      },
+      "confusion_matrix": [
+        [
+          146,
+          16,
+          8,
+          22,
+          2,
+          2
+        ],
+        [
+          24,
+          75,
+          18,
+          27,
+          31,
+          21
+        ],
+        [
+          22,
+          12,
+          90,
+          23,
+          13,
+          36
+        ],
+        [
+          50,
+          19,
+          27,
+          81,
+          11,
+          8
+        ],
+        [
+          10,
+          11,
+          28,
+          10,
+          83,
+          25
+        ],
+        [
+          5,
+          20,
+          20,
+          1,
+          25,
+          125
+        ]
+      ]
+    }
+  },
+  "resampling_stability_test": {
+    "baseline": {
+      "native_preds": [
+        "sad",
+        "neutral",
+        "disgust",
+        "angry",
+        "angry",
+        "angry",
+        "disgust",
+        "sad",
+        "disgust",
+        "fear",
+        "happy",
+        "sad",
+        "angry",
+        "angry",
+        "fear",
+        "neutral",
+        "fear",
+        "happy",
+        "happy",
+        "fear",
+        "disgust",
+        "sad",
+        "disgust",
+        "sad",
+        "fear",
+        "angry",
+        "angry",
+        "happy",
+        "angry",
+        "angry",
+        "disgust",
+        "happy",
+        "disgust",
+        "sad",
+        "disgust",
+        "happy",
+        "angry",
+        "fear",
+        "neutral",
+        "angry",
+        "angry",
+        "disgust",
+        "sad",
+        "angry",
+        "neutral",
+        "neutral",
+        "sad",
+        "sad",
+        "angry",
+        "disgust",
+        "neutral",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "sad",
+        "angry",
+        "happy",
+        "sad",
+        "angry",
+        "neutral",
+        "sad",
+        "neutral",
+        "neutral",
+        "sad",
+        "happy",
+        "happy",
+        "angry",
+        "happy",
+        "sad",
+        "fear",
+        "angry",
+        "fear",
+        "fear",
+        "fear",
+        "neutral",
+        "disgust",
+        "happy",
+        "angry",
+        "happy",
+        "sad",
+        "disgust",
+        "neutral",
+        "angry",
+        "sad",
+        "fear",
+        "angry",
+        "fear",
+        "sad",
+        "disgust",
+        "disgust",
+        "disgust",
+        "angry",
+        "angry",
+        "sad",
+        "fear",
+        "fear",
+        "sad",
+        "disgust",
+        "disgust"
+      ],
+      "resampled_preds": [
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear"
+      ],
+      "native_acc": 0,
+      "resampled_acc": 0,
+      "fear_counts": 100,
+      "accuracy_native": 0.41,
+      "accuracy_resampled": 0.13,
+      "pred_agreement_rate": 0.18,
+      "resampled_fear_percentage": 1.0
+    },
+    "exp1": {
+      "native_preds": [
+        "sad",
+        "neutral",
+        "disgust",
+        "angry",
+        "angry",
+        "angry",
+        "disgust",
+        "sad",
+        "disgust",
+        "fear",
+        "happy",
+        "sad",
+        "angry",
+        "angry",
+        "fear",
+        "neutral",
+        "fear",
+        "happy",
+        "happy",
+        "fear",
+        "disgust",
+        "sad",
+        "disgust",
+        "sad",
+        "fear",
+        "angry",
+        "angry",
+        "happy",
+        "angry",
+        "angry",
+        "disgust",
+        "happy",
+        "disgust",
+        "sad",
+        "disgust",
+        "happy",
+        "angry",
+        "fear",
+        "neutral",
+        "angry",
+        "angry",
+        "disgust",
+        "sad",
+        "angry",
+        "neutral",
+        "neutral",
+        "sad",
+        "sad",
+        "angry",
+        "disgust",
+        "neutral",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "sad",
+        "angry",
+        "happy",
+        "sad",
+        "angry",
+        "neutral",
+        "sad",
+        "neutral",
+        "neutral",
+        "sad",
+        "happy",
+        "happy",
+        "angry",
+        "happy",
+        "sad",
+        "fear",
+        "angry",
+        "fear",
+        "fear",
+        "fear",
+        "neutral",
+        "disgust",
+        "happy",
+        "fear",
+        "happy",
+        "sad",
+        "fear",
+        "neutral",
+        "angry",
+        "sad",
+        "fear",
+        "angry",
+        "fear",
+        "sad",
+        "disgust",
+        "disgust",
+        "disgust",
+        "angry",
+        "angry",
+        "sad",
+        "fear",
+        "fear",
+        "sad",
+        "disgust",
+        "disgust"
+      ],
+      "resampled_preds": [
+        "fear",
+        "neutral",
+        "fear",
+        "angry",
+        "angry",
+        "angry",
+        "angry",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "angry",
+        "angry",
+        "fear",
+        "neutral",
+        "fear",
+        "happy",
+        "happy",
+        "fear",
+        "disgust",
+        "disgust",
+        "disgust",
+        "angry",
+        "fear",
+        "angry",
+        "angry",
+        "happy",
+        "angry",
+        "angry",
+        "disgust",
+        "happy",
+        "angry",
+        "sad",
+        "fear",
+        "angry",
+        "angry",
+        "fear",
+        "disgust",
+        "angry",
+        "angry",
+        "happy",
+        "disgust",
+        "angry",
+        "neutral",
+        "disgust",
+        "sad",
+        "sad",
+        "angry",
+        "disgust",
+        "disgust",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "sad",
+        "angry",
+        "happy",
+        "fear",
+        "fear",
+        "disgust",
+        "fear",
+        "neutral",
+        "sad",
+        "fear",
+        "disgust",
+        "happy",
+        "angry",
+        "happy",
+        "fear",
+        "fear",
+        "angry",
+        "fear",
+        "fear",
+        "fear",
+        "neutral",
+        "fear",
+        "fear",
+        "fear",
+        "happy",
+        "fear",
+        "fear",
+        "disgust",
+        "angry",
+        "fear",
+        "fear",
+        "angry",
+        "fear",
+        "fear",
+        "disgust",
+        "fear",
+        "fear",
+        "angry",
+        "angry",
+        "fear",
+        "fear",
+        "fear",
+        "neutral",
+        "disgust",
+        "angry"
+      ],
+      "native_acc": 0,
+      "resampled_acc": 0,
+      "fear_counts": 40,
+      "accuracy_native": 0.41,
+      "accuracy_resampled": 0.37,
+      "pred_agreement_rate": 0.64,
+      "resampled_fear_percentage": 0.4
+    },
+    "exp2": {
+      "native_preds": [
+        "sad",
+        "neutral",
+        "disgust",
+        "angry",
+        "angry",
+        "angry",
+        "disgust",
+        "sad",
+        "disgust",
+        "fear",
+        "fear",
+        "sad",
+        "angry",
+        "angry",
+        "fear",
+        "neutral",
+        "fear",
+        "happy",
+        "happy",
+        "fear",
+        "disgust",
+        "sad",
+        "disgust",
+        "sad",
+        "fear",
+        "angry",
+        "angry",
+        "happy",
+        "angry",
+        "angry",
+        "disgust",
+        "neutral",
+        "disgust",
+        "sad",
+        "disgust",
+        "happy",
+        "angry",
+        "sad",
+        "neutral",
+        "angry",
+        "angry",
+        "disgust",
+        "sad",
+        "angry",
+        "neutral",
+        "neutral",
+        "sad",
+        "sad",
+        "angry",
+        "disgust",
+        "neutral",
+        "disgust",
+        "fear",
+        "fear",
+        "fear",
+        "sad",
+        "angry",
+        "happy",
+        "fear",
+        "angry",
+        "neutral",
+        "sad",
+        "neutral",
+        "neutral",
+        "sad",
+        "happy",
+        "happy",
+        "angry",
+        "happy",
+        "sad",
+        "fear",
+        "angry",
+        "fear",
+        "fear",
+        "fear",
+        "neutral",
+        "disgust",
+        "happy",
+        "angry",
+        "happy",
+        "sad",
+        "fear",
+        "neutral",
+        "angry",
+        "sad",
+        "fear",
+        "happy",
+        "fear",
+        "sad",
+        "disgust",
+        "disgust",
+        "disgust",
+        "angry",
+        "angry",
+        "sad",
+        "neutral",
+        "fear",
+        "sad",
+        "disgust",
+        "angry"
+      ],
+      "resampled_preds": [
+        "sad",
+        "neutral",
+        "disgust",
+        "angry",
+        "angry",
+        "angry",
+        "disgust",
+        "sad",
+        "disgust",
+        "fear",
+        "happy",
+        "sad",
+        "angry",
+        "angry",
+        "fear",
+        "neutral",
+        "fear",
+        "happy",
+        "happy",
+        "fear",
+        "disgust",
+        "sad",
+        "disgust",
+        "sad",
+        "fear",
+        "angry",
+        "angry",
+        "happy",
+        "angry",
+        "neutral",
+        "disgust",
+        "happy",
+        "disgust",
+        "sad",
+        "disgust",
+        "happy",
+        "angry",
+        "sad",
+        "neutral",
+        "angry",
+        "angry",
+        "disgust",
+        "sad",
+        "angry",
+        "neutral",
+        "neutral",
+        "neutral",
+        "sad",
+        "angry",
+        "disgust",
+        "neutral",
+        "fear",
+        "fear",
+        "fear",
+        "fear",
+        "sad",
+        "angry",
+        "happy",
+        "sad",
+        "fear",
+        "disgust",
+        "sad",
+        "neutral",
+        "neutral",
+        "neutral",
+        "happy",
+        "fear",
+        "angry",
+        "happy",
+        "sad",
+        "fear",
+        "angry",
+        "fear",
+        "fear",
+        "fear",
+        "neutral",
+        "disgust",
+        "happy",
+        "fear",
+        "happy",
+        "sad",
+        "disgust",
+        "neutral",
+        "angry",
+        "sad",
+        "fear",
+        "angry",
+        "fear",
+        "sad",
+        "disgust",
+        "disgust",
+        "sad",
+        "angry",
+        "disgust",
+        "sad",
+        "disgust",
+        "fear",
+        "sad",
+        "disgust",
+        "disgust"
+      ],
+      "native_acc": 0,
+      "resampled_acc": 0,
+      "fear_counts": 19,
+      "accuracy_native": 0.45,
+      "accuracy_resampled": 0.41,
+      "pred_agreement_rate": 0.83,
+      "resampled_fear_percentage": 0.19
+    }
+  },
+  "external_audio_evaluation": [
+    {
+      "file": "Neutral1.wav",
+      "predictions": {
+        "baseline": {
+          "predicted": "fear",
+          "confidence": 0.4386,
+          "probabilities": {
+            "angry": 0.2574,
+            "disgust": 0.0294,
+            "fear": 0.4386,
+            "happy": 0.23,
+            "neutral": 0.0134,
+            "sad": 0.0311
+          }
+        },
+        "exp1": {
+          "predicted": "angry",
+          "confidence": 0.4763,
+          "probabilities": {
+            "angry": 0.4763,
+            "disgust": 0.028,
+            "fear": 0.2569,
+            "happy": 0.2134,
+            "neutral": 0.0057,
+            "sad": 0.0196
+          }
+        },
+        "exp2": {
+          "predicted": "angry",
+          "confidence": 0.5205,
+          "probabilities": {
+            "angry": 0.5205,
+            "disgust": 0.0296,
+            "fear": 0.2254,
+            "happy": 0.1982,
+            "neutral": 0.006,
+            "sad": 0.0203
+          }
+        }
+      }
+    },
+    {
+      "file": "Neutral2.wav",
+      "predictions": {
+        "baseline": {
+          "predicted": "fear",
+          "confidence": 0.4386,
+          "probabilities": {
+            "angry": 0.2574,
+            "disgust": 0.0294,
+            "fear": 0.4386,
+            "happy": 0.23,
+            "neutral": 0.0134,
+            "sad": 0.0311
+          }
+        },
+        "exp1": {
+          "predicted": "fear",
+          "confidence": 0.4362,
+          "probabilities": {
+            "angry": 0.2934,
+            "disgust": 0.0271,
+            "fear": 0.4362,
+            "happy": 0.2031,
+            "neutral": 0.0094,
+            "sad": 0.0308
+          }
+        },
+        "exp2": {
+          "predicted": "fear",
+          "confidence": 0.4388,
+          "probabilities": {
+            "angry": 0.2922,
+            "disgust": 0.0291,
+            "fear": 0.4388,
+            "happy": 0.1965,
+            "neutral": 0.0096,
+            "sad": 0.0338
+          }
+        }
+      }
+    },
+    {
+      "file": "Sad1.wav",
+      "predictions": {
+        "baseline": {
+          "predicted": "fear",
+          "confidence": 0.4386,
+          "probabilities": {
+            "angry": 0.2574,
+            "disgust": 0.0294,
+            "fear": 0.4386,
+            "happy": 0.23,
+            "neutral": 0.0134,
+            "sad": 0.0311
+          }
+        },
+        "exp1": {
+          "predicted": "fear",
+          "confidence": 0.4157,
+          "probabilities": {
+            "angry": 0.3383,
+            "disgust": 0.025,
+            "fear": 0.4157,
+            "happy": 0.1887,
+            "neutral": 0.0066,
+            "sad": 0.0256
+          }
+        },
+        "exp2": {
+          "predicted": "fear",
+          "confidence": 0.4307,
+          "probabilities": {
+            "angry": 0.3341,
+            "disgust": 0.0262,
+            "fear": 0.4307,
+            "happy": 0.1742,
+            "neutral": 0.0071,
+            "sad": 0.0277
+          }
+        }
+      }
+    },
+    {
+      "file": "Sad2.wav",
+      "predictions": {
+        "baseline": {
+          "predicted": "fear",
+          "confidence": 0.4386,
+          "probabilities": {
+            "angry": 0.2574,
+            "disgust": 0.0294,
+            "fear": 0.4386,
+            "happy": 0.23,
+            "neutral": 0.0134,
+            "sad": 0.0311
+          }
+        },
+        "exp1": {
+          "predicted": "fear",
+          "confidence": 0.4066,
+          "probabilities": {
+            "angry": 0.2005,
+            "disgust": 0.0287,
+            "fear": 0.4066,
+            "happy": 0.3407,
+            "neutral": 0.0083,
+            "sad": 0.0151
+          }
+        },
+        "exp2": {
+          "predicted": "fear",
+          "confidence": 0.4318,
+          "probabilities": {
+            "angry": 0.1864,
+            "disgust": 0.0311,
+            "fear": 0.4318,
+            "happy": 0.3244,
+            "neutral": 0.0104,
+            "sad": 0.0159
+          }
+        }
+      }
+    },
+    {
+      "file": "angry_sample.wav",
+      "predictions": {
+        "baseline": {
+          "predicted": "fear",
+          "confidence": 0.4386,
+          "probabilities": {
+            "angry": 0.2575,
+            "disgust": 0.0294,
+            "fear": 0.4386,
+            "happy": 0.23,
+            "neutral": 0.0134,
+            "sad": 0.0311
+          }
+        },
+        "exp1": {
+          "predicted": "fear",
+          "confidence": 0.5236,
+          "probabilities": {
+            "angry": 0.244,
+            "disgust": 0.0335,
+            "fear": 0.5236,
+            "happy": 0.1548,
+            "neutral": 0.0117,
+            "sad": 0.0324
+          }
+        },
+        "exp2": {
+          "predicted": "fear",
+          "confidence": 0.56,
+          "probabilities": {
+            "angry": 0.2151,
+            "disgust": 0.0379,
+            "fear": 0.56,
+            "happy": 0.1376,
+            "neutral": 0.0138,
+            "sad": 0.0355
+          }
+        }
+      }
+    },
+    {
+      "file": "Happy2.wav",
+      "predictions": {
+        "baseline": {
+          "predicted": "fear",
+          "confidence": 0.4386,
+          "probabilities": {
+            "angry": 0.2574,
+            "disgust": 0.0294,
+            "fear": 0.4386,
+            "happy": 0.23,
+            "neutral": 0.0134,
+            "sad": 0.0311
+          }
+        },
+        "exp1": {
+          "predicted": "fear",
+          "confidence": 0.4562,
+          "probabilities": {
+            "angry": 0.3061,
+            "disgust": 0.0191,
+            "fear": 0.4562,
+            "happy": 0.1909,
+            "neutral": 0.0068,
+            "sad": 0.0209
+          }
+        },
+        "exp2": {
+          "predicted": "fear",
+          "confidence": 0.4756,
+          "probabilities": {
+            "angry": 0.3065,
+            "disgust": 0.02,
+            "fear": 0.4756,
+            "happy": 0.1665,
+            "neutral": 0.0081,
+            "sad": 0.0233
+          }
+        }
+      }
+    },
+    {
+      "file": "happy_sample.wav",
+      "predictions": {
+        "baseline": {
+          "predicted": "fear",
+          "confidence": 0.4386,
+          "probabilities": {
+            "angry": 0.2574,
+            "disgust": 0.0294,
+            "fear": 0.4386,
+            "happy": 0.23,
+            "neutral": 0.0134,
+            "sad": 0.0311
+          }
+        },
+        "exp1": {
+          "predicted": "fear",
+          "confidence": 0.491,
+          "probabilities": {
+            "angry": 0.2648,
+            "disgust": 0.0226,
+            "fear": 0.491,
+            "happy": 0.1914,
+            "neutral": 0.0081,
+            "sad": 0.022
+          }
+        },
+        "exp2": {
+          "predicted": "fear",
+          "confidence": 0.5135,
+          "probabilities": {
+            "angry": 0.2536,
+            "disgust": 0.0232,
+            "fear": 0.5135,
+            "happy": 0.1774,
+            "neutral": 0.0085,
+            "sad": 0.0237
+          }
+        }
+      }
+    },
+    {
+      "file": "sad_sample.wav",
+      "predictions": {
+        "baseline": {
+          "predicted": "fear",
+          "confidence": 0.4386,
+          "probabilities": {
+            "angry": 0.2574,
+            "disgust": 0.0294,
+            "fear": 0.4386,
+            "happy": 0.23,
+            "neutral": 0.0134,
+            "sad": 0.0311
+          }
+        },
+        "exp1": {
+          "predicted": "fear",
+          "confidence": 0.5864,
+          "probabilities": {
+            "angry": 0.1307,
+            "disgust": 0.0237,
+            "fear": 0.5864,
+            "happy": 0.2167,
+            "neutral": 0.0126,
+            "sad": 0.03
+          }
+        },
+        "exp2": {
+          "predicted": "fear",
+          "confidence": 0.6092,
+          "probabilities": {
+            "angry": 0.1156,
+            "disgust": 0.0235,
+            "fear": 0.6092,
+            "happy": 0.2067,
+            "neutral": 0.0131,
+            "sad": 0.032
+          }
+        }
+      }
+    },
+    {
+      "file": "real_voice.wav",
+      "predictions": {
+        "baseline": {
+          "predicted": "fear",
+          "confidence": 0.4386,
+          "probabilities": {
+            "angry": 0.2574,
+            "disgust": 0.0294,
+            "fear": 0.4386,
+            "happy": 0.23,
+            "neutral": 0.0134,
+            "sad": 0.0311
+          }
+        },
+        "exp1": {
+          "predicted": "fear",
+          "confidence": 0.8887,
+          "probabilities": {
+            "angry": 0.008,
+            "disgust": 0.0024,
+            "fear": 0.8887,
+            "happy": 0.0066,
+            "neutral": 0.005,
+            "sad": 0.0893
+          }
+        },
+        "exp2": {
+          "predicted": "fear",
+          "confidence": 0.8865,
+          "probabilities": {
+            "angry": 0.0037,
+            "disgust": 0.0022,
+            "fear": 0.8865,
+            "happy": 0.0047,
+            "neutral": 0.0046,
+            "sad": 0.0983
+          }
+        }
+      }
+    },
+    {
+      "file": "sample_16k.wav",
+      "predictions": {
+        "baseline": {
+          "predicted": "fear",
+          "confidence": 0.4386,
+          "probabilities": {
+            "angry": 0.2574,
+            "disgust": 0.0294,
+            "fear": 0.4386,
+            "happy": 0.23,
+            "neutral": 0.0134,
+            "sad": 0.0311
+          }
+        },
+        "exp1": {
+          "predicted": "fear",
+          "confidence": 0.4365,
+          "probabilities": {
+            "angry": 0.2582,
+            "disgust": 0.0296,
+            "fear": 0.4365,
+            "happy": 0.2317,
+            "neutral": 0.0133,
+            "sad": 0.0307
+          }
+        },
+        "exp2": {
+          "predicted": "fear",
+          "confidence": 0.4428,
+          "probabilities": {
+            "angry": 0.2462,
+            "disgust": 0.0299,
+            "fear": 0.4428,
+            "happy": 0.2347,
+            "neutral": 0.0134,
+            "sad": 0.033
+          }
+        }
+      }
+    }
+  ]
+}

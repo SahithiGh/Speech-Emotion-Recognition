@@ -10,14 +10,36 @@ from .errors import AudioError
 
 
 def plan_segments(duration: float, window: float, hop: float):
-    """List of (start, end) seconds. The last window is kept if it still has at least MIN_SECONDS of audio, else marked too short."""
+    """List of (start, end) seconds. Covers the entire audio duration, including the final window."""
+    if duration <= 0:
+        return []
+    if duration <= window:
+        return [(0.0, round(duration, 3))]
+
     segs, start = [], 0.0
     while start < duration - 1e-9:
         end = min(start + window, duration)
-        segs.append((round(start, 3), round(end, 3)))
+        if (end - start) >= C.MIN_SECONDS:
+            segs.append((round(start, 3), round(end, 3)))
+        elif segs:
+            adjusted_start = max(0.0, duration - window)
+            if round(adjusted_start, 3) != segs[-1][0]:
+                segs.append((round(adjusted_start, 3), round(duration, 3)))
+            else:
+                segs[-1] = (segs[-1][0], round(duration, 3))
+            break
+        else:
+            segs.append((0.0, round(duration, 3)))
+            break
+
         if end >= duration - 1e-9:
             break
         start += hop
+
+    if segs and segs[-1][1] < duration - 1e-3:
+        adjusted_start = max(0.0, duration - window)
+        segs.append((round(adjusted_start, 3), round(duration, 3)))
+
     return segs
 
 

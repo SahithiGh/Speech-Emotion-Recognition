@@ -23,8 +23,22 @@ import {
   FileAudio,
   Sparkles,
   Volume2,
+  ChevronDown,
+  Users,
+  Activity,
 } from "lucide-react";
-import { predict, type PredictResult, type TimelineResult } from "../api";
+import {
+  predict,
+  analyzeConversationJob,
+  getJobProgress,
+  renameSpeaker,
+  exportPdfDirect,
+  exportCsvDirect,
+  exportPdfSaved,
+  exportCsvSaved,
+  type PredictResult,
+  type TimelineResult,
+} from "../api";
 import { decode, directlyReadable, peaksOf } from "../audio";
 import { withUpload, type Source } from "../types";
 import { buildReport, download, reportToCsv } from "../report";
@@ -40,6 +54,9 @@ import { label, pct, secs } from "../format";
 import PageHero from "../components/PageHero";
 import { useAuth, type SavedAnalysis } from "../auth";
 import InteractiveTranscript from "../components/InteractiveTranscript";
+import { ConversationTimeline } from "../components/ConversationTimeline";
+import { EmotionVisualizations } from "../components/EmotionVisualizations";
+import { SpeakerAnalysisView } from "../components/SpeakerAnalysisView";
 import AnalysisComparison, { type ComparisonTarget } from "../components/AnalysisComparison";
 import MismatchModal from "../components/MismatchModal";
 
@@ -90,7 +107,7 @@ export default function Analyze() {
 
   const model = useModel();
   const cfg = useConfig();
-  const { user, saveAnalysis } = useAuth();
+  const { user, token, saveAnalysis } = useAuth();
   const location = useLocation();
   const [params, setParams] = useSearchParams();
 
@@ -119,6 +136,16 @@ export default function Analyze() {
   // Synchronized playback states for audio player & waveform
   const [playbackTime, setPlaybackTime] = useState<number>(0);
   const [playbackDuration, setPlaybackDuration] = useState<number>(0);
+
+  // Collapsible analysis section states (both collapsed by default)
+  const [isEmotionVisualsOpen, setIsEmotionVisualsOpen] = useState(false);
+  const [isSpeakerAnalysisOpen, setIsSpeakerAnalysisOpen] = useState(false);
+
+  // Reset collapsible states when active item changes so sections start collapsed by default
+  useEffect(() => {
+    setIsEmotionVisualsOpen(false);
+    setIsSpeakerAnalysisOpen(false);
+  }, [activeId]);
 
   // Mode sync
   useEffect(() => {
@@ -180,6 +207,12 @@ export default function Analyze() {
             },
           }
           : undefined,
+        speakers: reopened.speakers || [],
+        conversation_timeline: reopened.conversation_timeline || [],
+        emotion_tracks: reopened.emotion_tracks || {},
+        emotion_journey: reopened.emotion_journey || [],
+        voice_analysis: reopened.voice_analysis || {},
+        speaker_count: reopened.speakers ? reopened.speakers.length : 1,
       };
 
       const fakeBuffer = {
@@ -188,6 +221,8 @@ export default function Analyze() {
         numberOfChannels: 1,
         sampleRate: 16000,
       } as AudioBuffer;
+
+      const audioUrl = reopened.id ? `/api/analyses/${reopened.id}/audio?token=${encodeURIComponent(token || "")}` : "";
 
       const item: BatchItem = {
         id: reopened.id || "reopened-" + Date.now(),
@@ -198,8 +233,11 @@ export default function Analyze() {
         isVideo: false,
         status: "done",
         buffer: fakeBuffer,
-        peaks: [0.2, 0.5, 0.8, 0.4, 0.3, 0.6, 0.7, 0.2],
-        url: "",
+        peaks: Array(64).fill(0.15),
+        url: audioUrl,
+        originalUrl: audioUrl,
+        processedUrl: null,
+        playbackMode: "original",
         result: syntheticResult,
         saved: true,
       };
@@ -207,8 +245,28 @@ export default function Analyze() {
       setBatch([item]);
       setActiveId(item.id);
       setSaveSuccessActive(true);
+
+      if (reopened.id) {
+        fetch(audioUrl)
+          .then((r) => {
+            if (!r.ok) throw new Error("Audio fetch failed with status " + r.status);
+            return r.blob();
+          })
+          .then(async (b) => {
+            try {
+              const decBuf = await decode(b);
+              const pks = peaksOf(decBuf);
+              setBatch((prev) =>
+                prev.map((it) => (it.id === item.id ? { ...it, file: b, buffer: decBuf, peaks: pks } : it))
+              );
+            } catch (decErr) {
+              console.warn("Could not decode audio for reopened analysis:", decErr);
+            }
+          })
+          .catch((e) => console.warn("Could not load audio for reopened analysis:", e));
+      }
     }
-  }, [location.state]);
+  }, [location.state, token]);
 
   const activeItem = batch.find((b) => b.id === activeId) || batch[0] || null;
 
@@ -411,8 +469,49 @@ export default function Analyze() {
         kind: item.kind,
       };
 
-      // 3. Call backend prediction
-      const result = await withUpload(sourceObj, predict);
+      // 3. Call unified conversation analysis with stage progress updates
+      let result: PredictResult;
+      try {
+        setBatch((prev) =>
+          prev.map((b) =>
+            b.id === item.id
+              ? { ...b, progressText: "Validating audio format..." }
+              : b
+          )
+        );
+        const job = await analyzeConversationJob(item.file, item.name);
+        let completed = false;
+        let jobRes: any = null;
+        for (let poll = 0; poll < 120; poll++) {
+          await new Promise((r) => setTimeout(r, 350));
+          const p = await getJobProgress(job.job_id);
+          setBatch((prev) =>
+            prev.map((b) =>
+              b.id === item.id
+                ? {
+                    ...b,
+                    progressText: `${p.stage_label || "Processing"} (${p.progress_pct || 0}%)`,
+                  }
+                : b
+            )
+          );
+          if (p.done) {
+            completed = true;
+            if (p.error) {
+              throw new Error(p.error);
+            }
+            jobRes = p.result;
+            break;
+          }
+        }
+        if (!completed || !jobRes) {
+          throw new Error("Job timed out.");
+        }
+        result = jobRes;
+      } catch (jobErr) {
+        console.warn("Conversation job polling fallback to direct predict:", jobErr);
+        result = await withUpload(sourceObj, predict);
+      }
 
       // 4. Maintain two clearly separated audio references:
       // - Original audio (if video, use backend-extracted pristine WAV for 100% browser compatibility)
@@ -605,6 +704,13 @@ export default function Analyze() {
         notes: res.notes || [],
         model_name: res.model.name,
         model_id: res.model.id,
+        speakers: res.speakers || [],
+        conversation_timeline: res.conversation_timeline || [],
+        emotion_tracks: res.emotion_tracks || {},
+        emotion_journey: res.emotion_journey || [],
+        voice_analysis: res.voice_analysis || {},
+        audio_id: (res as any).audio_playback?.audio_id || null,
+        audio_base64: (res as any).audio_playback?.original_audio_url || null,
       });
 
       setBatch((prev) =>
@@ -615,6 +721,89 @@ export default function Analyze() {
       setSaveErrorActive(err.message || "Failed to save analysis.");
     } finally {
       setSavingActive(false);
+    }
+  };
+
+  // Speaker rename handler with optimistic UI update and DB persistence
+  const handleRenameSpeaker = async (speakerId: string, newName: string) => {
+    if (!activeItem?.result) return;
+    const res = activeItem.result;
+    const updatedSpeakers = (res.speakers || []).map((s) =>
+      s.speaker_id === speakerId ? { ...s, name: newName, label: newName } : s
+    );
+    const updatedTimeline = (res.conversation_timeline || []).map((t) =>
+      t.speaker_id === speakerId ? { ...t, speaker_name: newName } : t
+    );
+    const updatedCombinedTranscript = (res.transcription?.combined_transcript || []).map((t) =>
+      t.speaker_id === speakerId ? { ...t, speaker_name: newName } : t
+    );
+
+    const updatedResult: PredictResult = {
+      ...res,
+      speakers: updatedSpeakers,
+      conversation_timeline: updatedTimeline,
+      transcription: res.transcription
+        ? {
+            ...res.transcription,
+            combined_transcript: updatedCombinedTranscript,
+          }
+        : res.transcription,
+    };
+
+    setBatch((prev) =>
+      prev.map((b) => (b.id === activeItem.id ? { ...b, result: updatedResult } : b))
+    );
+
+    if (activeItem.saved && activeItem.id && !activeItem.id.startsWith("reopened-")) {
+      try {
+        await renameSpeaker(activeItem.id, speakerId, newName);
+      } catch (err) {
+        console.warn("Could not persist speaker rename to backend:", err);
+      }
+    }
+  };
+
+  // Direct and Saved PDF / CSV export actions
+  const [exportingPdf, setExportingPdf] = useState(false);
+  const [exportingCsv, setExportingCsv] = useState(false);
+
+  const handleExportPdf = async () => {
+    if (!activeItem?.result) return;
+    setExportingPdf(true);
+    try {
+      if (activeItem.saved && activeItem.id && !activeItem.id.startsWith("reopened-") && user) {
+        const token = localStorage.getItem("ser_auth_token") || "";
+        await exportPdfSaved(activeItem.id, token);
+      } else {
+        await exportPdfDirect({
+          ...activeItem.result,
+          original_filename: activeItem.name,
+        });
+      }
+    } catch (err) {
+      console.error("PDF export failed:", err);
+    } finally {
+      setExportingPdf(false);
+    }
+  };
+
+  const handleExportCsv = async () => {
+    if (!activeItem?.result) return;
+    setExportingCsv(true);
+    try {
+      if (activeItem.saved && activeItem.id && !activeItem.id.startsWith("reopened-") && user) {
+        const token = localStorage.getItem("ser_auth_token") || "";
+        await exportCsvSaved(activeItem.id, token);
+      } else {
+        await exportCsvDirect({
+          ...activeItem.result,
+          original_filename: activeItem.name,
+        });
+      }
+    } catch (err) {
+      console.error("CSV export failed:", err);
+    } finally {
+      setExportingCsv(false);
     }
   };
 
@@ -1493,17 +1682,135 @@ export default function Analyze() {
                   {/* Export Reports */}
                   <div className="workspace-module export-module">
                     <h3 className="module-title">Export Findings</h3>
-                    <div className="actions" style={{ marginTop: "0.5rem" }}>
-                      <button className="btn sm" onClick={() => saveReport("json")}>
-                        <Download size={14} aria-hidden="true" /> Download JSON
+                    <div className="actions" style={{ marginTop: "0.5rem", display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                      <button className="btn sm primary" onClick={handleExportPdf} disabled={exportingPdf}>
+                        {exportingPdf ? <span className="spinner light sm" /> : <Download size={14} aria-hidden="true" />}
+                        PDF Report
                       </button>
-                      <button className="btn sm" onClick={() => saveReport("csv")}>
-                        <Download size={14} aria-hidden="true" /> Download CSV
+                      <button className="btn sm sub" onClick={handleExportCsv} disabled={exportingCsv}>
+                        {exportingCsv ? <span className="spinner sm" /> : <Download size={14} aria-hidden="true" />}
+                        Multi-CSV ZIP
+                      </button>
+                      <button className="btn sm sub" onClick={() => saveReport("json")}>
+                        <Download size={14} aria-hidden="true" /> JSON
+                      </button>
+                      <button className="btn sm sub" onClick={() => saveReport("csv")}>
+                        <Download size={14} aria-hidden="true" /> Single CSV
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
+
+              {/* Collapsible Analysis Sections: Emotion Visuals & Speaker Analysis (both collapsed by default) */}
+              {activeItem.result.speakers && activeItem.result.speakers.length > 0 && (() => {
+                const effectiveDur = activeItem.result.recording_duration || activeItem.result.analyzed_seconds || playbackDuration || 1.0;
+                const spkCount = activeItem.result.speakers.length;
+                return (
+                  <div className="collapsible-analysis-sections" style={{ marginTop: "1.5rem" }}>
+                    {/* 1. Emotion Visuals Accordion (Collapsed by default) */}
+                    <div className={`conv-accordion-panel ${isEmotionVisualsOpen ? "is-open" : ""}`} id="emotion-visuals-section">
+                      <button
+                        type="button"
+                        className="conv-accordion-header"
+                        onClick={() => setIsEmotionVisualsOpen(!isEmotionVisualsOpen)}
+                        aria-expanded={isEmotionVisualsOpen}
+                        aria-controls="emotion-visuals-content"
+                      >
+                        <div className="conv-accordion-title-group">
+                          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                            <Activity size={18} className="icon-accent" aria-hidden="true" />
+                            <h3 className="conv-panel-title" style={{ fontSize: "1.05rem" }}>
+                              Emotion Visuals
+                            </h3>
+                            <span className="conv-badge conv-badge-primary">
+                              Emotion Tracks & Emotion Journey
+                            </span>
+                          </div>
+                          <p className="conv-panel-subtitle" style={{ marginLeft: "1.6rem" }}>
+                            Continuous 6-class acoustic probability trajectories and dominant temporal journey blocks.
+                          </p>
+                        </div>
+                        <div className="conv-accordion-action">
+                          <span className="conv-accordion-action-label">
+                            {isEmotionVisualsOpen ? "Hide Visuals" : "View Emotion Visuals"}
+                          </span>
+                          <ChevronDown className="conv-accordion-chevron" size={18} aria-hidden="true" />
+                        </div>
+                      </button>
+
+                      {isEmotionVisualsOpen && (
+                        <div className="conv-accordion-body" id="emotion-visuals-content">
+                          <EmotionVisualizations
+                            duration={effectiveDur}
+                            tracks={activeItem.result.emotion_tracks || {}}
+                            journey={activeItem.result.emotion_journey || []}
+                            turns={activeItem.result.conversation_timeline || []}
+                            currentTime={playbackTime}
+                            onSeek={handleSeekAndPlay}
+                            embedded
+                          />
+                        </div>
+                      )}
+                    </div>
+
+                    {/* 2. Speaker Analysis Accordion (Collapsed by default) */}
+                    <div className={`conv-accordion-panel ${isSpeakerAnalysisOpen ? "is-open" : ""}`} id="speaker-analysis-section">
+                      <button
+                        type="button"
+                        className="conv-accordion-header"
+                        onClick={() => setIsSpeakerAnalysisOpen(!isSpeakerAnalysisOpen)}
+                        aria-expanded={isSpeakerAnalysisOpen}
+                        aria-controls="speaker-analysis-content"
+                      >
+                        <div className="conv-accordion-title-group">
+                          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                            <Users size={18} className="icon-accent" aria-hidden="true" />
+                            <h3 className="conv-panel-title" style={{ fontSize: "1.05rem" }}>
+                              Speaker Analysis
+                            </h3>
+                            <span className="conv-badge conv-badge-primary">
+                              {spkCount} {spkCount === 1 ? "Speaker Detected" : "Speakers Detected"}
+                            </span>
+                          </div>
+                          <p className="conv-panel-subtitle" style={{ marginLeft: "1.6rem" }}>
+                            Participation share, speaking durations, speech turns, and speaker-specific emotion distributions.
+                          </p>
+                        </div>
+                        <div className="conv-accordion-action">
+                          <span className="conv-accordion-action-label">
+                            {isSpeakerAnalysisOpen ? "Hide Analysis" : "View Speaker Analysis"}
+                          </span>
+                          <ChevronDown className="conv-accordion-chevron" size={18} aria-hidden="true" />
+                        </div>
+                      </button>
+
+                      {isSpeakerAnalysisOpen && (
+                        <div className="conv-accordion-body" id="speaker-analysis-content">
+                          {/* Multi-speaker speaking turns & overlap timeline */}
+                          <ConversationTimeline
+                            duration={effectiveDur}
+                            speakers={activeItem.result.speakers}
+                            turns={activeItem.result.conversation_timeline || []}
+                            currentTime={playbackTime}
+                            onSeek={handleSeekAndPlay}
+                            embedded
+                          />
+
+                          {/* Detected speaker profiles, duration, speech share, emotion results */}
+                          <SpeakerAnalysisView
+                            speakers={activeItem.result.speakers}
+                            turns={activeItem.result.conversation_timeline || []}
+                            onRenameSpeaker={handleRenameSpeaker}
+                            onSeek={handleSeekAndPlay}
+                            embedded
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })()}
 
               {/* Advanced Panels: Spectrogram & Timeline (Full Width) */}
               {activeItem.source && (
@@ -1518,8 +1825,6 @@ export default function Analyze() {
                         prev.map((b) => (b.id === activeItem.id ? { ...b, timeline: tl } : b))
                       );
                     }}
-                    transcript={null}
-                    onTranscript={() => undefined}
                   />
                 </div>
               )}

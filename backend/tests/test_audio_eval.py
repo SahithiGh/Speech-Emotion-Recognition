@@ -27,7 +27,7 @@ def test_bad_audio_is_rejected_cleanly():
     assert e.value.code == "too_long"
 
 
-def test_notes_for_clipping_short_and_truncated():
+def test_notes_for_clipping_short_and_truncated(monkeypatch):
     n = []
     audio.load_audio_bytes(wav_bytes(np.clip(tone(seconds=2, amp=4.0), -1, 1)), n)
     assert any("clipped" in x for x in n)
@@ -35,6 +35,8 @@ def test_notes_for_clipping_short_and_truncated():
     audio.load_audio_bytes(wav_bytes(tone(seconds=0.7)), n)
     assert any("short" in x.lower() for x in n)
     n = []
+    from app import config as C
+    monkeypatch.setattr(C, "MAX_SECONDS", 6.0)
     y = audio.load_audio_bytes(wav_bytes(tone(seconds=9)), n)
     assert len(y) == 6 * 16000 and any("first 6" in x for x in n)
 

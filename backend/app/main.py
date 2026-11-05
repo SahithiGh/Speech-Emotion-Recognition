@@ -20,6 +20,7 @@ import time
 import base64
 import io
 import uuid
+import secrets
 import numpy as np
 import soundfile as sf
 import librosa
@@ -27,7 +28,7 @@ import librosa
 from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, Response
+from fastapi.responses import JSONResponse, Response, FileResponse
 
 from typing import Optional, List, Dict, Any
 from pydantic import BaseModel
@@ -37,6 +38,8 @@ from . import predict
 from . import transcription
 from . import consistency
 from . import db
+from .conversation_analysis import process_full_conversation_analysis
+from .export import generate_pdf_report, generate_csv_export
 from .audio import load_raw_signal
 from .errors import AudioError, ModelNotTrainedError
 from .spectrogram import compute_spectrogram
@@ -209,6 +212,21 @@ class SaveAnalysisRequest(BaseModel):
     model_name: Optional[str] = None
     model_id: Optional[str] = None
     feature_version: Optional[int] = None
+    speakers: Optional[List[Dict[str, Any]]] = None
+    conversation_timeline: Optional[List[Dict[str, Any]]] = None
+    emotion_tracks: Optional[Dict[str, Any]] = None
+    emotion_journey: Optional[List[Dict[str, Any]]] = None
+    voice_analysis: Optional[Dict[str, Any]] = None
+    audio_file_path: Optional[str] = None
+    audio_id: Optional[str] = None
+    audio_base64: Optional[str] = None
+
+class SpeakerRenameRequest(BaseModel):
+    speaker_id: str
+    name: str
+
+class ExportReportRequest(BaseModel):
+    analysis: Dict[str, Any]
 
 class RecalculateConsistencyRequest(BaseModel):
     transcript: str
@@ -219,9 +237,13 @@ class RecalculateConsistencyRequest(BaseModel):
 
 def _get_current_user(request: Request) -> Dict[str, Any]:
     auth_header = request.headers.get("Authorization") or ""
-    if not auth_header.startswith("Bearer "):
+    token = ""
+    if auth_header.startswith("Bearer "):
+        token = auth_header[7:].strip()
+    elif "token" in request.query_params:
+        token = request.query_params.get("token", "").strip()
+    if not token:
         raise HTTPException(401, {"code": "unauthorized", "message": "Authentication required. Please sign in."})
-    token = auth_header[7:].strip()
     user = db.get_user_by_session(token)
     if not user:
         raise HTTPException(401, {"code": "invalid_session", "message": "Your session has expired or is invalid. Please sign in again."})
@@ -246,7 +268,13 @@ def _signal_to_wav_bytes(y_signal: np.ndarray, sample_rate: int) -> bytes:
     sf.write(buf, clipped, sample_rate, format="WAV", subtype="PCM_16")
     return buf.getvalue()
 
-def _predict_and_enrich(data: bytes) -> dict:
+# Background analysis job registry
+_jobs: Dict[str, Dict[str, Any]] = {}
+
+def _predict_and_enrich(data: bytes, progress_cb=None) -> dict:
+    if progress_cb:
+        progress_cb("audio_extraction", "Validating and extracting audio format...", 15)
+
     try:
         pred = predict.predict_bytes(data, return_signal=True)
     except TypeError:
@@ -258,6 +286,9 @@ def _predict_and_enrich(data: bytes) -> dict:
     raw_y = pred.pop("_raw_y", None)
     proc_y = pred.pop("_proc_y", None)
     proc_sr = pred.pop("_sr", C.SAMPLE_RATE)
+
+    if progress_cb:
+        progress_cb("quality_assessment", "Assessing audio quality & background noise...", 30)
 
     # Maintain clearly separated audio references:
     # 1. Original audio (extracted audio track for video/audio)
@@ -274,6 +305,7 @@ def _predict_and_enrich(data: bytes) -> dict:
             audio_playback["original_audio_url"] = f"data:audio/wav;base64,{base64.b64encode(raw_wav).decode('ascii')}"
             audio_id = _cache_audio(raw_wav, "audio/wav")
             audio_playback["stream_url"] = f"/api/audio/preview/{audio_id}"
+            audio_playback["audio_id"] = audio_id
         if proc_y is not None and pred.get("noise_reduction", {}).get("applied"):
             proc_wav = _signal_to_wav_bytes(proc_y, proc_sr)
             audio_playback["processed_audio_url"] = f"data:audio/wav;base64,{base64.b64encode(proc_wav).decode('ascii')}"
@@ -287,7 +319,18 @@ def _predict_and_enrich(data: bytes) -> dict:
     if not pred.get("prediction_accepted", True):
         pred["transcription"] = None
         pred["consistency"] = None
+        pred["speakers"] = []
+        pred["conversation_timeline"] = []
+        pred["emotion_tracks"] = {}
+        pred["emotion_journey"] = []
+        pred["voice_analysis"] = {}
+        pred["speaker_count"] = 0
+        if progress_cb:
+            progress_cb("complete", "Analysis complete", 100)
         return pred
+
+    if progress_cb:
+        progress_cb("transcription", "Transcribing speech and detecting language...", 65)
 
     trans_res = None
     try:
@@ -310,13 +353,69 @@ def _predict_and_enrich(data: bytes) -> dict:
     
     pred["transcription"] = trans_res
 
-    transcript_text = trans_res.get("text") if trans_res else None
-    pred["consistency"] = consistency.analyze_cross_modal_consistency(
-        transcript=transcript_text,
-        predicted_emotion=pred.get("emotion"),
-        confidence=pred.get("confidence", 0.0),
-        is_uncertain=pred.get("uncertain", False),
-    )
+    if trans_res and trans_res.get("case") == "B":
+        lang_name = trans_res.get("language_name", "another language")
+        pred["consistency"] = {
+            "status": "inconclusive",
+            "display_label": "Cross-Modal Evaluation Unavailable",
+            "explanation": f"Spoken speech was identified as {lang_name}. Lexical affect comparison is available for English transcripts only; acoustic vocal emotion is evaluated independently.",
+            "text_affect": {"polarity": "unknown", "detected_emotions": [], "cues": []},
+        }
+    elif trans_res and trans_res.get("case") == "C" and not trans_res.get("no_speech"):
+        pred["consistency"] = {
+            "status": "inconclusive",
+            "display_label": "Cross-Modal Evaluation Unavailable",
+            "explanation": "Spoken language could not be confidently identified. Acoustic vocal emotion is evaluated independently.",
+            "text_affect": {"polarity": "unknown", "detected_emotions": [], "cues": []},
+        }
+    else:
+        transcript_text = trans_res.get("text") if trans_res else None
+        pred["consistency"] = consistency.analyze_cross_modal_consistency(
+            transcript=transcript_text,
+            predicted_emotion=pred.get("emotion"),
+            confidence=pred.get("confidence", 0.0),
+            is_uncertain=pred.get("uncertain", False),
+        )
+
+    if progress_cb:
+        progress_cb("speaker_diarization", "Diarizing speakers and segmenting conversational turns...", 80)
+
+    try:
+        conv_signal = proc_y if proc_y is not None else whisper_signal
+        conv_sr = proc_sr if proc_y is not None else C.SAMPLE_RATE
+        if conv_sr != C.SAMPLE_RATE:
+            conv_signal = librosa.resample(conv_signal, orig_sr=conv_sr, target_sr=C.SAMPLE_RATE)
+            conv_sr = C.SAMPLE_RATE
+
+        if progress_cb:
+            progress_cb("voice_analysis", "Extracting pitch F0 and vocal energy measurements...", 92)
+
+        conv_res = process_full_conversation_analysis(
+            conv_signal, sr=conv_sr, transcription_result=trans_res
+        )
+        pred["speakers"] = conv_res.get("speakers", [])
+        pred["conversation_timeline"] = conv_res.get("conversation_timeline", [])
+        pred["emotion_tracks"] = conv_res.get("emotion_tracks", {})
+        pred["emotion_journey"] = conv_res.get("emotion_journey", [])
+        pred["voice_analysis"] = conv_res.get("voice_analysis", {})
+        pred["speaker_count"] = conv_res.get("speaker_count", 1)
+        full_rec_duration = conv_res.get("duration") or (round(len(conv_signal) / conv_sr, 2) if conv_signal is not None else pred.get("analyzed_seconds", 0.0))
+        pred["recording_duration"] = full_rec_duration
+        pred["analyzed_seconds"] = full_rec_duration
+        if conv_res.get("combined_transcript") and pred.get("transcription"):
+            pred["transcription"]["combined_transcript"] = conv_res["combined_transcript"]
+    except Exception as conv_err:
+        log.warning("Conversation analysis stage skipped/failed: %s", conv_err)
+        pred["speakers"] = []
+        pred["conversation_timeline"] = []
+        pred["emotion_tracks"] = {}
+        pred["emotion_journey"] = []
+        pred["voice_analysis"] = {}
+        pred["speaker_count"] = 0
+
+    if progress_cb:
+        progress_cb("complete", "Conversation analysis complete", 100)
+
     return pred
 
 
@@ -494,6 +593,33 @@ def save_analysis_endpoint(body: SaveAnalysisRequest, request: Request):
     user = _get_current_user(request)
     if not body.predicted_emotion or body.predicted_emotion.lower() in ("none", "null"):
         raise HTTPException(400, {"code": "invalid_prediction", "message": "Recordings without a valid emotion prediction cannot be saved to history."})
+
+    analysis_id = secrets.token_hex(16)
+    audio_file_path = body.audio_file_path
+    saved_audio_dir = os.path.join(C.OUTPUTS_DIR, "saved_audio")
+    os.makedirs(saved_audio_dir, exist_ok=True)
+
+    audio_bytes = None
+    if body.audio_id and body.audio_id in _audio_cache:
+        _, audio_bytes, _ = _audio_cache[body.audio_id]
+    elif body.audio_base64:
+        try:
+            b64_str = body.audio_base64
+            if "," in b64_str:
+                b64_str = b64_str.split(",", 1)[1]
+            audio_bytes = base64.b64decode(b64_str)
+        except Exception as b64_err:
+            log.warning("Could not decode audio_base64 for saved analysis: %s", b64_err)
+
+    if audio_bytes:
+        fpath = os.path.join(saved_audio_dir, f"{analysis_id}.wav")
+        try:
+            with open(fpath, "wb") as f:
+                f.write(audio_bytes)
+            audio_file_path = fpath
+        except Exception as e:
+            log.warning("Could not persist saved analysis audio file: %s", e)
+
     saved = db.save_analysis(
         user_id=user["id"],
         original_filename=body.original_filename,
@@ -511,6 +637,13 @@ def save_analysis_endpoint(body: SaveAnalysisRequest, request: Request):
         model_name=body.model_name,
         model_id=body.model_id,
         feature_version=body.feature_version,
+        speakers=body.speakers,
+        conversation_timeline=body.conversation_timeline,
+        emotion_tracks=body.emotion_tracks,
+        emotion_journey=body.emotion_journey,
+        voice_analysis=body.voice_analysis,
+        audio_file_path=audio_file_path,
+        analysis_id=analysis_id,
     )
     return {"analysis": saved}
 
@@ -530,6 +663,47 @@ def get_analysis(analysis_id: str, request: Request):
     return {"analysis": analysis}
 
 
+@app.get("/api/analyses/{analysis_id}/audio")
+def get_saved_analysis_audio(analysis_id: str, request: Request):
+    """Stream or return the original audio file belonging to a saved analysis."""
+    user = _get_current_user(request)
+    analysis = db.get_user_analysis(analysis_id, user["id"])
+    if not analysis:
+        raise HTTPException(404, {"code": "not_found", "message": "Analysis not found."})
+    audio_path = analysis.get("audio_file_path")
+    if not audio_path or not os.path.exists(audio_path):
+        raise HTTPException(404, {"code": "audio_not_found", "message": "Saved audio file is not available."})
+
+    stat_res = os.stat(audio_path)
+    file_size = stat_res.st_size
+    range_header = request.headers.get("Range")
+    if range_header:
+        try:
+            byte_range = range_header.replace("bytes=", "").split("-")
+            start = int(byte_range[0]) if byte_range[0] else 0
+            end = int(byte_range[1]) if byte_range[1] else file_size - 1
+            start = max(0, min(start, file_size - 1))
+            end = max(start, min(end, file_size - 1))
+            length = end - start + 1
+            with open(audio_path, "rb") as f:
+                f.seek(start)
+                data = f.read(length)
+            return Response(
+                content=data,
+                status_code=206,
+                media_type="audio/wav",
+                headers={
+                    "Content-Range": f"bytes {start}-{end}/{file_size}",
+                    "Accept-Ranges": "bytes",
+                    "Content-Length": str(length),
+                },
+            )
+        except Exception as e:
+            log.warning("Range request error: %s", e)
+
+    return FileResponse(audio_path, media_type="audio/wav", filename=f"{analysis.get('original_filename', 'audio')}.wav")
+
+
 @app.delete("/api/analyses/{analysis_id}")
 def delete_analysis(analysis_id: str, request: Request):
     user = _get_current_user(request)
@@ -537,3 +711,177 @@ def delete_analysis(analysis_id: str, request: Request):
     if not deleted:
         raise HTTPException(404, {"code": "not_found", "message": "Analysis not found."})
     return {"ok": True}
+
+
+@app.post("/api/analyses/{analysis_id}/speakers/rename")
+def rename_analysis_speaker(analysis_id: str, body: SpeakerRenameRequest, request: Request):
+    user = _get_current_user(request)
+    try:
+        updated = db.update_saved_analysis_speaker_name(
+            analysis_id=analysis_id,
+            user_id=user["id"],
+            speaker_id=body.speaker_id,
+            new_name=body.name,
+        )
+        if not updated:
+            raise HTTPException(404, {"code": "not_found", "message": "Analysis not found or could not be updated."})
+        return {"analysis": updated}
+    except ValueError as exc:
+        raise HTTPException(400, {"code": "invalid_name", "message": str(exc)})
+
+
+# =========================================================================
+# Unified Conversation Job & Progress Endpoints
+# =========================================================================
+
+def _run_conversation_job_sync(job_id: str, data: bytes):
+    def progress_callback(stage: str, stage_label: str, progress_pct: int):
+        if job_id in _jobs:
+            _jobs[job_id]["stage"] = stage
+            _jobs[job_id]["stage_label"] = stage_label
+            _jobs[job_id]["progress_pct"] = progress_pct
+
+    try:
+        res = _predict_and_enrich(data, progress_cb=progress_callback)
+        if job_id in _jobs:
+            _jobs[job_id]["stage"] = "complete"
+            _jobs[job_id]["stage_label"] = "Conversation analysis complete"
+            _jobs[job_id]["progress_pct"] = 100
+            _jobs[job_id]["done"] = True
+            _jobs[job_id]["result"] = res
+    except Exception as exc:
+        log.error("Conversation job %s failed: %s", job_id, exc, exc_info=True)
+        if job_id in _jobs:
+            _jobs[job_id]["stage"] = "failed"
+            _jobs[job_id]["stage_label"] = f"Analysis error: {str(exc)}"
+            _jobs[job_id]["done"] = True
+            _jobs[job_id]["error"] = str(exc)
+
+
+async def _launch_job(job_id: str, data: bytes):
+    await run_in_threadpool(_run_conversation_job_sync, job_id, data)
+
+
+@app.post("/api/analyze/conversation")
+async def analyze_conversation_endpoint(file: UploadFile = File(...)):
+    """Upload audio/video for full conversation analysis with asynchronous progress updates."""
+    data = await _read(file)
+    job_id = uuid.uuid4().hex
+    _jobs[job_id] = {
+        "job_id": job_id,
+        "stage": "queued",
+        "stage_label": "Queued for processing...",
+        "progress_pct": 5,
+        "done": False,
+        "result": None,
+        "error": None,
+        "created_at": time.time(),
+    }
+    now = time.time()
+    for jid in list(_jobs.keys()):
+        if now - _jobs[jid].get("created_at", now) > 3600:
+            _jobs.pop(jid, None)
+
+    asyncio.create_task(_launch_job(job_id, data))
+    return {"job_id": job_id}
+
+
+@app.get("/api/jobs/{job_id}/progress")
+def get_job_progress_endpoint(job_id: str):
+    """Poll progress of a conversation analysis job."""
+    job = _jobs.get(job_id)
+    if not job:
+        raise HTTPException(404, {"code": "not_found", "message": "Analysis job not found or expired."})
+    return {
+        "job_id": job["job_id"],
+        "stage": job["stage"],
+        "stage_label": job["stage_label"],
+        "progress_pct": job["progress_pct"],
+        "done": job["done"],
+        "result": job["result"],
+        "error": job["error"],
+    }
+
+
+# =========================================================================
+# Export Endpoints (PDF & CSV)
+# =========================================================================
+
+@app.post("/api/export/pdf")
+def export_pdf_direct(body: ExportReportRequest):
+    """Generate high-fidelity branded PDF report directly from analysis JSON."""
+    try:
+        pdf_bytes = generate_pdf_report(body.analysis)
+        import re
+        raw_fname = body.analysis.get("original_filename", "audio_analysis")
+        fname = re.sub(r"[^a-zA-Z0-9_\-.]", "_", raw_fname)
+        return Response(
+            pdf_bytes,
+            media_type="application/pdf",
+            headers={"Content-Disposition": f'attachment; filename="SER_Report_{fname}.pdf"'},
+        )
+    except Exception as exc:
+        log.error("PDF export generation failed: %s", exc, exc_info=True)
+        raise HTTPException(500, {"code": "pdf_export_failed", "message": str(exc)})
+
+
+@app.post("/api/export/csv")
+def export_csv_direct(body: ExportReportRequest):
+    """Generate structured multi-file CSV ZIP package directly from analysis JSON."""
+    try:
+        zip_bytes = generate_csv_export(body.analysis)
+        import re
+        raw_fname = body.analysis.get("original_filename", "audio_analysis")
+        fname = re.sub(r"[^a-zA-Z0-9_\-.]", "_", raw_fname)
+        return Response(
+            zip_bytes,
+            media_type="application/zip",
+            headers={"Content-Disposition": f'attachment; filename="SER_Export_{fname}.zip"'},
+        )
+    except Exception as exc:
+        log.error("CSV export generation failed: %s", exc, exc_info=True)
+        raise HTTPException(500, {"code": "csv_export_failed", "message": str(exc)})
+
+
+@app.get("/api/analyses/{analysis_id}/export/pdf")
+def export_analysis_pdf(analysis_id: str, request: Request):
+    """Generate high-fidelity branded PDF report for a saved analysis."""
+    user = _get_current_user(request)
+    analysis = db.get_user_analysis(analysis_id, user["id"])
+    if not analysis:
+        raise HTTPException(404, {"code": "not_found", "message": "Analysis not found."})
+    try:
+        pdf_bytes = generate_pdf_report(analysis)
+        import re
+        raw_fname = analysis.get("original_filename", "audio_analysis")
+        fname = re.sub(r"[^a-zA-Z0-9_\-.]", "_", raw_fname)
+        return Response(
+            pdf_bytes,
+            media_type="application/pdf",
+            headers={"Content-Disposition": f'attachment; filename="SER_Report_{fname}.pdf"'},
+        )
+    except Exception as exc:
+        log.error("PDF export generation failed: %s", exc, exc_info=True)
+        raise HTTPException(500, {"code": "pdf_export_failed", "message": str(exc)})
+
+
+@app.get("/api/analyses/{analysis_id}/export/csv")
+def export_analysis_csv(analysis_id: str, request: Request):
+    """Generate structured multi-file CSV ZIP package for a saved analysis."""
+    user = _get_current_user(request)
+    analysis = db.get_user_analysis(analysis_id, user["id"])
+    if not analysis:
+        raise HTTPException(404, {"code": "not_found", "message": "Analysis not found."})
+    try:
+        zip_bytes = generate_csv_export(analysis)
+        import re
+        raw_fname = analysis.get("original_filename", "audio_analysis")
+        fname = re.sub(r"[^a-zA-Z0-9_\-.]", "_", raw_fname)
+        return Response(
+            zip_bytes,
+            media_type="application/zip",
+            headers={"Content-Disposition": f'attachment; filename="SER_Export_{fname}.zip"'},
+        )
+    except Exception as exc:
+        log.error("CSV export generation failed: %s", exc, exc_info=True)
+        raise HTTPException(500, {"code": "csv_export_failed", "message": str(exc)})

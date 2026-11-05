@@ -106,13 +106,22 @@ export default function Layout({ children }: { children: ReactNode }) {
       <a className="skip" href="#main">Skip to content</a>
 
       <header
-        className={`site-header ${home ? "over-hero" : ""} ${scrolled ? "scrolled solid" : ""}`}
+        className={`site-header ${home ? "over-hero" : ""} ${scrolled ? "scrolled solid" : ""} ${open ? "menu-open" : ""}`}
       >
         <div className="wrap bar">
           <Link to="/" className="brand" aria-label="Speech Emotion Recognition, home">
             <Logo size={38} />
             <span className="brand-name">Speech Emotion Recognition</span>
           </Link>
+
+          {/* Backdrop for mobile drawer - placed before site-nav so drawer stacks above it */}
+          {open && (
+            <div
+              className="menu-backdrop"
+              onClick={() => setOpen(false)}
+              aria-hidden="true"
+            />
+          )}
 
           {/* Desktop & Mobile Navigation */}
           <nav
@@ -186,15 +195,6 @@ export default function Layout({ children }: { children: ReactNode }) {
               </button>
             </div>
           </nav>
-
-          {/* Backdrop for mobile drawer */}
-          {open && (
-            <div
-              className="menu-backdrop"
-              onClick={() => setOpen(false)}
-              aria-hidden="true"
-            />
-          )}
 
           <div className="tools">
             <StatusBadge />

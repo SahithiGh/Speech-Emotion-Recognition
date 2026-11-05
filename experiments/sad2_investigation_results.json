@@ -1,0 +1,258 @@
+{
+  "model_verification": {
+    "staging": {
+      "path": "D:\\speech-emotion-recognition\\models\\candidate_option2\\emotion_model.joblib",
+      "sha256": "576d50eb306fc79d078e851170e9790e3477dccb27239075868bee37598a80b4"
+    },
+    "production": {
+      "path": "D:\\speech-emotion-recognition\\models\\emotion_model.joblib",
+      "sha256": "9db13e3e393fc0b6283ff7eb7405beb61c2170cef7271a2e35452801b1e294c4"
+    }
+  },
+  "file_investigated": {
+    "name": "Sad2.mp3.mpeg",
+    "wav_equivalent": "Sad2.wav",
+    "duration_raw_seconds": 8.664,
+    "duration_analyzed_seconds": 6.0,
+    "was_truncated": true,
+    "peak_standardized_deviation": 12.36,
+    "top_15_deviations": [
+      {
+        "index": 200,
+        "name": "Mel spectrum [idx 200, offset 40]",
+        "raw_value": 14.7667,
+        "training_mean": 2.4969,
+        "training_std": 0.9928,
+        "z_score": 12.36
+      },
+      {
+        "index": 202,
+        "name": "Mel spectrum [idx 202, offset 42]",
+        "raw_value": 20.5586,
+        "training_mean": 5.4595,
+        "training_std": 1.8463,
+        "z_score": 8.18
+      },
+      {
+        "index": 201,
+        "name": "Mel spectrum [idx 201, offset 41]",
+        "raw_value": 16.7963,
+        "training_mean": 4.4306,
+        "training_std": 1.8106,
+        "z_score": 6.83
+      },
+      {
+        "index": 203,
+        "name": "Mel spectrum [idx 203, offset 43]",
+        "raw_value": 19.1601,
+        "training_mean": 7.2939,
+        "training_std": 2.4742,
+        "z_score": 4.8
+      },
+      {
+        "index": 205,
+        "name": "Mel spectrum [idx 205, offset 45]",
+        "raw_value": 21.4082,
+        "training_mean": 10.2075,
+        "training_std": 2.5046,
+        "z_score": 4.47
+      },
+      {
+        "index": 204,
+        "name": "Mel spectrum [idx 204, offset 44]",
+        "raw_value": 19.6786,
+        "training_mean": 9.3455,
+        "training_std": 2.5426,
+        "z_score": 4.06
+      },
+      {
+        "index": 206,
+        "name": "Mel spectrum [idx 206, offset 46]",
+        "raw_value": 21.9424,
+        "training_mean": 11.399,
+        "training_std": 2.6991,
+        "z_score": 3.91
+      },
+      {
+        "index": 48,
+        "name": "Voice timbre (MFCC) [idx 48, offset 48]",
+        "raw_value": 16.1018,
+        "training_mean": 8.4738,
+        "training_std": 2.2704,
+        "z_score": 3.36
+      },
+      {
+        "index": 46,
+        "name": "Voice timbre (MFCC) [idx 46, offset 46]",
+        "raw_value": 20.2818,
+        "training_mean": 10.9745,
+        "training_std": 2.7901,
+        "z_score": 3.34
+      },
+      {
+        "index": 207,
+        "name": "Mel spectrum [idx 207, offset 47]",
+        "raw_value": 20.754,
+        "training_mean": 11.7419,
+        "training_std": 2.7865,
+        "z_score": 3.23
+      },
+      {
+        "index": 272,
+        "name": "Spectral contrast [idx 272, offset 8]",
+        "raw_value": 6.061,
+        "training_mean": 3.9621,
+        "training_std": 0.6919,
+        "z_score": 3.03
+      },
+      {
+        "index": 209,
+        "name": "Mel spectrum [idx 209, offset 49]",
+        "raw_value": 20.4218,
+        "training_mean": 11.5662,
+        "training_std": 3.0379,
+        "z_score": 2.92
+      },
+      {
+        "index": 164,
+        "name": "Mel spectrum [idx 164, offset 4]",
+        "raw_value": -11.6961,
+        "training_mean": 0.8854,
+        "training_std": 4.7554,
+        "z_score": -2.65
+      },
+      {
+        "index": 163,
+        "name": "Mel spectrum [idx 163, offset 3]",
+        "raw_value": -8.7821,
+        "training_mean": 3.2637,
+        "training_std": 4.6077,
+        "z_score": -2.61
+      },
+      {
+        "index": 210,
+        "name": "Mel spectrum [idx 210, offset 50]",
+        "raw_value": 19.459,
+        "training_mean": 11.5791,
+        "training_std": 3.0617,
+        "z_score": 2.57
+      }
+    ]
+  },
+  "predictions_comparison": {
+    "sad2_staging_6s": {
+      "predicted": "fear",
+      "confidence": 0.432,
+      "margin": 0.1078,
+      "scores": {
+        "angry": 0.1863,
+        "disgust": 0.0311,
+        "fear": 0.432,
+        "happy": 0.3243,
+        "neutral": 0.0103,
+        "sad": 0.0159
+      }
+    },
+    "sad2_staging_full_8s": {
+      "predicted": "fear",
+      "confidence": 0.4417,
+      "margin": 0.182,
+      "scores": {
+        "angry": 0.2597,
+        "disgust": 0.0306,
+        "fear": 0.4417,
+        "happy": 0.2366,
+        "neutral": 0.0129,
+        "sad": 0.0185
+      }
+    },
+    "sad2_production": {
+      "predicted": "fear",
+      "confidence": 0.4386,
+      "margin": 0.1812,
+      "scores": {
+        "angry": 0.2574,
+        "disgust": 0.0294,
+        "fear": 0.4386,
+        "happy": 0.23,
+        "neutral": 0.0134,
+        "sad": 0.0311
+      }
+    }
+  },
+  "decision_margins_staging": {
+    "angry vs disgust": 3.2355,
+    "angry vs fear": 1.7642,
+    "angry vs happy": 5.2694,
+    "angry vs neutral": 4.2633,
+    "angry vs sad": -0.2682,
+    "disgust vs fear": 0.7355
+  },
+  "crema_reference_evaluation": {
+    "CREMA-D Sad": {
+      "predicted": "sad",
+      "confidence": 0.6858,
+      "max_deviation": 3.67,
+      "probabilities": {
+        "angry": 0.0163,
+        "disgust": 0.0772,
+        "fear": 0.0889,
+        "happy": 0.0227,
+        "neutral": 0.1091,
+        "sad": 0.6858
+      }
+    },
+    "CREMA-D Happy": {
+      "predicted": "happy",
+      "confidence": 0.8193,
+      "max_deviation": 5.44,
+      "probabilities": {
+        "angry": 0.0501,
+        "disgust": 0.0302,
+        "fear": 0.0807,
+        "happy": 0.8193,
+        "neutral": 0.0158,
+        "sad": 0.0039
+      }
+    },
+    "CREMA-D Neutral": {
+      "predicted": "neutral",
+      "confidence": 0.7835,
+      "max_deviation": 2.74,
+      "probabilities": {
+        "angry": 0.022,
+        "disgust": 0.0844,
+        "fear": 0.0075,
+        "happy": 0.0189,
+        "neutral": 0.7835,
+        "sad": 0.0837
+      }
+    },
+    "CREMA-D Fear": {
+      "predicted": "fear",
+      "confidence": 0.7898,
+      "max_deviation": 10.19,
+      "probabilities": {
+        "angry": 0.0539,
+        "disgust": 0.0336,
+        "fear": 0.7898,
+        "happy": 0.0717,
+        "neutral": 0.0142,
+        "sad": 0.0368
+      }
+    },
+    "CREMA-D Angry": {
+      "predicted": "angry",
+      "confidence": 0.8508,
+      "max_deviation": 3.77,
+      "probabilities": {
+        "angry": 0.8508,
+        "disgust": 0.0427,
+        "fear": 0.0477,
+        "happy": 0.0394,
+        "neutral": 0.0147,
+        "sad": 0.0046
+      }
+    }
+  }
+}

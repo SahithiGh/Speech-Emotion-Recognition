@@ -1,0 +1,454 @@
+{
+  "phase": "Phase 4: Classification Head Design, Training & Cross-Validation",
+  "timestamp": "2026-11-01 23:48:40",
+  "total_elapsed_seconds": 148.33,
+  "benchmark_limitation": "CREMA-D contamination disclosure: CREMA-D is documented as part of emotion2vec's original self-supervised pretraining corpora. Therefore, high performance on CREMA-D represents in-domain representation probing and cannot be claimed as independent out-of-distribution generalization.",
+  "training_data": {
+    "source": "D:\\speech-emotion-recognition\\experiments\\emotion2vec_candidate\\dev_embeddings.npz",
+    "samples": 6294,
+    "speakers": 77,
+    "feature_dim": 768,
+    "classes": [
+      "angry",
+      "disgust",
+      "fear",
+      "happy",
+      "neutral",
+      "sad"
+    ]
+  },
+  "held_out_test_status": "QUARANTINED (Untouched, 0 evaluations performed)",
+  "candidates": {
+    "logistic_regression": {
+      "best_params": {
+        "C": 0.05,
+        "class_weight": "balanced",
+        "solver": "lbfgs"
+      },
+      "metrics": {
+        "accuracy": 0.8959326342548459,
+        "balanced_accuracy": 0.8971733010979245,
+        "macro_f1": 0.8964876877483356,
+        "macro_precision": 0.8965072603672172,
+        "macro_recall": 0.8971733010979245,
+        "per_class": {
+          "angry": {
+            "precision": 0.952247191011236,
+            "recall": 0.946046511627907,
+            "f1-score": 0.9491367242183855,
+            "support": 1075
+          },
+          "disgust": {
+            "precision": 0.9014218009478673,
+            "recall": 0.8846511627906977,
+            "f1-score": 0.8929577464788733,
+            "support": 1075
+          },
+          "fear": {
+            "precision": 0.866,
+            "recall": 0.8055813953488372,
+            "f1-score": 0.8346987951807229,
+            "support": 1075
+          },
+          "happy": {
+            "precision": 0.9372114496768237,
+            "recall": 0.9441860465116279,
+            "f1-score": 0.9406858202038925,
+            "support": 1075
+          },
+          "neutral": {
+            "precision": 0.9083333333333333,
+            "recall": 0.9478260869565217,
+            "f1-score": 0.9276595744680851,
+            "support": 920
+          },
+          "sad": {
+            "precision": 0.8138297872340425,
+            "recall": 0.8547486033519553,
+            "f1-score": 0.8337874659400545,
+            "support": 1074
+          }
+        },
+        "confusion_matrix": [
+          [
+            1017,
+            27,
+            9,
+            16,
+            5,
+            1
+          ],
+          [
+            23,
+            951,
+            23,
+            10,
+            13,
+            55
+          ],
+          [
+            12,
+            32,
+            866,
+            19,
+            18,
+            128
+          ],
+          [
+            12,
+            11,
+            17,
+            1015,
+            16,
+            4
+          ],
+          [
+            3,
+            3,
+            6,
+            14,
+            872,
+            22
+          ],
+          [
+            1,
+            31,
+            79,
+            9,
+            36,
+            918
+          ]
+        ],
+        "class_labels": [
+          "angry",
+          "disgust",
+          "fear",
+          "happy",
+          "neutral",
+          "sad"
+        ],
+        "fold_scores": [
+          {
+            "fold": 1,
+            "accuracy": 0.8851791530944625,
+            "macro_f1": 0.8853266693071937
+          },
+          {
+            "fold": 2,
+            "accuracy": 0.9146341463414634,
+            "macro_f1": 0.9152385572589555
+          },
+          {
+            "fold": 3,
+            "accuracy": 0.9161538461538462,
+            "macro_f1": 0.9163956673132333
+          },
+          {
+            "fold": 4,
+            "accuracy": 0.8788617886178862,
+            "macro_f1": 0.8791077796640933
+          },
+          {
+            "fold": 5,
+            "accuracy": 0.8843797856049005,
+            "macro_f1": 0.8849320820240817
+          }
+        ]
+      },
+      "checkpoint": {
+        "path": "D:\\speech-emotion-recognition\\experiments\\emotion2vec_candidate\\candidate_logistic_regression.joblib",
+        "size_kb": 37.5,
+        "sha256": "1ed60ec67e6e8abc41c4ca159abb0e44acb7525601a941e50172a4224b6a7f83"
+      }
+    },
+    "rbf_svm": {
+      "best_params": {
+        "C": 5.0,
+        "gamma": "scale",
+        "kernel": "rbf",
+        "class_weight": "balanced",
+        "probability": true
+      },
+      "metrics": {
+        "accuracy": 0.8972036860502065,
+        "balanced_accuracy": 0.8985206922328103,
+        "macro_f1": 0.8977439435050257,
+        "macro_precision": 0.8985848225638292,
+        "macro_recall": 0.8985206922328103,
+        "per_class": {
+          "angry": {
+            "precision": 0.9550140581068416,
+            "recall": 0.947906976744186,
+            "f1-score": 0.9514472455648926,
+            "support": 1075
+          },
+          "disgust": {
+            "precision": 0.8972667295004713,
+            "recall": 0.8855813953488372,
+            "f1-score": 0.8913857677902621,
+            "support": 1075
+          },
+          "fear": {
+            "precision": 0.8870292887029289,
+            "recall": 0.7888372093023256,
+            "f1-score": 0.8350566223535204,
+            "support": 1075
+          },
+          "happy": {
+            "precision": 0.9407407407407408,
+            "recall": 0.9451162790697675,
+            "f1-score": 0.94292343387471,
+            "support": 1075
+          },
+          "neutral": {
+            "precision": 0.9087136929460581,
+            "recall": 0.9521739130434783,
+            "f1-score": 0.9299363057324841,
+            "support": 920
+          },
+          "sad": {
+            "precision": 0.8027444253859348,
+            "recall": 0.8715083798882681,
+            "f1-score": 0.8357142857142857,
+            "support": 1074
+          }
+        },
+        "confusion_matrix": [
+          [
+            1019,
+            27,
+            9,
+            14,
+            5,
+            1
+          ],
+          [
+            20,
+            952,
+            23,
+            9,
+            14,
+            57
+          ],
+          [
+            10,
+            35,
+            848,
+            21,
+            17,
+            144
+          ],
+          [
+            13,
+            13,
+            13,
+            1016,
+            16,
+            4
+          ],
+          [
+            4,
+            2,
+            3,
+            11,
+            876,
+            24
+          ],
+          [
+            1,
+            32,
+            60,
+            9,
+            36,
+            936
+          ]
+        ],
+        "class_labels": [
+          "angry",
+          "disgust",
+          "fear",
+          "happy",
+          "neutral",
+          "sad"
+        ],
+        "fold_scores": [
+          {
+            "fold": 1,
+            "accuracy": 0.8835504885993485,
+            "macro_f1": 0.8835360685435569
+          },
+          {
+            "fold": 2,
+            "accuracy": 0.9227642276422764,
+            "macro_f1": 0.9233409149286304
+          },
+          {
+            "fold": 3,
+            "accuracy": 0.9138461538461539,
+            "macro_f1": 0.9142245249455113
+          },
+          {
+            "fold": 4,
+            "accuracy": 0.8780487804878049,
+            "macro_f1": 0.878195254833637
+          },
+          {
+            "fold": 5,
+            "accuracy": 0.8874425727411945,
+            "macro_f1": 0.8881501031903466
+          }
+        ]
+      },
+      "checkpoint": {
+        "path": "D:\\speech-emotion-recognition\\experiments\\emotion2vec_candidate\\candidate_rbf_svm.joblib",
+        "size_mb": 8.42,
+        "sha256": "b01d1e6961345659e65c18dbc74de32098bb77d568f16e84168694fceee8a061"
+      }
+    },
+    "mlp": {
+      "best_params": {
+        "hidden_layer_sizes": [
+          256
+        ],
+        "alpha": 0.01,
+        "activation": "relu",
+        "solver": "adam"
+      },
+      "metrics": {
+        "accuracy": 0.8972036860502065,
+        "balanced_accuracy": 0.898390666355359,
+        "macro_f1": 0.8979763011982907,
+        "macro_precision": 0.8987003302777139,
+        "macro_recall": 0.898390666355359,
+        "per_class": {
+          "angry": {
+            "precision": 0.9495798319327731,
+            "recall": 0.946046511627907,
+            "f1-score": 0.9478098788443616,
+            "support": 1075
+          },
+          "disgust": {
+            "precision": 0.8859813084112149,
+            "recall": 0.881860465116279,
+            "f1-score": 0.8839160839160839,
+            "support": 1075
+          },
+          "fear": {
+            "precision": 0.8794688457609806,
+            "recall": 0.8009302325581396,
+            "f1-score": 0.8383641674780915,
+            "support": 1075
+          },
+          "happy": {
+            "precision": 0.9501411100658513,
+            "recall": 0.9395348837209302,
+            "f1-score": 0.9448082319925164,
+            "support": 1075
+          },
+          "neutral": {
+            "precision": 0.9187763713080169,
+            "recall": 0.9467391304347826,
+            "f1-score": 0.9325481798715204,
+            "support": 920
+          },
+          "sad": {
+            "precision": 0.8082545141874462,
+            "recall": 0.8752327746741154,
+            "f1-score": 0.8404112650871703,
+            "support": 1074
+          }
+        },
+        "confusion_matrix": [
+          [
+            1017,
+            28,
+            9,
+            15,
+            4,
+            2
+          ],
+          [
+            23,
+            948,
+            27,
+            7,
+            12,
+            58
+          ],
+          [
+            10,
+            39,
+            861,
+            16,
+            14,
+            135
+          ],
+          [
+            18,
+            13,
+            12,
+            1010,
+            16,
+            6
+          ],
+          [
+            2,
+            5,
+            10,
+            10,
+            871,
+            22
+          ],
+          [
+            1,
+            37,
+            60,
+            5,
+            31,
+            940
+          ]
+        ],
+        "class_labels": [
+          "angry",
+          "disgust",
+          "fear",
+          "happy",
+          "neutral",
+          "sad"
+        ],
+        "fold_scores": [
+          {
+            "fold": 1,
+            "accuracy": 0.8884364820846905,
+            "macro_f1": 0.8887659962433322
+          },
+          {
+            "fold": 2,
+            "accuracy": 0.9130081300813008,
+            "macro_f1": 0.9140094727461213
+          },
+          {
+            "fold": 3,
+            "accuracy": 0.916923076923077,
+            "macro_f1": 0.9174750317792433
+          },
+          {
+            "fold": 4,
+            "accuracy": 0.8780487804878049,
+            "macro_f1": 0.8787166431539926
+          },
+          {
+            "fold": 5,
+            "accuracy": 0.8889739663093414,
+            "macro_f1": 0.8895479564980091
+          }
+        ]
+      },
+      "checkpoint": {
+        "path": "D:\\speech-emotion-recognition\\experiments\\emotion2vec_candidate\\candidate_mlp.joblib",
+        "size_kb": 2352.0,
+        "sha256": "1addaa61b1c7c799897df5403fa3cf3c0763203a76972b31a19aa0d9ee8a576c"
+      }
+    }
+  }
+}

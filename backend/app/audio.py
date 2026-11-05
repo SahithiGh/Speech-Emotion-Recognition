@@ -49,7 +49,9 @@ def prepare_signal(y: np.ndarray, sr: int, notes: list | None = None) -> np.ndar
         raise AudioError("Not enough speech was found after removing silence. Please record a longer sentence.", "too_short")
     if len(y) / C.SAMPLE_RATE < C.SHORT_NOTE_SECONDS:
         notes.append("Very short clip. Results are less reliable; try a full sentence of 2 to 5 seconds.")
-    # Entire valid speech recording is preserved; temporal window pooling in predict.py handles longer clips
+    if len(y) > C.MAX_SECONDS * C.SAMPLE_RATE:
+        y = y[: int(C.MAX_SECONDS * C.SAMPLE_RATE)]
+        notes.append(f"Only the first {int(C.MAX_SECONDS)} seconds were analysed. Use shorter clips for targeted evaluation.")
     peak = float(np.max(np.abs(y)))
     if peak < 0.012:
         raise AudioError("Audio is too quiet. Please record again.", "silent")

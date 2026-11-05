@@ -1,0 +1,77 @@
+{
+  "status": "PASS",
+  "timestamp": "2026-11-01 23:34:18",
+  "elapsed_seconds": 4730.08,
+  "total_clips_extracted": 7441,
+  "total_failures": 0,
+  "speaker_leakage_detected": false,
+  "speaker_leakage_overlap": [],
+  "development_split": {
+    "path": "D:\\speech-emotion-recognition\\experiments\\emotion2vec_candidate\\dev_embeddings.npz",
+    "size_mb": 17.15,
+    "sha256": "4242fe4652b913762c6c851639bade3ea2ca275f0d56c80e3350ea8200c43a61",
+    "validation": {
+      "count": 6294,
+      "expected_count": 6294,
+      "count_valid": true,
+      "shape": [
+        6294,
+        768
+      ],
+      "shape_valid": true,
+      "all_finite": true,
+      "no_nan": true,
+      "no_inf": true,
+      "num_speakers": 77,
+      "expected_num_speakers": 77,
+      "speaker_set_matches": true,
+      "class_distribution": {
+        "angry": 1075,
+        "disgust": 1075,
+        "fear": 1075,
+        "happy": 1075,
+        "neutral": 920,
+        "sad": 1074
+      },
+      "embedding_norm_mean": 28.75714874267578,
+      "embedding_norm_std": 5.336939811706543,
+      "embedding_min": -6.8697638511657715,
+      "embedding_max": 13.396976470947266,
+      "valid": true
+    }
+  },
+  "test_split": {
+    "path": "D:\\speech-emotion-recognition\\experiments\\emotion2vec_candidate\\test_embeddings.npz",
+    "size_mb": 3.13,
+    "sha256": "89a841748f541481c6df17cea3cc32df93a6218602fdff7918ab004099740490",
+    "validation": {
+      "count": 1147,
+      "expected_count": 1147,
+      "count_valid": true,
+      "shape": [
+        1147,
+        768
+      ],
+      "shape_valid": true,
+      "all_finite": true,
+      "no_nan": true,
+      "no_inf": true,
+      "num_speakers": 14,
+      "expected_num_speakers": 14,
+      "speaker_set_matches": true,
+      "class_distribution": {
+        "angry": 196,
+        "disgust": 196,
+        "fear": 196,
+        "happy": 196,
+        "neutral": 167,
+        "sad": 196
+      },
+      "embedding_norm_mean": 28.50946617126465,
+      "embedding_norm_std": 5.328898906707764,
+      "embedding_min": -6.81559944152832,
+      "embedding_max": 12.29819393157959,
+      "valid": true
+    }
+  }
+}
