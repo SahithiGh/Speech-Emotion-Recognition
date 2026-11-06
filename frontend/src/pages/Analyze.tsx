@@ -155,7 +155,16 @@ export default function Analyze() {
 
   // Handle reopened analysis from profile
   useEffect(() => {
-    const reopened = (location.state as any)?.reopenedAnalysis as SavedAnalysis | undefined;
+    const stateReopened = (location.state as any)?.reopenedAnalysis as SavedAnalysis | undefined;
+    let storedReopened: SavedAnalysis | null = null;
+    try {
+      const raw = sessionStorage.getItem("ser_reopened_analysis");
+      if (raw) {
+        storedReopened = JSON.parse(raw);
+        sessionStorage.removeItem("ser_reopened_analysis");
+      }
+    } catch (_) {}
+    const reopened = stateReopened || storedReopened;
     if (reopened) {
       const syntheticResult: PredictResult = {
         emotion: reopened.predicted_emotion,
@@ -188,6 +197,7 @@ export default function Analyze() {
             language: "en",
             no_speech: false,
             segments: reopened.transcript_segments || [],
+            combined_transcript: (reopened as any).combined_transcript || undefined,
           }
           : undefined,
         consistency: reopened.consistency_status
@@ -212,12 +222,17 @@ export default function Analyze() {
         emotion_tracks: reopened.emotion_tracks || {},
         emotion_journey: reopened.emotion_journey || [],
         voice_analysis: reopened.voice_analysis || {},
-        speaker_count: reopened.speakers ? reopened.speakers.length : 1,
+        speaker_count: reopened.speaker_count !== undefined
+          ? reopened.speaker_count
+          : (reopened.speakers && reopened.speakers.length > 0
+            ? reopened.speakers.length
+            : (reopened.conversation_timeline && reopened.conversation_timeline.length > 0 ? 1 : 0)),
       };
 
+      const dur = reopened.analyzed_seconds || 5.0;
       const fakeBuffer = {
-        duration: reopened.analyzed_seconds,
-        length: Math.round(reopened.analyzed_seconds * 16000),
+        duration: dur,
+        length: Math.round(dur * 16000),
         numberOfChannels: 1,
         sampleRate: 16000,
       } as AudioBuffer;
@@ -228,7 +243,7 @@ export default function Analyze() {
         id: reopened.id || "reopened-" + Date.now(),
         file: new Blob([], { type: "audio/wav" }),
         name: reopened.original_filename,
-        size: Math.round(reopened.analyzed_seconds * 32000),
+        size: Math.round(dur * 32000),
         kind: "upload",
         isVideo: false,
         status: "done",
@@ -1475,6 +1490,7 @@ export default function Analyze() {
                   <InteractiveTranscript
                     result={activeItem.result}
                     onSeekAndPlay={handleSeekAndPlay}
+                    isSingleSpeaker={activeItem.result.speaker_count === 1 || (activeItem.result.speakers && activeItem.result.speakers.length === 1)}
                     onUpdateResult={(updatedResult) => {
                       setBatch((prev) =>
                         prev.map((b) => (b.id === activeItem.id ? { ...b, result: updatedResult } : b))
@@ -1702,114 +1718,304 @@ export default function Analyze() {
                 </div>
               </div>
 
-              {/* Collapsible Analysis Sections: Emotion Visuals & Speaker Analysis (both collapsed by default) */}
-              {activeItem.result.speakers && activeItem.result.speakers.length > 0 && (() => {
-                const effectiveDur = activeItem.result.recording_duration || activeItem.result.analyzed_seconds || playbackDuration || 1.0;
-                const spkCount = activeItem.result.speakers.length;
-                return (
-                  <div className="collapsible-analysis-sections" style={{ marginTop: "1.5rem" }}>
-                    {/* 1. Emotion Visuals Accordion (Collapsed by default) */}
-                    <div className={`conv-accordion-panel ${isEmotionVisualsOpen ? "is-open" : ""}`} id="emotion-visuals-section">
-                      <button
-                        type="button"
-                        className="conv-accordion-header"
-                        onClick={() => setIsEmotionVisualsOpen(!isEmotionVisualsOpen)}
-                        aria-expanded={isEmotionVisualsOpen}
-                        aria-controls="emotion-visuals-content"
-                      >
-                        <div className="conv-accordion-title-group">
-                          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                            <Activity size={18} className="icon-accent" aria-hidden="true" />
-                            <h3 className="conv-panel-title" style={{ fontSize: "1.05rem" }}>
-                              Emotion Visuals
-                            </h3>
-                            <span className="conv-badge conv-badge-primary">
-                              Emotion Tracks & Emotion Journey
-                            </span>
-                          </div>
-                          <p className="conv-panel-subtitle" style={{ marginLeft: "1.6rem" }}>
-                            Continuous 6-class acoustic probability trajectories and dominant temporal journey blocks.
-                          </p>
-                        </div>
-                        <div className="conv-accordion-action">
-                          <span className="conv-accordion-action-label">
-                            {isEmotionVisualsOpen ? "Hide Visuals" : "View Emotion Visuals"}
-                          </span>
-                          <ChevronDown className="conv-accordion-chevron" size={18} aria-hidden="true" />
-                        </div>
-                      </button>
+              {/* Speaker-Count Dependent Emotion Analysis Sections */}
+              {(() => {
+                const res = activeItem.result;
+                const effectiveDur = res.recording_duration || res.analyzed_seconds || playbackDuration || 1.0;
 
-                      {isEmotionVisualsOpen && (
-                        <div className="conv-accordion-body" id="emotion-visuals-content">
-                          <EmotionVisualizations
-                            duration={effectiveDur}
-                            tracks={activeItem.result.emotion_tracks || {}}
-                            journey={activeItem.result.emotion_journey || []}
-                            turns={activeItem.result.conversation_timeline || []}
-                            currentTime={playbackTime}
-                            onSeek={handleSeekAndPlay}
-                            embedded
-                          />
-                        </div>
-                      )}
+                // Final validated speaker count
+                const validatedSpeakerCount: number | undefined = (() => {
+                  if (res.speaker_count !== undefined && res.speaker_count !== null) {
+                    return res.speaker_count;
+                  }
+                  if (res.speakers && res.speakers.length > 0) {
+                    return res.speakers.length;
+                  }
+                  return undefined;
+                })();
+
+                const isSingleSpeaker = validatedSpeakerCount === 1;
+                const isMultiSpeaker = validatedSpeakerCount !== undefined && validatedSpeakerCount >= 2;
+                const isSpeakerCountUncertain = validatedSpeakerCount === undefined || validatedSpeakerCount <= 0;
+
+                // Case C: Speaker count unavailable, uncertain, or not validated
+                if (isSpeakerCountUncertain) {
+                  if (res.audio_quality?.status === "NOISY" || res.prediction_accepted === false) {
+                    return null;
+                  }
+                  return (
+                    <div className="banner info" style={{ marginTop: "1.5rem" }}>
+                      <Info size={16} aria-hidden="true" />
+                      <span>
+                        Speaker count could not be confidently validated for this recording. Vocal emotion results reflect overall clip acoustics without speaker segmentation.
+                      </span>
                     </div>
+                  );
+                }
 
-                    {/* 2. Speaker Analysis Accordion (Collapsed by default) */}
-                    <div className={`conv-accordion-panel ${isSpeakerAnalysisOpen ? "is-open" : ""}`} id="speaker-analysis-section">
-                      <button
-                        type="button"
-                        className="conv-accordion-header"
-                        onClick={() => setIsSpeakerAnalysisOpen(!isSpeakerAnalysisOpen)}
-                        aria-expanded={isSpeakerAnalysisOpen}
-                        aria-controls="speaker-analysis-content"
-                      >
-                        <div className="conv-accordion-title-group">
-                          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                            <Users size={18} className="icon-accent" aria-hidden="true" />
-                            <h3 className="conv-panel-title" style={{ fontSize: "1.05rem" }}>
-                              Speaker Analysis
-                            </h3>
-                            <span className="conv-badge conv-badge-primary">
-                              {spkCount} {spkCount === 1 ? "Speaker Detected" : "Speakers Detected"}
-                            </span>
+                // Case A: Single-speaker mode (speaker_count === 1)
+                if (isSingleSpeaker) {
+                  const primaryEmotion = res.emotion || "neutral";
+                  const primaryConf = res.confidence || 0.5;
+
+                  // Find runner-up emotion from scores
+                  const sortedScores = Object.entries(res.scores || {})
+                    .filter(([k]) => k.toLowerCase() !== primaryEmotion.toLowerCase())
+                    .sort((a, b) => b[1] - a[1]);
+                  const runnerUpEmotion = sortedScores.length > 0 ? sortedScores[0][0] : null;
+                  const runnerUpScore = sortedScores.length > 0 ? sortedScores[0][1] : 0;
+
+                  // Analyze emotional transitions from emotion_journey
+                  const journeyBlocks = res.emotion_journey || [];
+                  const uniqueJourneyEmotions = Array.from(new Set(journeyBlocks.map((b) => (b.emotion || "").toLowerCase())));
+                  const hasTransitions = uniqueJourneyEmotions.length > 1;
+
+                  let progressionSummary = "";
+                  if (hasTransitions && journeyBlocks.length > 1) {
+                    const firstBlock = journeyBlocks[0];
+                    const lastBlock = journeyBlocks[journeyBlocks.length - 1];
+                    progressionSummary = `Transitions from initial ${label(firstBlock.emotion)} (${firstBlock.start.toFixed(1)}s - ${firstBlock.end.toFixed(1)}s) toward ${label(lastBlock.emotion)} (${lastBlock.start.toFixed(1)}s - ${lastBlock.end.toFixed(1)}s).`;
+                  } else {
+                    progressionSummary = `Uniform, consistent ${label(primaryEmotion)} delivery maintained throughout the entire ${effectiveDur.toFixed(1)}s duration.`;
+                  }
+
+                  const clinicalInterpretation = (() => {
+                    const cueDesc = CUES[primaryEmotion] || "vocal acoustic markers";
+                    if (primaryEmotion === "neutral") {
+                      return `Vocal delivery demonstrates calm, controlled speech patterns without signs of elevated acoustic volatility or distress (${cueDesc}).`;
+                    }
+                    if (primaryEmotion === "happy") {
+                      return `Vocal acoustic markers indicate energetic, positive speech inflections with bright vocal resonance (${cueDesc}).`;
+                    }
+                    if (primaryEmotion === "sad") {
+                      return `Acoustic features reflect subdued vocal energy, reduced speech rate, and lower pitch variability (${cueDesc}).`;
+                    }
+                    if (primaryEmotion === "angry") {
+                      return `Vocal delivery displays elevated acoustic intensity, sharper pitch contours, and forceful articulation (${cueDesc}).`;
+                    }
+                    if (primaryEmotion === "fear") {
+                      return `Acoustic markers show elevated pitch perturbation and vocal tension characteristic of stressed speech (${cueDesc}).`;
+                    }
+                    if (primaryEmotion === "disgust") {
+                      return `Vocal patterns reflect guttural modulation and deliberate phonation shifts (${cueDesc}).`;
+                    }
+                    return `Acoustic delivery is classified as ${label(primaryEmotion)} with steady single-speaker vocal continuity.`;
+                  })();
+
+                  return (
+                    <div className="collapsible-analysis-sections" style={{ marginTop: "1.5rem" }}>
+                      {/* Single-Speaker Emotion Visuals & Journey Accordion (Collapsed by default) */}
+                      <div className={`conv-accordion-panel ${isEmotionVisualsOpen ? "is-open" : ""}`} id="emotion-visuals-section">
+                        <button
+                          type="button"
+                          className="conv-accordion-header"
+                          onClick={() => setIsEmotionVisualsOpen(!isEmotionVisualsOpen)}
+                          aria-expanded={isEmotionVisualsOpen}
+                          aria-controls="emotion-visuals-content"
+                        >
+                          <div className="conv-accordion-title-group">
+                            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                              <Activity size={18} className="icon-accent" aria-hidden="true" />
+                              <h3 className="conv-panel-title" style={{ fontSize: "1.05rem" }}>
+                                Emotion Visuals & Journey
+                              </h3>
+                              <span className="conv-badge conv-badge-primary">
+                                Single Speaker Analysis
+                              </span>
+                            </div>
+                            <p className="conv-panel-subtitle" style={{ marginLeft: "1.6rem" }}>
+                              Dominant emotional progression, temporal state changes, and continuous 6-class acoustic trajectories.
+                            </p>
                           </div>
-                          <p className="conv-panel-subtitle" style={{ marginLeft: "1.6rem" }}>
-                            Participation share, speaking durations, speech turns, and speaker-specific emotion distributions.
-                          </p>
-                        </div>
-                        <div className="conv-accordion-action">
-                          <span className="conv-accordion-action-label">
-                            {isSpeakerAnalysisOpen ? "Hide Analysis" : "View Speaker Analysis"}
-                          </span>
-                          <ChevronDown className="conv-accordion-chevron" size={18} aria-hidden="true" />
-                        </div>
-                      </button>
+                          <div className="conv-accordion-action">
+                            <span className="conv-accordion-action-label">
+                              {isEmotionVisualsOpen ? "Hide Visuals" : "View Emotion Visuals"}
+                            </span>
+                            <ChevronDown className="conv-accordion-chevron" size={18} aria-hidden="true" />
+                          </div>
+                        </button>
 
-                      {isSpeakerAnalysisOpen && (
-                        <div className="conv-accordion-body" id="speaker-analysis-content">
-                          {/* Multi-speaker speaking turns & overlap timeline */}
-                          <ConversationTimeline
-                            duration={effectiveDur}
-                            speakers={activeItem.result.speakers}
-                            turns={activeItem.result.conversation_timeline || []}
-                            currentTime={playbackTime}
-                            onSeek={handleSeekAndPlay}
-                            embedded
-                          />
+                        {isEmotionVisualsOpen && (
+                          <div className="conv-accordion-body" id="emotion-visuals-content">
+                            {/* Dual Emotion Visuals: Tracks & Journey */}
+                            <EmotionVisualizations
+                              duration={effectiveDur}
+                              tracks={res.emotion_tracks || {}}
+                              journey={res.emotion_journey || []}
+                              turns={res.conversation_timeline || []}
+                              currentTime={playbackTime}
+                              onSeek={handleSeekAndPlay}
+                              embedded
+                              isSingleSpeaker
+                            />
 
-                          {/* Detected speaker profiles, duration, speech share, emotion results */}
-                          <SpeakerAnalysisView
-                            speakers={activeItem.result.speakers}
-                            turns={activeItem.result.conversation_timeline || []}
-                            onRenameSpeaker={handleRenameSpeaker}
-                            onSeek={handleSeekAndPlay}
-                            embedded
-                          />
-                        </div>
-                      )}
+                            {/* Single-Speaker Emotional Patterns & Concise State Interpretation */}
+                            <div className="single-speaker-pattern-card">
+                              <div className="single-speaker-pattern-header">
+                                <h4 className="single-speaker-pattern-title">
+                                  <Sparkles size={16} className="icon-accent" aria-hidden="true" />
+                                  Speaker Emotional State & Temporal Patterns
+                                </h4>
+                                <span className="conv-badge conv-badge-primary">
+                                  1 Speaker Validated
+                                </span>
+                              </div>
+
+                              <div className="single-speaker-pattern-grid">
+                                <div className="single-speaker-pattern-box">
+                                  <span className="single-speaker-pattern-label">Dominant Expression</span>
+                                  <span className={`single-speaker-pattern-val emotion-${primaryEmotion.toLowerCase()}`}>
+                                    {label(primaryEmotion)} ({pct(primaryConf)})
+                                  </span>
+                                  <p className="single-speaker-pattern-desc">
+                                    Primary vocal acoustic classification across the analyzed recording.
+                                  </p>
+                                </div>
+
+                                <div className="single-speaker-pattern-box">
+                                  <span className="single-speaker-pattern-label">Temporal Dynamics</span>
+                                  <span className="single-speaker-pattern-val">
+                                    {hasTransitions ? "State Shift Detected" : "Stable Delivery"}
+                                  </span>
+                                  <p className="single-speaker-pattern-desc">
+                                    {progressionSummary}
+                                  </p>
+                                </div>
+
+                                {runnerUpEmotion && runnerUpScore > 0.05 && (
+                                  <div className="single-speaker-pattern-box">
+                                    <span className="single-speaker-pattern-label">Secondary Acoustic Nuance</span>
+                                    <span className="single-speaker-pattern-val">
+                                      {label(runnerUpEmotion)} ({pct(runnerUpScore)})
+                                    </span>
+                                    <p className="single-speaker-pattern-desc">
+                                      Underlying vocal inflection detected alongside the primary emotion.
+                                    </p>
+                                  </div>
+                                )}
+                              </div>
+
+                              <p className="single-speaker-interpretation-text">
+                                <strong>Interpretation:</strong> {clinicalInterpretation}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                );
+                  );
+                }
+
+                // Case B: Multi-speaker mode (speaker_count >= 2)
+                if (isMultiSpeaker) {
+                  const spkCount = validatedSpeakerCount;
+                  return (
+                    <div className="collapsible-analysis-sections" style={{ marginTop: "1.5rem" }}>
+                      {/* 1. Emotion Visuals Accordion (Collapsed by default) */}
+                      <div className={`conv-accordion-panel ${isEmotionVisualsOpen ? "is-open" : ""}`} id="emotion-visuals-section">
+                        <button
+                          type="button"
+                          className="conv-accordion-header"
+                          onClick={() => setIsEmotionVisualsOpen(!isEmotionVisualsOpen)}
+                          aria-expanded={isEmotionVisualsOpen}
+                          aria-controls="emotion-visuals-content"
+                        >
+                          <div className="conv-accordion-title-group">
+                            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                              <Activity size={18} className="icon-accent" aria-hidden="true" />
+                              <h3 className="conv-panel-title" style={{ fontSize: "1.05rem" }}>
+                                Emotion Visuals
+                              </h3>
+                              <span className="conv-badge conv-badge-primary">
+                                Emotion Tracks & Emotion Journey
+                              </span>
+                            </div>
+                            <p className="conv-panel-subtitle" style={{ marginLeft: "1.6rem" }}>
+                              Continuous 6-class acoustic probability trajectories and dominant temporal journey blocks.
+                            </p>
+                          </div>
+                          <div className="conv-accordion-action">
+                            <span className="conv-accordion-action-label">
+                              {isEmotionVisualsOpen ? "Hide Visuals" : "View Emotion Visuals"}
+                            </span>
+                            <ChevronDown className="conv-accordion-chevron" size={18} aria-hidden="true" />
+                          </div>
+                        </button>
+
+                        {isEmotionVisualsOpen && (
+                          <div className="conv-accordion-body" id="emotion-visuals-content">
+                            <EmotionVisualizations
+                              duration={effectiveDur}
+                              tracks={res.emotion_tracks || {}}
+                              journey={res.emotion_journey || []}
+                              turns={res.conversation_timeline || []}
+                              currentTime={playbackTime}
+                              onSeek={handleSeekAndPlay}
+                              embedded
+                            />
+                          </div>
+                        )}
+                      </div>
+
+                      {/* 2. Speaker Analysis Accordion (Collapsed by default) */}
+                      <div className={`conv-accordion-panel ${isSpeakerAnalysisOpen ? "is-open" : ""}`} id="speaker-analysis-section">
+                        <button
+                          type="button"
+                          className="conv-accordion-header"
+                          onClick={() => setIsSpeakerAnalysisOpen(!isSpeakerAnalysisOpen)}
+                          aria-expanded={isSpeakerAnalysisOpen}
+                          aria-controls="speaker-analysis-content"
+                        >
+                          <div className="conv-accordion-title-group">
+                            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                              <Users size={18} className="icon-accent" aria-hidden="true" />
+                              <h3 className="conv-panel-title" style={{ fontSize: "1.05rem" }}>
+                                Speaker Analysis
+                              </h3>
+                              <span className="conv-badge conv-badge-primary">
+                                {spkCount} Speakers Detected
+                              </span>
+                            </div>
+                            <p className="conv-panel-subtitle" style={{ marginLeft: "1.6rem" }}>
+                              Participation share, speaking durations, speech turns, and speaker-specific emotion distributions.
+                            </p>
+                          </div>
+                          <div className="conv-accordion-action">
+                            <span className="conv-accordion-action-label">
+                              {isSpeakerAnalysisOpen ? "Hide Analysis" : "View Speaker Analysis"}
+                            </span>
+                            <ChevronDown className="conv-accordion-chevron" size={18} aria-hidden="true" />
+                          </div>
+                        </button>
+
+                        {isSpeakerAnalysisOpen && (
+                          <div className="conv-accordion-body" id="speaker-analysis-content">
+                            {/* Multi-speaker speaking turns & overlap timeline */}
+                            <ConversationTimeline
+                              duration={effectiveDur}
+                              speakers={res.speakers || []}
+                              turns={res.conversation_timeline || []}
+                              currentTime={playbackTime}
+                              onSeek={handleSeekAndPlay}
+                              embedded
+                            />
+
+                            {/* Detected speaker profiles, duration, speech share, emotion results */}
+                            <SpeakerAnalysisView
+                              speakers={res.speakers || []}
+                              turns={res.conversation_timeline || []}
+                              onRenameSpeaker={handleRenameSpeaker}
+                              onSeek={handleSeekAndPlay}
+                              embedded
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                }
+
+                return null;
               })()}
 
               {/* Advanced Panels: Spectrogram & Timeline (Full Width) */}

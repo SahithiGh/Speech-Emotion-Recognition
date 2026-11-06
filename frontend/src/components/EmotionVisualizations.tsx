@@ -10,6 +10,7 @@ interface EmotionVisualizationsProps {
   currentTime?: number;
   onSeek?: (seconds: number) => void;
   embedded?: boolean;
+  isSingleSpeaker?: boolean;
 }
 
 const EMOTIONS = ["happy", "sad", "angry", "fear", "disgust", "neutral"] as const;
@@ -22,6 +23,7 @@ export const EmotionVisualizations: React.FC<EmotionVisualizationsProps> = ({
   currentTime = 0,
   onSeek,
   embedded = false,
+  isSingleSpeaker = false,
 }) => {
   const [activeTab, setActiveTab] = useState<"tracks" | "journey">("tracks");
   const effectiveDuration = Math.max(duration || 1.0, 1.0);
@@ -170,7 +172,7 @@ export const EmotionVisualizations: React.FC<EmotionVisualizationsProps> = ({
                               {confPct}%
                             </span>
                           )}
-                          {widthPct > 16 && seg.speaker && (
+                          {widthPct > 16 && !isSingleSpeaker && seg.speaker && (
                             <span style={{ fontSize: "10px", fontWeight: 600, color: "#111827", opacity: 0.9 }}>
                               {seg.speaker}
                             </span>

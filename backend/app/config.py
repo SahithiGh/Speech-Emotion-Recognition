@@ -48,6 +48,7 @@ else:
     SER_MODEL_PROFILE = "production"
 
 CONFIG_PATH = MODELS_DIR / "preprocessing_config.json"
+WESPEAKER_MODEL_PATH = MODELS_DIR / "wespeaker" / "voxceleb_resnet34_LM.onnx"
 METRICS_PATH = OUTPUTS_DIR / "metrics.json"
 SPLIT_PATH = OUTPUTS_DIR / "speaker_split.json"
 FEATURE_CACHE_PATH = OUTPUTS_DIR / "feature_cache.npz"

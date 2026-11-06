@@ -11,14 +11,20 @@ import zipfile
 import csv
 from datetime import datetime, timezone
 
-from reportlab.lib import colors
-from reportlab.lib.pagesizes import letter
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, KeepTogether, HRFlowable
+try:
+    from reportlab.lib import colors
+    from reportlab.lib.pagesizes import letter
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, KeepTogether, HRFlowable
+    REPORTLAB_AVAILABLE = True
+except ImportError:
+    REPORTLAB_AVAILABLE = False
 
 
 def generate_pdf_report(data: Dict[str, Any]) -> bytes:
     """Generate professional PDF report from analysis results."""
+    if not REPORTLAB_AVAILABLE:
+        raise RuntimeError("PDF export is unavailable because 'reportlab' is not installed.")
     buf = io.BytesIO()
     doc = SimpleDocTemplate(
         buf,

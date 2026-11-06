@@ -4,4 +4,5 @@ export const dateText = (iso: string) => {
   const d = new Date(iso);
   return Number.isNaN(d.getTime()) ? iso : d.toLocaleString();
 };
-export const secs = (n: number) => `${n.toFixed(1)} s`;
+export const secs = (n?: number | null) =>
+  typeof n === "number" && !isNaN(n) ? `${n.toFixed(1)} s` : "-";

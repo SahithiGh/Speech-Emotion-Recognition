@@ -25,16 +25,58 @@ MSG_PREFIX = "__E2V_MSG__:"
 
 
 class Emotion2VecBridge:
-    """Manages the persistent worker process inside .venv_e2v."""
+    """Manages emotion2vec+ embedding extraction via in-process FunASR or .venv_e2v sidecar worker."""
 
     def __init__(self):
         self._lock = threading.Lock()
         self._process: subprocess.Popen | None = None
-        self._python_path = C.ROOT / "experiments" / "emotion2vec_candidate" / ".venv_e2v" / "Scripts" / "python.exe"
+        self._in_process_model = None
+
+        # Cross-platform resolution of .venv_e2v python executable
+        venv_dir = C.ROOT / "experiments" / "emotion2vec_candidate" / ".venv_e2v"
+        win_py = venv_dir / "Scripts" / "python.exe"
+        nix_py = venv_dir / "bin" / "python"
+        custom_py = os.environ.get("E2V_PYTHON_PATH")
+
+        if custom_py and Path(custom_py).exists():
+            self._python_path = Path(custom_py)
+        elif win_py.exists():
+            self._python_path = win_py
+        elif nix_py.exists():
+            self._python_path = nix_py
+        else:
+            self._python_path = win_py  # default fallback
+
         self._service_script = C.ROOT / "experiments" / "emotion2vec_candidate" / "extractor_service.py"
 
     def is_environment_available(self) -> bool:
+        """Check if in-process FunASR or sidecar worker environment is available."""
+        try:
+            import funasr  # noqa: F401
+            return True
+        except ImportError:
+            pass
         return self._python_path.exists() and self._service_script.exists()
+
+    def _get_in_process_model(self):
+        if self._in_process_model is not None:
+            return self._in_process_model
+        try:
+            from funasr import AutoModel
+            log.info("Loading emotion2vec+ model in-process via FunASR...")
+            self._in_process_model = AutoModel(
+                model="emotion2vec/emotion2vec_plus_base",
+                hub="hf",
+                disable_update=True,
+                device="cpu",
+            )
+            log.info("emotion2vec+ model loaded in-process successfully.")
+            return self._in_process_model
+        except ImportError:
+            return None
+        except Exception as exc:
+            log.warning("Could not load emotion2vec+ in-process: %s", exc)
+            return None
 
     def _read_daemon_msg(self, timeout_s: float = 30.0) -> dict:
         """Read lines from stdout until a message with MSG_PREFIX is received."""
@@ -56,10 +98,10 @@ class Emotion2VecBridge:
         raise TimeoutError(f"Timed out waiting for daemon response after {timeout_s}s")
 
     def _start_worker(self):
-        if not self.is_environment_available():
+        if not self._python_path.exists() or not self._service_script.exists():
             raise ModelNotTrainedError(
                 f"emotion2vec+ isolated environment not found at {self._python_path}. "
-                "Ensure experiments/emotion2vec_candidate/.venv_e2v is initialized."
+                "Ensure experiments/emotion2vec_candidate/.venv_e2v is initialized or install funasr in the main environment."
             )
 
         log.info("Starting emotion2vec+ sidecar worker daemon: %s", self._python_path)
@@ -85,13 +127,29 @@ class Emotion2VecBridge:
             raise ModelNotTrainedError(f"Failed to initialize emotion2vec+ worker: {exc}") from exc
 
     def _ensure_worker(self):
+        # Check if in-process funasr is available
+        try:
+            import funasr  # noqa: F401
+            if self._in_process_model is None:
+                self._get_in_process_model()
+            if self._in_process_model is not None:
+                return
+        except ImportError:
+            pass
+
         if self._process is None or self._process.poll() is not None:
             self._start_worker()
 
     def warmup(self):
-        """Pre-warm the daemon worker during application startup."""
+        """Pre-warm the model or daemon worker during application startup."""
         with self._lock:
-            self._ensure_worker()
+            if not self.is_environment_available():
+                log.info("emotion2vec+ environment not detected; skipping warmup.")
+                return
+            try:
+                self._ensure_worker()
+            except Exception as exc:
+                log.warning("emotion2vec+ warmup skipped: %s", exc)
 
     def extract(self, y: np.ndarray) -> np.ndarray:
         """Extract 768-D utterance embedding from mono 16 kHz audio array."""
@@ -104,6 +162,27 @@ class Emotion2VecBridge:
         if peak > 0:
             y = (y / peak) * 0.90
         y = y.astype(np.float32)
+
+        # 1. Try in-process extraction if FunASR is available
+        try:
+            import funasr  # noqa: F401
+            model = self._get_in_process_model()
+            if model is not None:
+                res = model.generate(y, granularity="utterance", extract_embedding=True)
+                emb = res[0]["feats"]
+                if isinstance(emb, list):
+                    emb = np.array(emb, dtype=np.float32)
+                if emb.ndim > 1:
+                    emb = emb.squeeze()
+                if emb.shape != (768,):
+                    raise ValueError(f"Extracted embedding has unexpected shape: {emb.shape}")
+                if not np.all(np.isfinite(emb)):
+                    raise ValueError("Extracted embedding contains NaN or Inf values")
+                return emb.astype(np.float32)
+        except ImportError:
+            pass
+        except Exception as exc:
+            log.warning("In-process extraction failed (%s); attempting sidecar worker...", exc)
 
         # Write to temporary WAV
         with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp:
@@ -171,6 +250,7 @@ class Emotion2VecBridge:
 
     def shutdown(self):
         with self._lock:
+            self._in_process_model = None
             if self._process is not None:
                 try:
                     self._process.stdin.write(json.dumps({"action": "exit"}) + "\n")

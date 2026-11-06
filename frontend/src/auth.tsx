@@ -27,6 +27,7 @@ export interface SavedAnalysis {
   model_id?: string;
   feature_version?: number;
   speakers?: Array<any>;
+  speaker_count?: number;
   conversation_timeline?: Array<any>;
   emotion_tracks?: Record<string, any>;
   emotion_journey?: Array<any>;

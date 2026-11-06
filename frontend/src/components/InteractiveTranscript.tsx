@@ -9,12 +9,14 @@ interface InteractiveTranscriptProps {
   result: PredictResult;
   onUpdateResult: (updated: PredictResult) => void;
   onSeekAndPlay?: (timeSeconds: number) => void;
+  isSingleSpeaker?: boolean;
 }
 
 export default function InteractiveTranscript({
   result,
   onUpdateResult,
   onSeekAndPlay,
+  isSingleSpeaker = false,
 }: InteractiveTranscriptProps) {
   const trans = result.transcription;
   const [editing, setEditing] = useState(false);
@@ -203,7 +205,7 @@ export default function InteractiveTranscript({
           {trans.combined_transcript && trans.combined_transcript.length > 0 ? (
             <div className="transcript-interactive-timeline">
               <p className="interactive-hint">
-                <Play size={13} /> Multi-Speaker Chronological Transcript. Click any segment or word to seek audio:
+                <Play size={13} /> {isSingleSpeaker ? "Spoken Words Transcript. Click any timestamp or word to jump audio playback to that moment:" : "Multi-Speaker Chronological Transcript. Click any segment or word to seek audio:"}
               </p>
               <div className="transcript-turns-list">
                 {trans.combined_transcript.map((item: CombinedTranscriptItem, idx: number) => {
@@ -220,9 +222,11 @@ export default function InteractiveTranscript({
                     <div key={idx} className="transcript-turn-card">
                       <div className="transcript-turn-header">
                         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                          <span className={`transcript-speaker-badge ${speakerBadgeClass}`}>
-                            {item.speaker_name || item.speaker_id}
-                          </span>
+                          {!isSingleSpeaker && (
+                            <span className={`transcript-speaker-badge ${speakerBadgeClass}`}>
+                              {item.speaker_name || item.speaker_id}
+                            </span>
+                          )}
                           <button
                             type="button"
                             className="seg-time-btn"
